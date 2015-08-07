@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_horizontal_margin"
+    tools:context="com.pd.noteonthego.fragments.NotesFragment">
+
+    <EditText
+        android:id="@+id/note_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@android:color/transparent"
+        android:hint="@string/note_title"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/note_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/note_title"
+        android:background="@android:color/transparent"
+        android:gravity="start"
+        android:hint="@string/add_note"
+        android:text="abcdef"
+        android:textSize="18sp" />
+
+</RelativeLayout>
