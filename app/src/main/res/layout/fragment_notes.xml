@@ -22,7 +22,6 @@
         android:background="@android:color/transparent"
         android:gravity="start"
         android:hint="@string/add_note"
-        android:text="abcdef"
         android:textSize="18sp" />
 
 </RelativeLayout>

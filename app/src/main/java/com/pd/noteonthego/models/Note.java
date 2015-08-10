@@ -1,5 +1,8 @@
 package com.pd.noteonthego.models;
 
+import com.pd.noteonthego.helper.NoteColor;
+import com.pd.noteonthego.helper.NoteType;
+
 /**
  * Created by pradey on 8/6/2015.
  */
@@ -8,14 +11,14 @@ public class Note {
     private String noteTitle;
     private String noteTimeStamp;
     private String noteContent;
-    private String noteColor;
-    private String noteType;
+    private NoteColor noteColor;
+    private NoteType noteType;
     private String noteImg;
     private String noteVideo;
 
-    public Note(String noteTimeStamp, String noteContent, String noteColor,
-                String noteType, String noteImg, String noteVideo,
-                String noteAudio, String noteTitle) {
+    public Note(String noteTitle, String noteContent, String noteTimeStamp, NoteColor noteColor,
+                NoteType noteType, String noteImg, String noteVideo,
+                String noteAudio) {
         this.noteTimeStamp = noteTimeStamp;
         this.noteContent = noteContent;
         this.noteColor = noteColor;
@@ -50,19 +53,19 @@ public class Note {
         this.noteContent = noteContent;
     }
 
-    public String getNoteColor() {
+    public NoteColor getNoteColor() {
         return noteColor;
     }
 
-    public void setNoteColor(String noteColor) {
+    public void setNoteColor(NoteColor noteColor) {
         this.noteColor = noteColor;
     }
 
-    public String getNoteType() {
+    public NoteType getNoteType() {
         return noteType;
     }
 
-    public void setNoteType(String noteType) {
+    public void setNoteType(NoteType noteType) {
         this.noteType = noteType;
     }
 

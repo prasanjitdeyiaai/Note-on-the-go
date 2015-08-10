@@ -8,8 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.pd.noteonthego.R;
+import com.pd.noteonthego.helper.DBHelper;
+import com.pd.noteonthego.helper.NoteColor;
+import com.pd.noteonthego.helper.NoteType;
+import com.pd.noteonthego.models.Note;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,6 +100,15 @@ public class NotesFragment extends Fragment {
     public void saveNoteToDatabase(){
         String title = mNoteTitle.getText().toString();
         String content = mNoteContent.getText().toString();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        String dateTime = simpleDateFormat.format(new Date());
+
+        Note note = new Note(title, content, dateTime, NoteColor.YELLOW, NoteType.BLANK, "", "", "");
+        DBHelper dbHelper = new DBHelper(getActivity());
+        long rowsAdded = dbHelper.addNote(note);
+
+        Toast.makeText(getActivity(), "rows added " + rowsAdded, Toast.LENGTH_SHORT).show();
     }
 
 }
