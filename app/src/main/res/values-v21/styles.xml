@@ -9,7 +9,7 @@
         <item name="android:editTextStyle">@style/App_EditTextStyle</item>
     </style>
 
-    <style name="Theme.Basic" parent="android:Theme.Material.Light">
+    <style name="Theme.Basic" parent="Theme.AppCompat.Light">
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
         <item name="android:colorPrimary">@color/primary</item>

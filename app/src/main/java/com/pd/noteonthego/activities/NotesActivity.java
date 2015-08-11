@@ -1,17 +1,22 @@
 package com.pd.noteonthego.activities;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.pd.noteonthego.R;
+import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
 import com.pd.noteonthego.fragments.NotesFragment;
+import com.pd.noteonthego.helper.NoteColor;
 
-public class NotesActivity extends Activity implements NotesFragment.OnFragmentInteractionListener{
+public class NotesActivity extends AppCompatActivity implements NotesFragment.OnFragmentInteractionListener, NoteColorDialogFragment.NoticeDialogListener{
+
+    private String userSelectedNoteColor = String.valueOf(NoteColor.WHITE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +51,7 @@ public class NotesActivity extends Activity implements NotesFragment.OnFragmentI
             notesFragment.setArguments(getIntent().getExtras());
 
             // Add the fragment to the 'fragment_container' FrameLayout
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, notesFragment).commit();
         }
     }
@@ -70,6 +75,13 @@ public class NotesActivity extends Activity implements NotesFragment.OnFragmentI
             case R.id.action_save_note:
                 saveNote();
                 break;
+            case R.id.action_set_reminder:
+                setReminder();
+                break;
+            case R.id.action_change_color:
+                changeColor();
+                break;
+
             default:
                 break;
         }
@@ -84,13 +96,66 @@ public class NotesActivity extends Activity implements NotesFragment.OnFragmentI
 
     private void saveNote(){
         NotesFragment notesFragment = (NotesFragment)
-                getFragmentManager().findFragmentById(R.id.fragment_container);
+                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
         if (notesFragment != null) {
             // If article frag is available, we're in two-pane layout...
 
             // Call a method in the ArticleFragment to update its content
-            notesFragment.saveNoteToDatabase();
+            notesFragment.saveNoteToDatabase(userSelectedNoteColor);
         }
+    }
+
+    private void setReminder(){
+        NotesFragment notesFragment = (NotesFragment)
+                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+        if (notesFragment != null) {
+            // If article frag is available, we're in two-pane layout...
+
+            // Call a method in the ArticleFragment to update its content
+            notesFragment.setNoteReminder();
+        }
+    }
+
+    private void changeColor(){
+        NotesFragment notesFragment = (NotesFragment)
+                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+        if (notesFragment != null) {
+            // If article frag is available, we're in two-pane layout...
+
+            // Call a method in the ArticleFragment to update its content
+            notesFragment.changeNoteColor();
+        }
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog, int selectedColor) {
+        switch (selectedColor){
+            case 0:
+                userSelectedNoteColor = NoteColor.YELLOW.toString();
+                break;
+            case 1:
+                userSelectedNoteColor = NoteColor.BLUE.toString();
+                break;
+            case 2:
+                userSelectedNoteColor = NoteColor.GREEN.toString();
+                break;
+            case 3:
+                userSelectedNoteColor = NoteColor.RED.toString();
+                break;
+            case 4:
+                userSelectedNoteColor = NoteColor.WHITE.toString();
+                break;
+            default:
+                userSelectedNoteColor = NoteColor.WHITE.toString();
+                break;
+        }
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
     }
 }

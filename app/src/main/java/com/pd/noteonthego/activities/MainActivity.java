@@ -1,16 +1,22 @@
 package com.pd.noteonthego.activities;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import com.pd.noteonthego.R;
+import com.pd.noteonthego.adapters.CustomNoteAdapter;
+import com.pd.noteonthego.helper.DBHelper;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
+
+    private ListView noteListView;
+    private CustomNoteAdapter noteAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,13 @@ public class MainActivity extends Activity {
                 actionBar.setElevation(0);
             }
         }
+
+        noteListView = (ListView)findViewById(R.id.note_list);
+
+        DBHelper helper = new DBHelper(getApplicationContext());
+        noteAdapter = new CustomNoteAdapter(getApplicationContext(), helper.getAllNotes());
+
+        noteListView.setAdapter(noteAdapter);
     }
 
     @Override

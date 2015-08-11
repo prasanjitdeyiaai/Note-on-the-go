@@ -1,9 +1,11 @@
 package com.pd.noteonthego.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +13,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.pd.noteonthego.R;
+import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
 import com.pd.noteonthego.helper.DBHelper;
-import com.pd.noteonthego.helper.NoteColor;
 import com.pd.noteonthego.helper.NoteType;
 import com.pd.noteonthego.models.Note;
 
@@ -97,18 +99,30 @@ public class NotesFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    public void saveNoteToDatabase(){
+    public void saveNoteToDatabase(String noteColor) {
+        Log.e(TAG, "Note color for saving " + noteColor);
         String title = mNoteTitle.getText().toString();
         String content = mNoteContent.getText().toString();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         String dateTime = simpleDateFormat.format(new Date());
 
-        Note note = new Note(title, content, dateTime, NoteColor.YELLOW, NoteType.BLANK, "", "", "");
+        Note note = new Note(title, content, dateTime, noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
         DBHelper dbHelper = new DBHelper(getActivity());
         long rowsAdded = dbHelper.addNote(note);
 
         Toast.makeText(getActivity(), "rows added " + rowsAdded, Toast.LENGTH_SHORT).show();
+    }
+
+    public void setNoteReminder() {
+
+    }
+
+
+    public void changeNoteColor() {
+        // Create an instance of the dialog fragment and show it
+        DialogFragment dialog = new NoteColorDialogFragment();
+        dialog.show(getFragmentManager(), "NoteColorDialogFragment");
     }
 
 }

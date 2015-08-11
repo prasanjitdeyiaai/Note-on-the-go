@@ -6,6 +6,7 @@
     tools:context="com.pd.noteonthego.fragments.NotesFragment">
 
     <ListView
+        android:id="@+id/note_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
 
