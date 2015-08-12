@@ -38,11 +38,6 @@ public class NoteColorDialogFragment extends DialogFragment {
                         // The 'which' argument contains the index position
                         // of the selected item
                         selectedNoteColor = which;
-                    }
-                })
-                .setPositiveButton(R.string.note_select_btn, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // selected
                         if(selectedNoteColor == -1){
                             // please select a color
                             // or do nothing keep it default

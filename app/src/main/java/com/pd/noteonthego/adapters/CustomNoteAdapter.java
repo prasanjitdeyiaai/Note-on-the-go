@@ -78,8 +78,8 @@ public class CustomNoteAdapter extends BaseAdapter {
         } else if (color.equals(String.valueOf(NoteColor.WHITE))) {
             holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_white));
         } else {
-            holder.container.setBackground(context.getResources().getDrawable(R.drawable.custom_note_list_background_selector));
-            //holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_red));
+            //holder.container.setBackground(context.getResources().getDrawable(R.drawable.custom_note_list_background_selector));
+            holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_red));
         }
 
         return convertView;
@@ -90,5 +90,10 @@ public class CustomNoteAdapter extends BaseAdapter {
         public TextView noteTitle;
         public TextView noteContent;
         public RelativeLayout container;
+    }
+
+    public void updateNoteAdapter(ArrayList<Note> noteArrayList){
+        this.notes = noteArrayList;
+        notifyDataSetChanged();
     }
 }

@@ -3,6 +3,8 @@
     package="com.pd.noteonthego" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
 
     <application
         android:allowBackup="true"
@@ -42,6 +44,16 @@
             android:label="@string/title_activity_settings"
             android:theme="@style/Theme.Basic">
         </activity>
+        <receiver android:name=".receivers.IncomingCallStateReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receivers.OutgoingCallStateReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

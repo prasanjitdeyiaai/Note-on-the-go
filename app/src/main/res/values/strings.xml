@@ -42,14 +42,7 @@
     <string name="note_color_dialog_title">Select Color</string>
     <string name="note_select_btn">Select</string>
     <string name="note_cancel_btn">Cancel</string>
-
-    <string-array name="note_color_options">
-        <item>Yellow</item>
-        <item>Blue</item>
-        <item>Green</item>
-        <item>Red</item>
-        <item>White</item>
-    </string-array>
+    <string name="note_confirm_btn">Confirm</string>
 
     <array name="note_colors">
         <item>Yellow</item>

@@ -1,22 +1,31 @@
 package com.pd.noteonthego.activities;
 
 import android.app.ActionBar;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.adapters.CustomNoteAdapter;
 import com.pd.noteonthego.helper.DBHelper;
+import com.pd.noteonthego.models.Note;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView noteListView;
     private CustomNoteAdapter noteAdapter;
+    private ArrayList<Note> availableNotes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +40,108 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        noteListView = (ListView)findViewById(R.id.note_list);
+        noteListView = (ListView) findViewById(R.id.note_list);
 
         DBHelper helper = new DBHelper(getApplicationContext());
-        noteAdapter = new CustomNoteAdapter(getApplicationContext(), helper.getAllNotes());
+        availableNotes = helper.getAllNotes();
+        noteAdapter = new CustomNoteAdapter(getApplicationContext(), availableNotes);
 
         noteListView.setAdapter(noteAdapter);
+
+        noteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Toast.makeText(getApplicationContext(), "Position " + position, Toast.LENGTH_SHORT).show();
+
+                Note note = availableNotes.get(position);
+
+                Intent editNote = new Intent(getApplicationContext(), NotesActivity.class);
+                editNote.putExtra("note-title", note.getNoteTitle());
+                editNote.putExtra("note-timestamp", note.getNoteTimeStamp());
+                startActivity(editNote);
+            }
+        });
+
+        noteListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                alertUserForDeletion(position);
+                return true;
+            }
+        });
+    }
+
+    private void alertUserForDeletion(final int position) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                MainActivity.this);
+
+        // set title
+        alertDialogBuilder.setTitle("Alert!");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("Do you want to continue deleting the note?")
+                .setCancelable(false)
+                .setPositiveButton(getResources().getString(R.string.note_confirm_btn), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                try {
+                                    Note note = availableNotes.get(position);
+
+                                    DBHelper dbHelper = new DBHelper(MainActivity.this);
+                                    long count = dbHelper.deleteNotes(new String[]{note.getNoteTitle(), note.getNoteTimeStamp()});
+
+                                    if (count > 0) {
+                                        Toast.makeText(MainActivity.this, "Note Deleted", Toast.LENGTH_SHORT).show();
+                                        if (noteAdapter != null) {
+                                            noteAdapter.updateNoteAdapter(dbHelper.getAllNotes());
+                                        }
+                                    }
+                                } catch (ArrayIndexOutOfBoundsException ai) {
+                                    ai.printStackTrace();
+                                } finally {
+                                    dialog.cancel();
+                                }
+
+                            }
+                        }
+
+                )
+                .
+
+                        setNegativeButton(getResources()
+
+                                        .
+
+                                                getString(R.string.note_cancel_btn),
+
+                                new DialogInterface.OnClickListener()
+
+                                {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // if this button is clicked, just close
+                                        // the dialog box and do nothing
+                                        dialog.cancel();
+                                    }
+                                }
+
+                        );
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (noteAdapter != null) {
+            DBHelper dbHelper = new DBHelper(getApplicationContext());
+            noteAdapter.updateNoteAdapter(dbHelper.getAllNotes());
+        }
     }
 
     @Override
@@ -54,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        switch (id){
+        switch (id) {
             case R.id.action_settings:
                 Intent iSettings = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(iSettings);

@@ -5,16 +5,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
 import com.pd.noteonthego.helper.DBHelper;
+import com.pd.noteonthego.helper.NoteColor;
 import com.pd.noteonthego.helper.NoteType;
 import com.pd.noteonthego.models.Note;
 
@@ -33,6 +34,8 @@ public class NotesFragment extends Fragment {
 
     private EditText mNoteTitle, mNoteContent;
     private String TAG = "Notes Fragment";
+
+    private RelativeLayout mNoteContainer;
 
     public NotesFragment() {
         // Required empty public constructor
@@ -56,12 +59,22 @@ public class NotesFragment extends Fragment {
 
         mNoteTitle = (EditText) getActivity().findViewById(R.id.note_title);
         mNoteContent = (EditText) getActivity().findViewById(R.id.note_content);
+
+        mNoteContainer = (RelativeLayout) getActivity().findViewById(R.id.note_container);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            // mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mListener != null) {
+            mListener.onFragmentInteraction();
         }
     }
 
@@ -96,11 +109,12 @@ public class NotesFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        public void onFragmentInteraction();
     }
 
     public void saveNoteToDatabase(String noteColor) {
-        Log.e(TAG, "Note color for saving " + noteColor);
+        DBHelper dbHelper = new DBHelper(getActivity());
+
         String title = mNoteTitle.getText().toString();
         String content = mNoteContent.getText().toString();
 
@@ -108,10 +122,14 @@ public class NotesFragment extends Fragment {
         String dateTime = simpleDateFormat.format(new Date());
 
         Note note = new Note(title, content, dateTime, noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
-        DBHelper dbHelper = new DBHelper(getActivity());
         long rowsAdded = dbHelper.addNote(note);
 
-        Toast.makeText(getActivity(), "rows added " + rowsAdded, Toast.LENGTH_SHORT).show();
+        if (rowsAdded > 0) {
+            Toast.makeText(getActivity(), "Note Saved", Toast.LENGTH_SHORT).show();
+        }
+
+        // close the activity
+        getActivity().finish();
     }
 
     public void setNoteReminder() {
@@ -125,4 +143,33 @@ public class NotesFragment extends Fragment {
         dialog.show(getFragmentManager(), "NoteColorDialogFragment");
     }
 
+    public void changeNoteBackgroundColor(String backgroundColor) {
+
+        if (mNoteContainer != null) {
+            if (backgroundColor.equals(NoteColor.YELLOW.toString())) {
+                mNoteContainer.setBackgroundColor(getResources().getColor(R.color.note_yellow));
+            } else if (backgroundColor.equals(NoteColor.BLUE.toString())) {
+                mNoteContainer.setBackgroundColor(getResources().getColor(R.color.note_blue));
+            } else if (backgroundColor.equals(NoteColor.GREEN.toString())) {
+                mNoteContainer.setBackgroundColor(getResources().getColor(R.color.note_green));
+            } else if (backgroundColor.equals(NoteColor.WHITE.toString())) {
+                mNoteContainer.setBackgroundColor(getResources().getColor(R.color.note_white));
+            } else {
+                mNoteContainer.setBackgroundColor(getResources().getColor(R.color.note_red));
+            }
+        }
+    }
+
+    public void openNoteForViewing(String noteTitle, String noteTimestamp) {
+        DBHelper dbHelper = new DBHelper(getActivity());
+        if (noteTitle != null && noteTimestamp != null) {
+            Note note = dbHelper.getNote(noteTitle, noteTimestamp);
+
+            // fill the edit texts
+            mNoteTitle.setText(noteTitle);
+            mNoteContent.setText(note.getNoteContent());
+            changeNoteBackgroundColor(note.getNoteColor());
+        }
+
+    }
 }

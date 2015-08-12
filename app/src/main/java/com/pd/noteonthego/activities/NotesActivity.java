@@ -1,7 +1,6 @@
 package com.pd.noteonthego.activities;
 
 import android.app.ActionBar;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -17,6 +16,7 @@ import com.pd.noteonthego.helper.NoteColor;
 public class NotesActivity extends AppCompatActivity implements NotesFragment.OnFragmentInteractionListener, NoteColorDialogFragment.NoticeDialogListener{
 
     private String userSelectedNoteColor = String.valueOf(NoteColor.WHITE);
+    private String noteTitleForEdit, noteTimestampForEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,13 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, notesFragment).commit();
         }
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            // open for editing
+            noteTitleForEdit = extras.getString("note-title");
+            noteTimestampForEdit = extras.getString("note-timestamp");
+        }
     }
 
     @Override
@@ -73,7 +80,7 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         //noinspection SimplifiableIfStatement
         switch (id){
             case R.id.action_save_note:
-                saveNote();
+                saveNote(); // not for update
                 break;
             case R.id.action_set_reminder:
                 setReminder();
@@ -90,8 +97,16 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onFragmentInteraction() {
+        NotesFragment notesFragment = (NotesFragment)
+                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
+        if (notesFragment != null) {
+            // If article frag is available, we're in two-pane layout...
+
+            // Call a method in the ArticleFragment to update its content
+            notesFragment.openNoteForViewing(noteTitleForEdit, noteTimestampForEdit);
+        }
     }
 
     private void saveNote(){
@@ -151,6 +166,21 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
             default:
                 userSelectedNoteColor = NoteColor.WHITE.toString();
                 break;
+        }
+
+        // change the note background
+        changeNoteBackground(userSelectedNoteColor);
+    }
+
+    private void changeNoteBackground(String userSelectedNoteColor) {
+        NotesFragment notesFragment = (NotesFragment)
+                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+        if (notesFragment != null) {
+            // If article frag is available, we're in two-pane layout...
+
+            // Call a method in the ArticleFragment to update its content
+            notesFragment.changeNoteBackgroundColor(userSelectedNoteColor);
         }
     }
 

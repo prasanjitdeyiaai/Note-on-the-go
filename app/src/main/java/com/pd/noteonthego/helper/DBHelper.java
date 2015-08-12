@@ -139,4 +139,53 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return listOfNotes;
     }
+
+    /**
+     *
+     * @param noteTitle
+     * @param noteTimestamp
+     * @return a note
+     */
+    public Note getNote(String noteTitle, String noteTimestamp){
+        Note note = new Note();
+        SQLiteDatabase db = getReadableDatabase();
+        // String[] whereArgs = new String[]{noteTitle, noteTimestamp};
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NOTES + " WHERE " + COLUMN_NOTES_TITLE + " = '" + noteTitle + "' AND "
+                + COLUMN_NOTES_TIMESTAMP + " = '" + noteTimestamp + "'", null);
+
+        cursor.moveToFirst();
+
+        while(cursor.isAfterLast() == false){
+
+            note.setNoteTitle(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_TITLE)));
+            note.setNoteContent(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_CONTENT)));
+            note.setNoteTimeStamp(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_TIMESTAMP)));
+            note.setNoteColor(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_COLOR)));
+            note.setNoteType(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_TYPE)));
+            note.setNoteImg(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_IMAGE)));
+            note.setNoteVideo(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_VIDEO)));
+            note.setNoteAudio(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_AUDIO)));
+            note.setIsReminderSet(cursor.getInt(cursor.getColumnIndex(COLUMN_NOTES_IS_REMINDER_SET)));
+            note.setReminderDateTime(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_REMINDER_DATETIME)));
+            note.setReminderType(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_REMINDER_TYPE)));
+
+            cursor.moveToNext();
+        }
+
+        return note;
+    }
+
+
+    /**
+     *
+     * @param notesToDelete
+     * @return deleted rows count
+     */
+    public long deleteNotes(String[] notesToDelete){
+        SQLiteDatabase db = getReadableDatabase();
+
+        String whereClause = COLUMN_NOTES_TITLE + "=? AND " + COLUMN_NOTES_TIMESTAMP + "=?";
+
+        return db.delete(TABLE_NOTES, whereClause, notesToDelete);
+    }
 }
