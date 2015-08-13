@@ -4,15 +4,21 @@
     tools:context="com.pd.noteonthego.activities.NotesActivity">
     <item
         android:id="@+id/action_save_note"
-        android:orderInCategory="99"
+        android:orderInCategory="98"
         android:title="@string/action_save_note"
         android:icon="@drawable/save"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_delete_note"
+        android:orderInCategory="99"
+        android:title="@string/action_delete_note"
+        android:icon="@drawable/delete"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_set_reminder"
         android:orderInCategory="100"
         android:title="@string/action_add_reminder"
-        android:icon="@drawable/reminder"
+        android:icon="@drawable/alarm"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_change_color"

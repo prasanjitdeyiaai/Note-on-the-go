@@ -32,6 +32,9 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
                 // only for lollipop and newer versions
                 actionBar.setElevation(0);
             }
+            // not working
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
         }
 
         // Check that the activity is using the layout version with

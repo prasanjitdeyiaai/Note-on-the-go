@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pd.noteonthego.R;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView noteListView;
     private CustomNoteAdapter noteAdapter;
     private ArrayList<Note> availableNotes;
+    private TextView mNoNotes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         noteListView = (ListView) findViewById(R.id.note_list);
+        mNoNotes = (TextView)findViewById(R.id.no_notes);
 
         DBHelper helper = new DBHelper(getApplicationContext());
         availableNotes = helper.getAllNotes();
@@ -146,6 +149,11 @@ public class MainActivity extends AppCompatActivity {
             // update the availableNotes array list
             availableNotes = dbHelper.getAllNotes();
             noteAdapter.updateNoteAdapter(availableNotes);
+        }
+        if(availableNotes.size() < 1){
+            mNoNotes.setVisibility(View.VISIBLE);
+        }else {
+            mNoNotes.setVisibility(View.GONE);
         }
     }
 
