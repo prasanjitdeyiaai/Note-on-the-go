@@ -51,13 +51,15 @@ public class MainActivity extends AppCompatActivity {
         noteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Toast.makeText(getApplicationContext(), "Position " + position, Toast.LENGTH_SHORT).show();
 
                 Note note = availableNotes.get(position);
 
                 Intent editNote = new Intent(getApplicationContext(), NotesActivity.class);
+                editNote.putExtra("note-update", true);
+                editNote.putExtra("note-id", note.getNoteID());
                 editNote.putExtra("note-title", note.getNoteTitle());
-                editNote.putExtra("note-timestamp", note.getNoteTimeStamp());
+                editNote.putExtra("note-timestamp", note.getNoteCreatedTimeStamp());
+                editNote.putExtra("note-color", note.getNoteColor());
                 startActivity(editNote);
             }
         });
@@ -89,12 +91,13 @@ public class MainActivity extends AppCompatActivity {
                                     Note note = availableNotes.get(position);
 
                                     DBHelper dbHelper = new DBHelper(MainActivity.this);
-                                    long count = dbHelper.deleteNotes(new String[]{note.getNoteTitle(), note.getNoteTimeStamp()});
+                                    long count = dbHelper.deleteNotes(new String[]{note.getNoteTitle(), note.getNoteCreatedTimeStamp()});
 
                                     if (count > 0) {
                                         Toast.makeText(MainActivity.this, "Note Deleted", Toast.LENGTH_SHORT).show();
                                         if (noteAdapter != null) {
-                                            noteAdapter.updateNoteAdapter(dbHelper.getAllNotes());
+                                            availableNotes = dbHelper.getAllNotes();
+                                            noteAdapter.updateNoteAdapter(availableNotes);
                                         }
                                     }
                                 } catch (ArrayIndexOutOfBoundsException ai) {
@@ -140,7 +143,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (noteAdapter != null) {
             DBHelper dbHelper = new DBHelper(getApplicationContext());
-            noteAdapter.updateNoteAdapter(dbHelper.getAllNotes());
+            // update the availableNotes array list
+            availableNotes = dbHelper.getAllNotes();
+            noteAdapter.updateNoteAdapter(availableNotes);
         }
     }
 

@@ -5,8 +5,27 @@ package com.pd.noteonthego.models;
  */
 public class Note {
 
+    public int getNoteID() {
+        return noteID;
+    }
+
+    public void setNoteID(int noteID) {
+        this.noteID = noteID;
+    }
+
+    private int noteID;
     private String noteTitle;
-    private String noteTimeStamp;
+    private String noteCreatedTimeStamp;
+
+    public String getNoteLastModifiedTimeStamp() {
+        return noteLastModifiedTimeStamp;
+    }
+
+    public void setNoteLastModifiedTimeStamp(String noteLastModifiedTimeStamp) {
+        this.noteLastModifiedTimeStamp = noteLastModifiedTimeStamp;
+    }
+
+    private String noteLastModifiedTimeStamp;
     private String noteContent;
     private String noteColor;
     private String noteType;
@@ -45,11 +64,12 @@ public class Note {
 
     }
 
-    public Note(String noteTitle, String noteContent, String noteTimeStamp, String noteColor,
+    public Note(String noteTitle, String noteContent, String noteTimeStamp, String noteLastModifiedTimeStamp, String noteColor,
                 String noteType, String noteImg, String noteVideo,
                 String noteAudio, int isReminderSet, String reminderDateTime, String reminderType) {
-        this.noteTimeStamp = noteTimeStamp;
+        this.noteCreatedTimeStamp = noteTimeStamp;
         this.noteContent = noteContent;
+        this.noteLastModifiedTimeStamp = noteLastModifiedTimeStamp;
         this.noteColor = noteColor;
         this.noteType = noteType;
         this.noteImg = noteImg;
@@ -69,12 +89,12 @@ public class Note {
         this.noteTitle = noteTitle;
     }
 
-    public String getNoteTimeStamp() {
-        return noteTimeStamp;
+    public String getNoteCreatedTimeStamp() {
+        return noteCreatedTimeStamp;
     }
 
-    public void setNoteTimeStamp(String noteTimeStamp) {
-        this.noteTimeStamp = noteTimeStamp;
+    public void setNoteCreatedTimeStamp(String noteCreatedTimeStamp) {
+        this.noteCreatedTimeStamp = noteCreatedTimeStamp;
     }
 
     public String getNoteContent() {

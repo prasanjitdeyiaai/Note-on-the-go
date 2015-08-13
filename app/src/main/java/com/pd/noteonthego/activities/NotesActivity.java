@@ -17,6 +17,8 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
 
     private String userSelectedNoteColor = String.valueOf(NoteColor.WHITE);
     private String noteTitleForEdit, noteTimestampForEdit;
+    private boolean isNoteEditedForUpdate = false;
+    private int noteID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +60,11 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             // open for editing
+            isNoteEditedForUpdate = extras.getBoolean("note-update");
+            noteID = extras.getInt("note-id");
             noteTitleForEdit = extras.getString("note-title");
             noteTimestampForEdit = extras.getString("note-timestamp");
+            userSelectedNoteColor = extras.getString("note-color");
         }
     }
 
@@ -80,7 +85,12 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         //noinspection SimplifiableIfStatement
         switch (id){
             case R.id.action_save_note:
-                saveNote(); // not for update
+                if(isNoteEditedForUpdate){
+                    // for update
+                    updateNote();
+                }else{
+                    saveNote();
+                }
                 break;
             case R.id.action_set_reminder:
                 setReminder();
@@ -102,9 +112,6 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
                 getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
         if (notesFragment != null) {
-            // If article frag is available, we're in two-pane layout...
-
-            // Call a method in the ArticleFragment to update its content
             notesFragment.openNoteForViewing(noteTitleForEdit, noteTimestampForEdit);
         }
     }
@@ -114,10 +121,16 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
                 getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
         if (notesFragment != null) {
-            // If article frag is available, we're in two-pane layout...
-
-            // Call a method in the ArticleFragment to update its content
             notesFragment.saveNoteToDatabase(userSelectedNoteColor);
+        }
+    }
+
+    private void updateNote(){
+        NotesFragment notesFragment = (NotesFragment)
+                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+        if (notesFragment != null) {
+            notesFragment.updateNote(userSelectedNoteColor, noteID);
         }
     }
 
@@ -126,9 +139,6 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
                 getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
         if (notesFragment != null) {
-            // If article frag is available, we're in two-pane layout...
-
-            // Call a method in the ArticleFragment to update its content
             notesFragment.setNoteReminder();
         }
     }
@@ -138,9 +148,6 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
                 getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
         if (notesFragment != null) {
-            // If article frag is available, we're in two-pane layout...
-
-            // Call a method in the ArticleFragment to update its content
             notesFragment.changeNoteColor();
         }
     }
@@ -177,9 +184,6 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
                 getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
         if (notesFragment != null) {
-            // If article frag is available, we're in two-pane layout...
-
-            // Call a method in the ArticleFragment to update its content
             notesFragment.changeNoteBackgroundColor(userSelectedNoteColor);
         }
     }

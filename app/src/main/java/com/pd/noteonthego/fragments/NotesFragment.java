@@ -121,11 +121,32 @@ public class NotesFragment extends Fragment {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         String dateTime = simpleDateFormat.format(new Date());
 
-        Note note = new Note(title, content, dateTime, noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
+        Note note = new Note(title, content, dateTime, "", noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
         long rowsAdded = dbHelper.addNote(note);
 
         if (rowsAdded > 0) {
             Toast.makeText(getActivity(), "Note Saved", Toast.LENGTH_SHORT).show();
+        }
+
+        // close the activity
+        getActivity().finish();
+    }
+
+    public void updateNote(String noteColor, int noteID) {
+        DBHelper dbHelper = new DBHelper(getActivity());
+
+        String title = mNoteTitle.getText().toString();
+        String content = mNoteContent.getText().toString();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        String dateTime = simpleDateFormat.format(new Date());
+
+        //
+        Note note = new Note(title, content, "", dateTime, noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
+        long rowsUpdated = dbHelper.updateNote(noteID, note);
+
+        if (rowsUpdated > 0) {
+            Toast.makeText(getActivity(), "Note updated", Toast.LENGTH_SHORT).show();
         }
 
         // close the activity

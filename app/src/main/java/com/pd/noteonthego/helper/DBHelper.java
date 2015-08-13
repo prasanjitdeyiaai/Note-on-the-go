@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "noteonthego.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     // notes table
     public static final String TABLE_NOTES = "notes";
@@ -24,7 +24,8 @@ public class DBHelper extends SQLiteOpenHelper {
     // notes table columns
     public static final String COLUMN_NOTES_ID = "notes_id";
     public static final String COLUMN_NOTES_TITLE = "notes_title";
-    public static final String COLUMN_NOTES_TIMESTAMP = "notes_timestamp";
+    public static final String COLUMN_NOTES_CREATED_TIMESTAMP = "notes_created_timestamp";
+    public static final String COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP = "notes_last_modified_timestamp";
     public static final String COLUMN_NOTES_CONTENT = "notes_content";
     public static final String COLUMN_NOTES_COLOR = "notes_color";
     public static final String COLUMN_NOTES_TYPE = "notes_type";
@@ -48,7 +49,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " integer primary key autoincrement, "
                 + COLUMN_NOTES_TITLE
                 + " text not null, "
-                + COLUMN_NOTES_TIMESTAMP
+                + COLUMN_NOTES_CREATED_TIMESTAMP
+                + " text not null, "
+                + COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP
                 + " text not null, "
                 + COLUMN_NOTES_CONTENT
                 + " text not null, "
@@ -90,7 +93,8 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues initialValues = new ContentValues();
 
         initialValues.put(COLUMN_NOTES_TITLE,note.getNoteTitle());
-        initialValues.put(COLUMN_NOTES_TIMESTAMP, note.getNoteTimeStamp());
+        initialValues.put(COLUMN_NOTES_CREATED_TIMESTAMP, note.getNoteCreatedTimeStamp());
+        initialValues.put(COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, note.getNoteLastModifiedTimeStamp());
         initialValues.put(COLUMN_NOTES_CONTENT, note.getNoteContent());
         initialValues.put(COLUMN_NOTES_COLOR, note.getNoteColor());
         initialValues.put(COLUMN_NOTES_TYPE, note.getNoteType());
@@ -120,9 +124,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
             Note note = new Note();
 
+            note.setNoteID(cursor.getInt(cursor.getColumnIndex(COLUMN_NOTES_ID)));
             note.setNoteTitle(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_TITLE)));
             note.setNoteContent(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_CONTENT)));
-            note.setNoteTimeStamp(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_TIMESTAMP)));
+            note.setNoteCreatedTimeStamp(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_CREATED_TIMESTAMP)));
+            note.setNoteLastModifiedTimeStamp(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP)));
             note.setNoteColor(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_COLOR)));
             note.setNoteType(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_TYPE)));
             note.setNoteImg(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_IMAGE)));
@@ -151,15 +157,17 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         // String[] whereArgs = new String[]{noteTitle, noteTimestamp};
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NOTES + " WHERE " + COLUMN_NOTES_TITLE + " = '" + noteTitle + "' AND "
-                + COLUMN_NOTES_TIMESTAMP + " = '" + noteTimestamp + "'", null);
+                + COLUMN_NOTES_CREATED_TIMESTAMP + " = '" + noteTimestamp + "'", null);
 
         cursor.moveToFirst();
 
         while(cursor.isAfterLast() == false){
 
+            note.setNoteID(cursor.getInt(cursor.getColumnIndex(COLUMN_NOTES_ID)));
             note.setNoteTitle(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_TITLE)));
             note.setNoteContent(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_CONTENT)));
-            note.setNoteTimeStamp(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_TIMESTAMP)));
+            note.setNoteCreatedTimeStamp(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_CREATED_TIMESTAMP)));
+            note.setNoteLastModifiedTimeStamp(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP)));
             note.setNoteColor(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_COLOR)));
             note.setNoteType(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_TYPE)));
             note.setNoteImg(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_IMAGE)));
@@ -184,8 +192,24 @@ public class DBHelper extends SQLiteOpenHelper {
     public long deleteNotes(String[] notesToDelete){
         SQLiteDatabase db = getReadableDatabase();
 
-        String whereClause = COLUMN_NOTES_TITLE + "=? AND " + COLUMN_NOTES_TIMESTAMP + "=?";
+        String whereClause = COLUMN_NOTES_TITLE + "=? AND " + COLUMN_NOTES_CREATED_TIMESTAMP + "=?";
 
         return db.delete(TABLE_NOTES, whereClause, notesToDelete);
+    }
+
+    public long updateNote(int noteID, Note note){
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        String whereClause = COLUMN_NOTES_ID + " =?";
+        String[] whereArgs = new String[]{String.valueOf(noteID)};
+        ContentValues initialValues = new ContentValues();
+
+        initialValues.put(COLUMN_NOTES_TITLE,note.getNoteTitle());
+        initialValues.put(COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, note.getNoteLastModifiedTimeStamp());
+        initialValues.put(COLUMN_NOTES_CONTENT, note.getNoteContent());
+        initialValues.put(COLUMN_NOTES_COLOR, note.getNoteColor());
+
+        return db.update(TABLE_NOTES,initialValues, whereClause, whereArgs);
     }
 }
