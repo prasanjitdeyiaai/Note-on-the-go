@@ -37,7 +37,6 @@ public class IncomingCallStateReceiver extends BroadcastReceiver {
             {
                 // call ended
                 // remove notification
-
             }
 
         }

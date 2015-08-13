@@ -166,8 +166,8 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.action_settings:
-                Intent iSettings = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(iSettings);
+                /*Intent iSettings = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(iSettings);*/
                 break;
             case R.id.action_add_note:
                 Intent iNotes = new Intent(getApplicationContext(), NotesActivity.class);
