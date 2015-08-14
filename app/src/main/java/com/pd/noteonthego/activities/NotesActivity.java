@@ -1,19 +1,24 @@
 package com.pd.noteonthego.activities;
 
-import android.app.ActionBar;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
 import com.pd.noteonthego.fragments.NotesFragment;
+import com.pd.noteonthego.helper.DBHelper;
 import com.pd.noteonthego.helper.NoteColor;
 
-public class NotesActivity extends AppCompatActivity implements NotesFragment.OnFragmentInteractionListener, NoteColorDialogFragment.NoticeDialogListener{
+public class NotesActivity extends AppCompatActivity implements NotesFragment.OnFragmentInteractionListener, NoteColorDialogFragment.NoticeDialogListener {
 
     private String userSelectedNoteColor = String.valueOf(NoteColor.WHITE);
     private String noteTitleForEdit, noteTimestampForEdit;
@@ -25,16 +30,17 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
 
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(getResources().getString(R.string.title_activity_notes));
+            // actionBar.setTitle(getResources().getString(R.string.title_activity_notes));
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 // only for lollipop and newer versions
                 actionBar.setElevation(0);
             }
             // not working
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
+            // actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
         }
 
         // Check that the activity is using the layout version with
@@ -61,7 +67,7 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         }
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null){
+        if (extras != null) {
             // open for editing
             isNoteEditedForUpdate = extras.getBoolean("note-update");
             noteID = extras.getInt("note-id");
@@ -86,14 +92,21 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        switch (id){
+        switch (id) {
+            // Respond to the action bar's Up/Home button
+            case R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
             case R.id.action_save_note:
-                if(isNoteEditedForUpdate){
+                if (isNoteEditedForUpdate) {
                     // for update
                     updateNote();
-                }else{
+                } else {
                     saveNote();
                 }
+                break;
+            case R.id.action_delete_note:
+                deleteNote();
                 break;
             case R.id.action_set_reminder:
                 setReminder();
@@ -109,6 +122,70 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         return super.onOptionsItemSelected(item);
     }
 
+    private void deleteNote() {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                NotesActivity.this);
+
+        // set title
+        alertDialogBuilder.setTitle("Alert!");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage(getString(R.string.alert_delete_note))
+                .setCancelable(false)
+                .setPositiveButton(getResources().getString(R.string.note_confirm_btn), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                long count = -1;
+                                try {
+                                    DBHelper dbHelper = new DBHelper(NotesActivity.this);
+                                    count = dbHelper.deleteNoteByID(noteID);
+
+                                    if (count > 0) {
+                                        Toast.makeText(NotesActivity.this, R.string.note_deleted, Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (ArrayIndexOutOfBoundsException ai) {
+                                    ai.printStackTrace();
+                                } finally {
+                                    dialog.cancel();
+                                    if(count == 1) {
+                                        // close the activity
+                                        NotesActivity.this.finish();
+                                    }
+                                }
+
+                            }
+                        }
+
+                )
+                .
+
+                        setNegativeButton(getResources()
+
+                                        .
+
+                                                getString(R.string.note_cancel_btn),
+
+                                new DialogInterface.OnClickListener()
+
+                                {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // if this button is clicked, just close
+                                        // the dialog box and do nothing
+                                        dialog.cancel();
+                                    }
+                                }
+
+                        );
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+
+    }
+
     @Override
     public void onFragmentInteraction() {
         NotesFragment notesFragment = (NotesFragment)
@@ -119,7 +196,7 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         }
     }
 
-    private void saveNote(){
+    private void saveNote() {
         NotesFragment notesFragment = (NotesFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
@@ -128,7 +205,7 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         }
     }
 
-    private void updateNote(){
+    private void updateNote() {
         NotesFragment notesFragment = (NotesFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
@@ -137,7 +214,7 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         }
     }
 
-    private void setReminder(){
+    private void setReminder() {
         NotesFragment notesFragment = (NotesFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
@@ -146,7 +223,7 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         }
     }
 
-    private void changeColor(){
+    private void changeColor() {
         NotesFragment notesFragment = (NotesFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
@@ -157,7 +234,7 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, int selectedColor) {
-        switch (selectedColor){
+        switch (selectedColor) {
             case 0:
                 userSelectedNoteColor = NoteColor.YELLOW.toString();
                 break;

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pd.noteonthego.R;
@@ -33,6 +34,7 @@ public class NotesFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private EditText mNoteTitle, mNoteContent;
+    private TextView mNoteExtras;
     private String TAG = "Notes Fragment";
 
     private RelativeLayout mNoteContainer;
@@ -59,6 +61,11 @@ public class NotesFragment extends Fragment {
 
         mNoteTitle = (EditText) getActivity().findViewById(R.id.note_title);
         mNoteContent = (EditText) getActivity().findViewById(R.id.note_content);
+        mNoteExtras = (TextView) getActivity().findViewById(R.id.note_extras);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        String dateTime = simpleDateFormat.format(new Date());
+        mNoteExtras.setText(dateTime);
 
         mNoteContainer = (RelativeLayout) getActivity().findViewById(R.id.note_container);
     }
@@ -125,7 +132,7 @@ public class NotesFragment extends Fragment {
         long rowsAdded = dbHelper.addNote(note);
 
         if (rowsAdded > 0) {
-            Toast.makeText(getActivity(), "Note Saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.note_saved, Toast.LENGTH_SHORT).show();
         }
 
         // close the activity
@@ -146,7 +153,7 @@ public class NotesFragment extends Fragment {
         long rowsUpdated = dbHelper.updateNote(noteID, note);
 
         if (rowsUpdated > 0) {
-            Toast.makeText(getActivity(), "Note updated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.note_updated, Toast.LENGTH_SHORT).show();
         }
 
         // close the activity
@@ -189,6 +196,7 @@ public class NotesFragment extends Fragment {
             // fill the edit texts
             mNoteTitle.setText(noteTitle);
             mNoteContent.setText(note.getNoteContent());
+            mNoteExtras.setText("Create Date: " + note.getNoteCreatedTimeStamp());
             changeNoteBackgroundColor(note.getNoteColor());
         }
 

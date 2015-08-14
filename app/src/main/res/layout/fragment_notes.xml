@@ -2,9 +2,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/activity_horizontal_margin"
+    android:paddingTop="16dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
     android:id="@+id/note_container"
     tools:context="com.pd.noteonthego.fragments.NotesFragment">
+
+    <TextView
+        android:id="@+id/note_extras"
+        android:textSize="12sp"
+        android:fontFamily="sans-serif-light"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/note_title"
@@ -14,16 +25,17 @@
         android:background="@android:color/transparent"
         android:hint="@string/note_title"
         android:textStyle="bold"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <EditText
         android:id="@+id/note_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/note_title"
+        android:layout_above="@+id/note_extras"
         android:background="@android:color/transparent"
         android:gravity="start"
         android:hint="@string/add_note"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
 </RelativeLayout>

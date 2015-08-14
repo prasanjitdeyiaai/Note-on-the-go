@@ -16,13 +16,13 @@ import java.util.ArrayList;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "noteonthego.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     // notes table
     public static final String TABLE_NOTES = "notes";
 
     // notes table columns
-    public static final String COLUMN_NOTES_ID = "notes_id";
+    public static final String COLUMN_NOTES_ID = "notes_ID";
     public static final String COLUMN_NOTES_TITLE = "notes_title";
     public static final String COLUMN_NOTES_CREATED_TIMESTAMP = "notes_created_timestamp";
     public static final String COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP = "notes_last_modified_timestamp";
@@ -189,12 +189,26 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param notesToDelete
      * @return deleted rows count
      */
-    public long deleteNotes(String[] notesToDelete){
+    public long deleteNoteByTitleAndTimestamp(String[] notesToDelete){
         SQLiteDatabase db = getReadableDatabase();
 
         String whereClause = COLUMN_NOTES_TITLE + "=? AND " + COLUMN_NOTES_CREATED_TIMESTAMP + "=?";
 
         return db.delete(TABLE_NOTES, whereClause, notesToDelete);
+    }
+
+    /**
+     *
+     * @param noteID
+     * @return deleted rows count
+     */
+    public long deleteNoteByID(int noteID){
+        SQLiteDatabase db = getReadableDatabase();
+
+        String whereClause = COLUMN_NOTES_ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(noteID)};
+
+        return db.delete(TABLE_NOTES, whereClause, whereArgs);
     }
 
     public long updateNote(int noteID, Note note){

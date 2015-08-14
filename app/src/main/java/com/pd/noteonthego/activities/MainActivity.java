@@ -1,10 +1,10 @@
 package com.pd.noteonthego.activities;
 
-import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -34,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+            actionBar.setTitle(R.string.all_notes);
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 // only for lollipop and newer versions
                 actionBar.setElevation(0);
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         // set dialog message
         alertDialogBuilder
-                .setMessage("Do you want to continue deleting the note?")
+                .setMessage(getString(R.string.alert_delete_note))
                 .setCancelable(false)
                 .setPositiveButton(getResources().getString(R.string.note_confirm_btn), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                                     Note note = availableNotes.get(position);
 
                                     DBHelper dbHelper = new DBHelper(MainActivity.this);
-                                    long count = dbHelper.deleteNotes(new String[]{note.getNoteTitle(), note.getNoteCreatedTimeStamp()});
+                                    long count = dbHelper.deleteNoteByTitleAndTimestamp(new String[]{note.getNoteTitle(), note.getNoteCreatedTimeStamp()});
 
                                     if (count > 0) {
                                         Toast.makeText(MainActivity.this, "Note Deleted", Toast.LENGTH_SHORT).show();

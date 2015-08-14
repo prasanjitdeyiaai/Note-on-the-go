@@ -59,6 +59,7 @@ public class CustomNoteAdapter extends BaseAdapter {
             holder.container = (RelativeLayout) convertView.findViewById(R.id.note_container);
             holder.noteTitle = (TextView) convertView.findViewById(R.id.list_note_title);
             holder.noteContent = (TextView) convertView.findViewById(R.id.list_note_content);
+            holder.noteCreatedDate = (TextView) convertView.findViewById(R.id.list_note_created_date);
 
             convertView.setTag(holder);
         } else {
@@ -68,6 +69,8 @@ public class CustomNoteAdapter extends BaseAdapter {
         Note note = notes.get(position);
         holder.noteTitle.setText(note.getNoteTitle());
         holder.noteContent.setText(note.getNoteContent());
+        holder.noteCreatedDate.setText("Created: " + note.getNoteCreatedTimeStamp());
+
         String color = note.getNoteColor();
         if (color.equals(String.valueOf(NoteColor.YELLOW))) {
             holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_yellow));
@@ -89,6 +92,7 @@ public class CustomNoteAdapter extends BaseAdapter {
 
         public TextView noteTitle;
         public TextView noteContent;
+        public TextView noteCreatedDate;
         public RelativeLayout container;
     }
 

@@ -8,6 +8,7 @@
     <string name="action_delete_note">Delete Note</string>
     <string name="action_add_reminder">Add Reminder</string>
     <string name="action_change_color">Change Color</string>
+    <string name="action_share_note">Share</string>
     <string name="title_activity_reader">ReaderActivity</string>
     <string name="title_activity_main">Note On The Go</string>
 
@@ -45,12 +46,17 @@
     <string name="note_select_btn">Select</string>
     <string name="note_cancel_btn">Cancel</string>
     <string name="note_confirm_btn">Confirm</string>
+    <string name="all_notes">All-Notes</string>
+    <string name="alert_delete_note">Do you want to continue deleting the note?</string>
+    <string name="note_deleted">Note Deleted</string>
+    <string name="note_updated">Note Updated</string>
+    <string name="note_saved">Note Saved</string>
 
     <array name="note_colors">
-        <item>Yellow</item>
-        <item>Blue</item>
-        <item>Green</item>
-        <item>Red</item>
-        <item>White</item>
+        <item>Yellow "Well i need this...not so important"</item>
+        <item>Blue "I love to note these..."</item>
+        <item>Green "This is very important..."</item>
+        <item>Red "I hate these but I have to note it..."</item>
+        <item>White "Why am I creating this?"</item>
     </array>
 </resources>

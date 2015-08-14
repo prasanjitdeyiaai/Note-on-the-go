@@ -15,6 +15,7 @@ import com.pd.noteonthego.R;
  * Created by pradey on 8/12/2015.
  */
 public class IncomingCallStateReceiver extends BroadcastReceiver {
+    NotificationManager mNotifyMgr = null;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -37,6 +38,9 @@ public class IncomingCallStateReceiver extends BroadcastReceiver {
             {
                 // call ended
                 // remove notification
+                if(mNotifyMgr != null){
+                    mNotifyMgr.cancel(001);
+                }
             }
 
         }
@@ -71,7 +75,7 @@ public class IncomingCallStateReceiver extends BroadcastReceiver {
         // Sets an ID for the notification
         int mNotificationId = 001;
         // Gets an instance of the NotificationManager service
-        NotificationManager mNotifyMgr =
+        mNotifyMgr =
                 (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
         // Builds the notification and issues it.
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
