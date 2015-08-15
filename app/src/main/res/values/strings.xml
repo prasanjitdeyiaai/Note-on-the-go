@@ -35,12 +35,13 @@
     <string name="title_activity_notes">Add Note</string>
 
     <!-- TODO: added 65% transparency -->
-    <color name="note_red">#A6ff5151</color>
-    <color name="note_yellow">#A6ffffaa</color>
-    <color name="note_blue">#A66cb6ff</color>
+    <color name="note_red">#A6FF6C6C</color>
+    <color name="note_yellow">#A6FCD272</color>
+    <color name="note_blue">#A647E8FE</color>
     <color name="note_green">#A682ff82</color>
     <color name="note_white">#A6ffffff</color>
-    <color name="note_text_color">#525252</color>
+    <color name="note_text_color">#646464</color>
+    <color name="note_text_color_dark">#4A4A4A</color>
 
     <string name="note_color_dialog_title">Select Color</string>
     <string name="note_select_btn">Select</string>
@@ -53,10 +54,10 @@
     <string name="note_saved">Note Saved</string>
 
     <array name="note_colors">
-        <item>Yellow "Well i need this...not so important"</item>
-        <item>Blue "I love to note these..."</item>
-        <item>Green "This is very important..."</item>
-        <item>Red "I hate these but I have to note it..."</item>
-        <item>White "Why am I creating this?"</item>
+        <item>Yellow</item>
+        <item>Blue</item>
+        <item>Green</item>
+        <item>Red</item>
+        <item>White</item>
     </array>
 </resources>
