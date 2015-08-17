@@ -1,6 +1,7 @@
 package com.pd.noteonthego.activities;
 
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -15,8 +16,8 @@ import android.widget.Toast;
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
 import com.pd.noteonthego.fragments.NotesFragment;
-import com.pd.noteonthego.helper.DBHelper;
 import com.pd.noteonthego.helper.NoteColor;
+import com.pd.noteonthego.helper.NoteContentProvider;
 
 public class NotesActivity extends AppCompatActivity implements NotesFragment.OnFragmentInteractionListener, NoteColorDialogFragment.NoticeDialogListener {
 
@@ -138,8 +139,16 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
                             public void onClick(DialogInterface dialog, int id) {
                                 long count = -1;
                                 try {
-                                    DBHelper dbHelper = new DBHelper(NotesActivity.this);
-                                    count = dbHelper.deleteNoteByID(noteID);
+
+                                    // Retrieve note records
+                                    Uri notes = Uri.parse(NoteContentProvider.URL);
+
+                                    String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
+                                    String[] whereArgs = new String[]{String.valueOf(noteID)};
+                                    count = getContentResolver().delete(notes, whereClause, whereArgs);
+
+                                    // DBHelper dbHelper = new DBHelper(NotesActivity.this);
+                                    // count = dbHelper.deleteNoteByID(noteID);
 
                                     if (count > 0) {
                                         Toast.makeText(NotesActivity.this, R.string.note_deleted, Toast.LENGTH_SHORT).show();
@@ -192,7 +201,8 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
                 getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
         if (notesFragment != null) {
-            notesFragment.openNoteForViewing(noteTitleForEdit, noteTimestampForEdit);
+            if(isNoteEditedForUpdate)
+                notesFragment.openNoteForViewing(noteID);
         }
     }
 

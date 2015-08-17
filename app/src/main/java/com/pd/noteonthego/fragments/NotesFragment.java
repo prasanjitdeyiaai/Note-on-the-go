@@ -1,6 +1,8 @@
 package com.pd.noteonthego.fragments;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -17,6 +19,7 @@ import com.pd.noteonthego.R;
 import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
 import com.pd.noteonthego.helper.DBHelper;
 import com.pd.noteonthego.helper.NoteColor;
+import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.helper.NoteType;
 import com.pd.noteonthego.models.Note;
 
@@ -128,10 +131,32 @@ public class NotesFragment extends Fragment {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         String dateTime = simpleDateFormat.format(new Date());
 
-        Note note = new Note(title, content, dateTime, "", noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
-        long rowsAdded = dbHelper.addNote(note);
+        // Note note = new Note(title, content, dateTime, "", noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
+        // long rowsAdded = dbHelper.addNote(note);
 
-        if (rowsAdded > 0) {
+        // Add a new note
+        ContentValues values = new ContentValues();
+
+        values.put(NoteContentProvider.COLUMN_NOTES_TITLE, title);
+        values.put(NoteContentProvider.COLUMN_NOTES_CONTENT, content);
+        values.put(NoteContentProvider.COLUMN_NOTES_CREATED_TIMESTAMP, dateTime);
+
+        values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, "");
+        values.put(NoteContentProvider.COLUMN_NOTES_COLOR, noteColor);
+        values.put(NoteContentProvider.COLUMN_NOTES_TYPE, String.valueOf(NoteType.BLANK));
+
+        values.put(NoteContentProvider.COLUMN_NOTES_IMAGE, "");
+        values.put(NoteContentProvider.COLUMN_NOTES_VIDEO, "");
+        values.put(NoteContentProvider.COLUMN_NOTES_AUDIO, "");
+
+        values.put(NoteContentProvider.COLUMN_NOTES_IS_REMINDER_SET, 0);
+        values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_DATETIME, "");
+        values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_TYPE, "");
+
+        Uri uri = getActivity().getContentResolver().insert(
+                NoteContentProvider.CONTENT_URI, values);
+
+        if (uri != null) {
             Toast.makeText(getActivity(), R.string.note_saved, Toast.LENGTH_SHORT).show();
         }
 
@@ -148,9 +173,23 @@ public class NotesFragment extends Fragment {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         String dateTime = simpleDateFormat.format(new Date());
 
-        //
-        Note note = new Note(title, content, "", dateTime, noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
-        long rowsUpdated = dbHelper.updateNote(noteID, note);
+        // Note note = new Note(title, content, "", dateTime, noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
+        // long rowsUpdated = dbHelper.updateNote(noteID, note);
+
+        // Add a new note
+        ContentValues values = new ContentValues();
+
+        String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(noteID)};
+
+        values.put(NoteContentProvider.COLUMN_NOTES_TITLE, title);
+        values.put(NoteContentProvider.COLUMN_NOTES_CONTENT, content);
+
+        values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, dateTime);
+        values.put(NoteContentProvider.COLUMN_NOTES_COLOR, noteColor);
+
+        long rowsUpdated = getActivity().getContentResolver().update(
+                NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
 
         if (rowsUpdated > 0) {
             Toast.makeText(getActivity(), R.string.note_updated, Toast.LENGTH_SHORT).show();
@@ -188,13 +227,21 @@ public class NotesFragment extends Fragment {
         }
     }
 
-    public void openNoteForViewing(String noteTitle, String noteTimestamp) {
-        DBHelper dbHelper = new DBHelper(getActivity());
-        if (noteTitle != null && noteTimestamp != null) {
-            Note note = dbHelper.getNote(noteTitle, noteTimestamp);
+    public void openNoteForViewing(int noteID) {
+        // DBHelper dbHelper = new DBHelper(getActivity());
+        if (noteID != -1) {
+            // Retrieve note records
+            Uri notes = Uri.parse(NoteContentProvider.URL);
+
+            String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
+            String[] whereArgs = new String[]{String.valueOf(noteID)};
+            Cursor c = getActivity().getContentResolver().query(notes, null, whereClause, whereArgs, null);
+            Note note = NoteContentProvider.getNoteFromCursor(c);
+
+            // Note note = dbHelper.getNote(noteTitle, noteTimestamp);
 
             // fill the edit texts
-            mNoteTitle.setText(noteTitle);
+            mNoteTitle.setText(note.getNoteTitle());
             mNoteContent.setText(note.getNoteContent());
             mNoteExtras.setText("Create Date: " + note.getNoteCreatedTimeStamp());
             changeNoteBackgroundColor(note.getNoteColor());

@@ -61,7 +61,7 @@
             android:name=".helper.NoteContentProvider"
             android:authorities="com.pd.noteonthego.provider"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="false" >
         </provider>
     </application>
 

@@ -2,6 +2,8 @@ package com.pd.noteonthego.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -17,7 +19,7 @@ import android.widget.Toast;
 
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.adapters.CustomNoteAdapter;
-import com.pd.noteonthego.helper.DBHelper;
+import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.models.Note;
 
 import java.util.ArrayList;
@@ -46,8 +48,15 @@ public class MainActivity extends AppCompatActivity {
         noteListView = (ListView) findViewById(R.id.note_list);
         mNoNotes = (TextView)findViewById(R.id.no_notes);
 
-        DBHelper helper = new DBHelper(getApplicationContext());
-        availableNotes = helper.getAllNotes();
+        // DBHelper helper = new DBHelper(getApplicationContext());
+        // availableNotes = helper.getAllNotes();
+
+        // Retrieve note records
+        Uri notes = Uri.parse(NoteContentProvider.URL);
+
+        Cursor c = getContentResolver().query(notes, null, null, null, null);
+        availableNotes = NoteContentProvider.getNoteListFromCursor(c);
+
         noteAdapter = new CustomNoteAdapter(getApplicationContext(), availableNotes);
 
         noteListView.setAdapter(noteAdapter);
@@ -91,16 +100,26 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton(getResources().getString(R.string.note_confirm_btn), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
+                                // Retrieve note records
+                                Uri notes = Uri.parse(NoteContentProvider.URL);
+
                                 try {
                                     Note note = availableNotes.get(position);
 
-                                    DBHelper dbHelper = new DBHelper(MainActivity.this);
-                                    long count = dbHelper.deleteNoteByTitleAndTimestamp(new String[]{note.getNoteTitle(), note.getNoteCreatedTimeStamp()});
+                                    // DBHelper dbHelper = new DBHelper(MainActivity.this);
+                                    // long count = dbHelper.deleteNoteByTitleAndTimestamp(new Strng[]{note.getNoteTitle(), note.getNoteCreatedTimeStamp()});
+                                    String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
+                                    String[] whereArgs = new String[]{String.valueOf(note.getNoteID())};
+                                    int count = getContentResolver().delete(notes, whereClause, whereArgs);
 
                                     if (count > 0) {
                                         Toast.makeText(MainActivity.this, "Note Deleted", Toast.LENGTH_SHORT).show();
                                         if (noteAdapter != null) {
-                                            availableNotes = dbHelper.getAllNotes();
+
+                                            Cursor c = getContentResolver().query(notes, null, null, null, null);
+                                            availableNotes = NoteContentProvider.getNoteListFromCursor(c);
+
+                                            //availableNotes = dbHelper.getAllNotes();
                                             noteAdapter.updateNoteAdapter(availableNotes);
                                         }
                                     }
@@ -146,9 +165,16 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         if (noteAdapter != null) {
-            DBHelper dbHelper = new DBHelper(getApplicationContext());
+            // DBHelper dbHelper = new DBHelper(getApplicationContext());
             // update the availableNotes array list
-            availableNotes = dbHelper.getAllNotes();
+            // availableNotes = dbHelper.getAllNotes();
+
+            // Retrieve note records
+            Uri notes = Uri.parse(NoteContentProvider.URL);
+
+            Cursor c = getContentResolver().query(notes, null, null, null, null);
+            availableNotes = NoteContentProvider.getNoteListFromCursor(c);
+
             noteAdapter.updateNoteAdapter(availableNotes);
         }
         if(availableNotes.size() < 1){

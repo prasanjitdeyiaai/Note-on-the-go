@@ -39,7 +39,7 @@ public class IncomingCallStateReceiver extends BroadcastReceiver {
                 // call ended
                 // remove notification
                 if(mNotifyMgr != null){
-                    mNotifyMgr.cancel(001);
+                    mNotifyMgr.cancelAll();
                 }
             }
 
