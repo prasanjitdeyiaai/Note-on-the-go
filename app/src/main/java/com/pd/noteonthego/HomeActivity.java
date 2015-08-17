@@ -1,23 +1,23 @@
 package com.pd.noteonthego;
 
 import android.app.Activity;
-import android.os.AsyncTask;
-import android.os.Environment;
-import android.support.v7.app.ActionBarActivity;
+import android.content.ContentValues;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.pd.noteonthego.tasks.NoteSaveOnFileTask;
+import com.pd.noteonthego.helper.NoteColor;
+import com.pd.noteonthego.helper.NoteContentProvider;
+import com.pd.noteonthego.helper.NoteType;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class HomeActivity extends Activity {
 
@@ -30,6 +30,8 @@ public class HomeActivity extends Activity {
         setContentView(R.layout.activity_home);
 
         mEditor = (EditText) findViewById(R.id.editor);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(mEditor, InputMethodManager.SHOW_IMPLICIT);
     }
 
     @Override
@@ -40,9 +42,39 @@ public class HomeActivity extends Activity {
 
         // only if note is not blank
         if (!noteToSave.trim().equals("")) {
-            if (checkForExternalDirectory()) {
-                new NoteSaveOnFileTask().execute(getApplicationContext(), noteToSave);
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+            String currentDateandTime = simpleDateFormat.format(new Date());
+
+            // Add a new note
+            ContentValues values = new ContentValues();
+
+            values.put(NoteContentProvider.COLUMN_NOTES_TITLE, "Note_" +currentDateandTime);
+            values.put(NoteContentProvider.COLUMN_NOTES_CONTENT, noteToSave);
+            values.put(NoteContentProvider.COLUMN_NOTES_CREATED_TIMESTAMP, currentDateandTime);
+
+            values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, "");
+            values.put(NoteContentProvider.COLUMN_NOTES_COLOR, String.valueOf(NoteColor.WHITE));
+            values.put(NoteContentProvider.COLUMN_NOTES_TYPE, String.valueOf(NoteType.BLANK));
+
+            values.put(NoteContentProvider.COLUMN_NOTES_IMAGE, "");
+            values.put(NoteContentProvider.COLUMN_NOTES_VIDEO, "");
+            values.put(NoteContentProvider.COLUMN_NOTES_AUDIO, "");
+
+            values.put(NoteContentProvider.COLUMN_NOTES_IS_REMINDER_SET, 0);
+            values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_DATETIME, "");
+            values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_TYPE, "");
+
+            Uri uri = getContentResolver().insert(
+                    NoteContentProvider.CONTENT_URI, values);
+
+            if (uri != null) {
+                Toast.makeText(getApplicationContext(), R.string.note_saved, Toast.LENGTH_SHORT).show();
             }
+
+            /*if (checkForExternalDirectory()) {
+                new NoteSaveOnFileTask().execute(getApplicationContext(), noteToSave);
+            }*/
         }
     }
 

@@ -39,7 +39,7 @@
     <color name="note_yellow">#FCD272</color>
     <color name="note_blue">#47E8FE</color>
     <color name="note_green">#82ff82</color>
-    <color name="note_white">#ffffff</color>
+    <color name="note_white">#FFFFFF</color>
     <color name="note_text_color">#646464</color>
     <color name="note_text_color_dark">#4A4A4A</color>
 
@@ -52,6 +52,7 @@
     <string name="note_deleted">Note Deleted</string>
     <string name="note_updated">Note Updated</string>
     <string name="note_saved">Note Saved</string>
+    <string name="add_text">Add text here...</string>
 
     <array name="note_colors">
         <item>Yellow</item>

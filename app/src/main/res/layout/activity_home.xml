@@ -9,8 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textSize="40sp"
+        android:hint="@string/add_text"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/white"
         android:textIsSelectable="true"
-        android:textColor="@color/note_white" />
+        android:textSize="40sp" />
 
 </RelativeLayout>
