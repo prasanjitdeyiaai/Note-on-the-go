@@ -24,22 +24,21 @@ public class IncomingCallStateReceiver extends BroadcastReceiver {
 
             String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
 
-            if(state.equals(TelephonyManager.EXTRA_STATE_RINGING))
-            {
-                // ringing
-            }
+            if(state != null) {
+                if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
+                    // ringing
+                }
 
-            if(state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK))
-            {
-                // call picked up
-                createNotificationForNote(context);
-            }
-            if(state.equals(TelephonyManager.EXTRA_STATE_IDLE))
-            {
-                // call ended
-                // remove notification
-                if(mNotifyMgr != null){
-                    mNotifyMgr.cancelAll();
+                if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+                    // call picked up
+                    createNotificationForNote(context);
+                }
+                if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
+                    // call ended
+                    // remove notification
+                    if (mNotifyMgr != null) {
+                        mNotifyMgr.cancelAll();
+                    }
                 }
             }
 

@@ -22,12 +22,13 @@ public class OutgoingCallStateReceiver extends BroadcastReceiver {
 
         String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
 
-        if(state.equals(TelephonyManager.EXTRA_STATE_IDLE))
-        {
-            // call ended
-            // remove notification
-            if(mNotifyMgr != null){
-                mNotifyMgr.cancelAll();
+        if (state != null) {
+            if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
+                // call ended
+                // remove notification
+                if (mNotifyMgr != null) {
+                    mNotifyMgr.cancelAll();
+                }
             }
         }
 

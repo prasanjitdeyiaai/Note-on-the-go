@@ -2,6 +2,7 @@ package com.pd.noteonthego.fragments;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -247,5 +248,13 @@ public class NotesFragment extends Fragment {
             changeNoteBackgroundColor(note.getNoteColor());
         }
 
+    }
+
+    public void shareNoteUsingIntent(){
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, mNoteTitle.getText().toString() + " - " +mNoteContent.getText().toString());
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.send_to)));
     }
 }

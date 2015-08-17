@@ -2,13 +2,11 @@ package com.pd.noteonthego;
 
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,8 +28,8 @@ public class HomeActivity extends Activity {
         setContentView(R.layout.activity_home);
 
         mEditor = (EditText) findViewById(R.id.editor);
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(mEditor, InputMethodManager.SHOW_IMPLICIT);
+        /*nputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(mEditor, InputMethodManager.SHOW_IMPLICIT);*/
     }
 
     @Override

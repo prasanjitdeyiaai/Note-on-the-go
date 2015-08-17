@@ -115,12 +115,23 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
             case R.id.action_change_color:
                 changeColor();
                 break;
-
+            case R.id.action_share_note:
+                shareNote();
+                break;
             default:
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void shareNote() {
+        NotesFragment notesFragment = (NotesFragment)
+                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+        if (notesFragment != null) {
+            notesFragment.shareNoteUsingIntent();
+        }
     }
 
     private void deleteNote() {

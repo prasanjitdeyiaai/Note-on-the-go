@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NoteOnTheGo</string>
+    <string name="app_name">Note-On-The-Go</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -53,6 +53,7 @@
     <string name="note_updated">Note Updated</string>
     <string name="note_saved">Note Saved</string>
     <string name="add_text">Add text here...</string>
+    <string name="send_to">Share note to...</string>
 
     <array name="note_colors">
         <item>Yellow</item>
