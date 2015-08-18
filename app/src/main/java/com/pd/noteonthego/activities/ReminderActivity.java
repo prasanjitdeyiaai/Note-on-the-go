@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -15,13 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.dialogs.DateDialogFragment;
 import com.pd.noteonthego.dialogs.TimeDialogFragment;
-import com.pd.noteonthego.services.AlarmReceiver;
+import com.pd.noteonthego.receivers.AlarmReceiver;
 
 import java.util.Calendar;
 
@@ -31,6 +31,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
     private String event = "";
     private TextView mReminderDate, mReminderTime;
     int month, day, year, hour, minute;
+    private Button mBtnSetReminder;
 
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
@@ -48,7 +49,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
                 actionBar.setElevation(0);
             }
             // not working
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(false);
             // actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
         }
@@ -56,6 +57,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         mReminderType = (Spinner) findViewById(R.id.spinner_reminder_type);
         mReminderDate = (TextView) findViewById(R.id.set_reminder_date);
         mReminderTime = (TextView) findViewById(R.id.set_reminder_time);
+        mBtnSetReminder = (Button)findViewById(R.id.btn_reminder_set);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -65,6 +67,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         // Apply the adapter to the spinner
         mReminderType.setAdapter(adapter);
         mReminderType.setOnItemSelectedListener(this);
+        mReminderType.setSelection(1);
 
         alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
@@ -80,6 +83,10 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
     public void setTime(View v) {
         DialogFragment dialogFragment = new TimeDialogFragment();
         dialogFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
+    public void setReminder(View v) {
+        setReminder();
     }
 
     @Override
@@ -98,12 +105,16 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
 
         // Respond to the action bar's Up/Home button
         if (id == R.id.home) {
-            NavUtils.navigateUpFromSameTask(this);
-            setReminder();
+            // NavUtils.navigateUpFromSameTask(this);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     private void setReminder() {
@@ -118,7 +129,9 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
 
         // setRepeating() lets you specify a precise custom interval
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                1000 * 60 * 20, alarmIntent);
+                getReminderTypeInLong(event), alarmIntent);
+
+        ReminderActivity.this.finish();
     }
 
     @Override
@@ -126,7 +139,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         this.year = year;
         this.month = month;
         this.day = day;
-        mReminderDate.setText(month + "-" + day + "-" + year);
+        mReminderDate.setText(month + "/" + day + "/" + year);
     }
 
     @Override
@@ -144,5 +157,18 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public long getReminderTypeInLong(String event){
+        if(event.equals("Daily")){
+            return 1000 * 60 * 60 * 24;
+        }else if(event.equals("Weekly")){
+            return 1000 * 60 * 60 * 24 * 7;
+        }else if(event.equals("Monthly")){
+            return 1000 * 60 * 60 * 24 * 30;
+        }else{
+            // for one time event return 0;
+            return 0;
+        }
     }
 }

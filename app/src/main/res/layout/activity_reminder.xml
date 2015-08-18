@@ -46,9 +46,9 @@
         android:id="@+id/set_reminder_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRighm="32dp"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/reminder_date"
-        android:layout_marginBottot="true" />
+        android:layout_marginBottom="32dp" />
 
     <Spinner
         android:id="@+id/spinner_reminder_type"
@@ -58,5 +58,14 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/reminder_time"
         android:layout_marginBottom="32dp" />
+
+    <Button
+        android:id="@+id/btn_reminder_set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:onClick="setReminder"
+        android:layout_below="@+id/spinner_reminder_type"
+        android:text="SET REMINDER"/>
 
 </RelativeLayout>
