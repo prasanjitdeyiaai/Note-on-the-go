@@ -2,11 +2,13 @@ package com.pd.noteonthego;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,8 +30,8 @@ public class HomeActivity extends Activity {
         setContentView(R.layout.activity_home);
 
         mEditor = (EditText) findViewById(R.id.editor);
-        /*nputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(mEditor, InputMethodManager.SHOW_IMPLICIT);*/
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(mEditor, InputMethodManager.SHOW_IMPLICIT);
     }
 
     @Override
@@ -44,10 +46,15 @@ public class HomeActivity extends Activity {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
             String currentDateandTime = simpleDateFormat.format(new Date());
 
+            // make the date easier to read
+            String month = currentDateandTime.substring(0,2);
+            String date = currentDateandTime.substring(3,5);
+            String year = currentDateandTime.substring(6,10);
+
             // Add a new note
             ContentValues values = new ContentValues();
 
-            values.put(NoteContentProvider.COLUMN_NOTES_TITLE, "Note_" +currentDateandTime);
+            values.put(NoteContentProvider.COLUMN_NOTES_TITLE, "Note_" + month + date + year);
             values.put(NoteContentProvider.COLUMN_NOTES_CONTENT, noteToSave);
             values.put(NoteContentProvider.COLUMN_NOTES_CREATED_TIMESTAMP, currentDateandTime);
 

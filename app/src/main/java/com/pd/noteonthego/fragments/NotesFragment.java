@@ -123,11 +123,22 @@ public class NotesFragment extends Fragment {
         public void onFragmentInteraction();
     }
 
-    public void saveNoteToDatabase(String noteColor) {
+    public int saveNoteToDatabase(String noteColor) {
         DBHelper dbHelper = new DBHelper(getActivity());
 
         String title = mNoteTitle.getText().toString();
         String content = mNoteContent.getText().toString();
+
+        if(title.equals("") && content.equals("")){
+            Toast.makeText(getActivity(), R.string.note_empty, Toast.LENGTH_SHORT).show();
+            // close the activity
+            getActivity().finish();
+
+            return 0;
+        }
+        if(title.equals("")) {
+            title = content;
+        }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         String dateTime = simpleDateFormat.format(new Date());
@@ -163,6 +174,7 @@ public class NotesFragment extends Fragment {
 
         // close the activity
         getActivity().finish();
+        return 1;
     }
 
     public void updateNote(String noteColor, int noteID) {
