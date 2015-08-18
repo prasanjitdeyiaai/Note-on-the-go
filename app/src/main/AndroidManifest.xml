@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pd.noteonthego" >
+    package="com.pd.noteonthego">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -15,12 +15,11 @@
             </intent-filter>
             android:stateNotNeeded="true"
     -->
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Basic" >
+        android:theme="@style/Theme.Basic">
         <activity
             android:name=".HomeActivity"
             android:label="@string/app_name"
@@ -29,7 +28,7 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/Theme.Basic" >
+            android:theme="@style/Theme.Basic">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,19 +38,19 @@
         <activity
             android:name=".activities.NotesActivity"
             android:label="@string/title_activity_notes"
-            android:theme="@style/Theme.Basic"
-            android:parentActivityName=".activities.MainActivity"/>
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Theme.Basic" />
 
         <receiver
             android:name=".receivers.IncomingCallStateReceiver"
-            android:enabled="true" >
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".receivers.OutgoingCallStateReceiver"
-            android:enabled="true" >
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
@@ -61,8 +60,13 @@
             android:name=".helper.NoteContentProvider"
             android:authorities="com.pd.noteonthego.provider"
             android:enabled="true"
-            android:exported="false" >
-        </provider>
+            android:exported="false"></provider>
+
+        <activity
+            android:name=".activities.ReminderActivity"
+            android:label="@string/title_activity_reminder"
+            android:parentActivityName=".activities.NotesActivity"
+            android:theme="@style/Theme.Basic"></activity>
     </application>
 
 </manifest>

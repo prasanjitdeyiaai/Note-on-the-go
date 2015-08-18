@@ -44,6 +44,7 @@
     <color name="note_text_color_dark">#4A4A4A</color>
 
     <string name="note_color_dialog_title">Select Color</string>
+    <string name="set_reminder_dialog_title">Set Reminder</string>
     <string name="note_select_btn">Select</string>
     <string name="note_cancel_btn">Cancel</string>
     <string name="note_confirm_btn">Confirm</string>
@@ -63,4 +64,16 @@
         <item>Red</item>
         <item>White</item>
     </array>
+
+    <array name="reminder_type">
+        <item>One Time Event</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+    </array>
+    <string name="title_activity_reminder">ReminderActivity</string>
+    <string name="reminder_date">Select Date</string>
+    <string name="reminder_time">Select Time</string>
+    <string name="reminder_type">Select Reminder Type</string>
+    <string name="add_reminder_title">Add a Reminder</string>
 </resources>

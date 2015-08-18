@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pd.noteonthego.R;
+import com.pd.noteonthego.activities.ReminderActivity;
 import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
 import com.pd.noteonthego.helper.DBHelper;
 import com.pd.noteonthego.helper.NoteColor;
@@ -213,7 +214,8 @@ public class NotesFragment extends Fragment {
     }
 
     public void setNoteReminder() {
-
+        Intent iReminder = new Intent(getActivity(), ReminderActivity.class);
+        startActivity(iReminder);
     }
 
 
