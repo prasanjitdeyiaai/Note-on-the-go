@@ -1,5 +1,9 @@
 package com.pd.noteonthego.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -17,12 +21,19 @@ import android.widget.TextView;
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.dialogs.DateDialogFragment;
 import com.pd.noteonthego.dialogs.TimeDialogFragment;
+import com.pd.noteonthego.services.AlarmReceiver;
+
+import java.util.Calendar;
 
 public class ReminderActivity extends AppCompatActivity implements DateDialogFragment.DateDialogListener, TimeDialogFragment.TimeDialogListener, AdapterView.OnItemSelectedListener {
 
     private Spinner mReminderType;
     private String event = "";
     private TextView mReminderDate, mReminderTime;
+    int month, day, year, hour, minute;
+
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +65,11 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         // Apply the adapter to the spinner
         mReminderType.setAdapter(adapter);
         mReminderType.setOnItemSelectedListener(this);
+
+        alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+
     }
 
     public void setDate(View v) {
@@ -91,15 +107,32 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
     }
 
     private void setReminder() {
+        // Set the alarm to start at 8:30 a.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+
+        // setRepeating() lets you specify a precise custom interval
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                1000 * 60 * 20, alarmIntent);
     }
 
     @Override
     public void onDateDialogPositiveClick(DialogFragment dialog, int year, int month, int day) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
         mReminderDate.setText(month + "-" + day + "-" + year);
     }
 
     @Override
     public void onTimeDialogPositiveClick(DialogFragment dialog, int hour, int minute) {
+        this.hour = hour;
+        this.minute = minute;
         mReminderTime.setText(hour + ":" + minute);
     }
 
