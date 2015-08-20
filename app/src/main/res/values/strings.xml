@@ -35,7 +35,7 @@
     <string name="title_activity_notes">Add Note</string>
 
     <!-- TODO: added 65% A6 transparency fa5673 -->
-    <color name="note_red">#fc4b4b</color>
+    <color name="note_red">#fd6f6f</color>
     <color name="note_yellow">#ffff71</color>
     <color name="note_blue">#47E8FE</color>
     <color name="note_green">#82ff82</color>
