@@ -57,7 +57,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         mReminderType = (Spinner) findViewById(R.id.spinner_reminder_type);
         mReminderDate = (TextView) findViewById(R.id.set_reminder_date);
         mReminderTime = (TextView) findViewById(R.id.set_reminder_time);
-        mBtnSetReminder = (Button)findViewById(R.id.btn_reminder_set);
+        mBtnSetReminder = (Button) findViewById(R.id.btn_reminder_set);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -69,7 +69,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         mReminderType.setOnItemSelectedListener(this);
         mReminderType.setSelection(1);
 
-        alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
 
@@ -121,11 +121,10 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         // Set the alarm to start at 8:30 a.m.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.DAY_OF_MONTH, day);
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
+        // month starts from 0 hence -1
+        calendar.set(year, month - 1, day);
 
         // setRepeating() lets you specify a precise custom interval
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
@@ -159,14 +158,14 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
 
     }
 
-    public long getReminderTypeInLong(String event){
-        if(event.equals("Daily")){
+    public long getReminderTypeInLong(String event) {
+        if (event.equals("Daily")) {
             return 1000 * 60 * 60 * 24;
-        }else if(event.equals("Weekly")){
+        } else if (event.equals("Weekly")) {
             return 1000 * 60 * 60 * 24 * 7;
-        }else if(event.equals("Monthly")){
+        } else if (event.equals("Monthly")) {
             return 1000 * 60 * 60 * 24 * 30;
-        }else{
+        } else {
             // for one time event return 0;
             return 0;
         }

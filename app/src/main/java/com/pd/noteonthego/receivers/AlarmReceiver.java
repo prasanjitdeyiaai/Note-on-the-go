@@ -12,6 +12,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
-        Toast.makeText(context, "Alarm received", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Reminder received", Toast.LENGTH_SHORT).show();
     }
 }
