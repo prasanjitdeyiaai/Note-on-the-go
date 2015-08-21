@@ -2,6 +2,7 @@ package com.pd.noteonthego.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -17,12 +18,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.dialogs.DateDialogFragment;
 import com.pd.noteonthego.dialogs.TimeDialogFragment;
+import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.receivers.AlarmReceiver;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class ReminderActivity extends AppCompatActivity implements DateDialogFragment.DateDialogListener, TimeDialogFragment.TimeDialogListener, AdapterView.OnItemSelectedListener {
@@ -36,6 +40,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
 
+    private int noteID = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +57,12 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
             actionBar.setDisplayHomeAsUpEnabled(false);
             // actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
+        }
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            // get the note ID for setting reminder
+            noteID = extras.getInt("note-id-reminder");
         }
 
         mReminderType = (Spinner) findViewById(R.id.spinner_reminder_type);
@@ -130,7 +141,32 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 getReminderTypeInLong(event), alarmIntent);
 
+        // update the note with reminder
+        updateNoteWithReminder(calendar);
         ReminderActivity.this.finish();
+    }
+
+    private void updateNoteWithReminder(Calendar calendar) {
+        // Update note
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        String datetime = simpleDateFormat.format(calendar.getTime());
+
+        ContentValues values = new ContentValues();
+
+        String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(noteID)};
+
+        values.put(NoteContentProvider.COLUMN_NOTES_IS_REMINDER_SET, 1);
+        values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_TYPE, event);
+        values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_DATETIME, datetime);
+
+        long rowsUpdated = getContentResolver().update(
+                NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
+
+        if (rowsUpdated > 0) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.reminder_set) + " on " + datetime, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

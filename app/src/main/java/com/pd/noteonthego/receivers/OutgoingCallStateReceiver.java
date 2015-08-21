@@ -35,8 +35,8 @@ public class OutgoingCallStateReceiver extends BroadcastReceiver {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.add)
-                        .setContentTitle("Note On The Go")
-                        .setContentText("Add Note");
+                        .setContentTitle(context.getResources().getString(R.string.app_name))
+                        .setContentText(context.getResources().getString(R.string.add_note));
 
         Intent resultIntent = new Intent(context, HomeActivity.class);
 

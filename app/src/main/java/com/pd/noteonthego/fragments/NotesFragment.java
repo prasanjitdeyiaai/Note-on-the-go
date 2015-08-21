@@ -44,6 +44,8 @@ public class NotesFragment extends Fragment {
 
     private RelativeLayout mNoteContainer;
 
+    private int noteID = -1;
+
     public NotesFragment() {
         // Required empty public constructor
     }
@@ -179,7 +181,7 @@ public class NotesFragment extends Fragment {
     }
 
     public void updateNote(String noteColor, int noteID) {
-        DBHelper dbHelper = new DBHelper(getActivity());
+        //DBHelper dbHelper = new DBHelper(getActivity());
 
         String title = mNoteTitle.getText().toString();
         String content = mNoteContent.getText().toString();
@@ -190,7 +192,7 @@ public class NotesFragment extends Fragment {
         // Note note = new Note(title, content, "", dateTime, noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
         // long rowsUpdated = dbHelper.updateNote(noteID, note);
 
-        // Add a new note
+        // Update note
         ContentValues values = new ContentValues();
 
         String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
@@ -215,6 +217,7 @@ public class NotesFragment extends Fragment {
 
     public void setNoteReminder() {
         Intent iReminder = new Intent(getActivity(), ReminderActivity.class);
+        iReminder.putExtra("note-id-reminder", noteID);
         startActivity(iReminder);
     }
 
@@ -245,6 +248,10 @@ public class NotesFragment extends Fragment {
     public void openNoteForViewing(int noteID) {
         // DBHelper dbHelper = new DBHelper(getActivity());
         if (noteID != -1) {
+
+            // first update the noteID for use in setting reminder
+            this.noteID = noteID;
+
             // Retrieve note records
             Uri notes = Uri.parse(NoteContentProvider.URL);
 
