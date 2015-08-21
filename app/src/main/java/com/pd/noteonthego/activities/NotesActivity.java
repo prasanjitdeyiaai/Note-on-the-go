@@ -6,9 +6,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -76,6 +78,11 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
             noteTimestampForEdit = extras.getString("note-timestamp");
             userSelectedNoteColor = extras.getString("note-color");
         }
+    }
+
+    @Override
+    public void onCreateSupportNavigateUpTaskStack(TaskStackBuilder builder) {
+        super.onCreateSupportNavigateUpTaskStack(builder);
     }
 
     @Override
@@ -233,6 +240,11 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         if (notesFragment != null) {
             notesFragment.updateNote(userSelectedNoteColor, noteID);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private void setReminder() {

@@ -34,8 +34,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_notes">Add Note</string>
 
-    <!-- TODO: added 65% A6 transparency fa5673 -->
-    <color name="note_red">#fd6f6f</color>
+    <!-- TODO: added 65% A6 transparency using orange in place of red -->
+    <color name="note_red">#ffa346</color>
     <color name="note_yellow">#ffff71</color>
     <color name="note_blue">#47E8FE</color>
     <color name="note_green">#82ff82</color>
@@ -77,4 +77,5 @@
     <string name="reminder_type">Select Reminder Type</string>
     <string name="add_reminder_title">Add a Reminder</string>
     <string name="reminder_set">Reminder set</string>
+    <string name="no_reminder">No Reminder set</string>
 </resources>

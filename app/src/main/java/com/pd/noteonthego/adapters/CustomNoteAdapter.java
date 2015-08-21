@@ -60,6 +60,7 @@ public class CustomNoteAdapter extends BaseAdapter {
             holder.noteTitle = (TextView) convertView.findViewById(R.id.list_note_title);
             holder.noteContent = (TextView) convertView.findViewById(R.id.list_note_content);
             holder.noteCreatedDate = (TextView) convertView.findViewById(R.id.list_note_created_date);
+            holder.noteReminder = (TextView) convertView.findViewById(R.id.list_note_reminder);
 
             convertView.setTag(holder);
         } else {
@@ -69,7 +70,12 @@ public class CustomNoteAdapter extends BaseAdapter {
         Note note = notes.get(position);
         holder.noteTitle.setText(note.getNoteTitle());
         holder.noteContent.setText(note.getNoteContent());
-        holder.noteCreatedDate.setText("Created: " + note.getNoteCreatedTimeStamp());
+        // show last edit date time if edited
+        if(note.getNoteLastModifiedTimeStamp().equals("")){
+            holder.noteCreatedDate.setText("Created: " + note.getNoteCreatedTimeStamp());
+        }else {
+            holder.noteCreatedDate.setText("Edited: " + note.getNoteLastModifiedTimeStamp());
+        }
 
         String color = note.getNoteColor();
         if (color.equals(String.valueOf(NoteColor.YELLOW))) {
@@ -80,9 +86,18 @@ public class CustomNoteAdapter extends BaseAdapter {
             holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_green));
         } else if (color.equals(String.valueOf(NoteColor.WHITE))) {
             holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_white));
+            // holder.noteCreatedDate.setTextColor(context.getResources().getColor(R.color.note_text_color_dark));
+            // holder.noteReminder.setTextColor(context.getResources().getColor(R.color.note_text_color_dark));
         } else {
             //holder.container.setBackground(context.getResources().getDrawable(R.drawable.custom_note_list_background_selector));
             holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_red));
+        }
+
+        if(note.getIsReminderSet() == 1){
+            holder.noteReminder.setVisibility(View.VISIBLE);
+            holder.noteReminder.setText(context.getResources().getString(R.string.reminder_set) + ": " + note.getReminderDateTime() + " " + note.getReminderType());
+        }else {
+            holder.noteReminder.setVisibility(View.GONE);
         }
 
         return convertView;
@@ -94,6 +109,7 @@ public class CustomNoteAdapter extends BaseAdapter {
         public TextView noteContent;
         public TextView noteCreatedDate;
         public RelativeLayout container;
+        public TextView noteReminder;
     }
 
     public void updateNoteAdapter(ArrayList<Note> noteArrayList){

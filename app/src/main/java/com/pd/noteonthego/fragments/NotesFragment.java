@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,7 @@ public class NotesFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private EditText mNoteTitle, mNoteContent;
-    private TextView mNoteExtras;
+    private TextView mNoteExtras, mNoteExtrasReminder;
     private String TAG = "Notes Fragment";
 
     private RelativeLayout mNoteContainer;
@@ -69,6 +70,7 @@ public class NotesFragment extends Fragment {
         mNoteTitle = (EditText) getActivity().findViewById(R.id.note_title);
         mNoteContent = (EditText) getActivity().findViewById(R.id.note_content);
         mNoteExtras = (TextView) getActivity().findViewById(R.id.note_extras);
+        mNoteExtrasReminder = (TextView)getActivity().findViewById(R.id.note_extras_reminder);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         String dateTime = simpleDateFormat.format(new Date());
@@ -265,7 +267,16 @@ public class NotesFragment extends Fragment {
             // fill the edit texts
             mNoteTitle.setText(note.getNoteTitle());
             mNoteContent.setText(note.getNoteContent());
-            mNoteExtras.setText("Create Date: " + note.getNoteCreatedTimeStamp());
+            if(!note.getNoteLastModifiedTimeStamp().equals("")){
+                mNoteExtras.setText("Created: " + note.getNoteCreatedTimeStamp() + "    Edited: " + note.getNoteLastModifiedTimeStamp());
+            }else {
+                mNoteExtras.setText("Created: " + note.getNoteCreatedTimeStamp());
+            }
+            if(note.getIsReminderSet() == 1){
+                mNoteExtrasReminder.setText(getResources().getString(R.string.reminder_set) + ": " + note.getReminderDateTime() + " " + note.getReminderType());
+            }else {
+                mNoteExtrasReminder.setText(R.string.no_reminder);
+            }
             changeNoteBackgroundColor(note.getNoteColor());
         }
 
