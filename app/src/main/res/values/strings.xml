@@ -71,11 +71,20 @@
         <item>Weekly</item>
         <item>Monthly</item>
     </array>
+
+    <array name="note_type">
+        <item>Note</item>
+        <item>Checklist</item>
+    </array>
+
     <string name="title_activity_reminder">ReminderActivity</string>
     <string name="reminder_date">Select Date</string>
     <string name="reminder_time">Select Time</string>
     <string name="reminder_type">Select Reminder Type</string>
-    <string name="add_reminder_title">Add a Reminder</string>
+    <string name="add_reminder_title">Add Reminder</string>
     <string name="reminder_set">Reminder set</string>
     <string name="no_reminder">No Reminder set</string>
+    <string name="title_activity_checklist">ChecklistActivity</string>
+    <string name="add_item">Add an item</string>
+    <string name="btn_add">ADD</string>
 </resources>

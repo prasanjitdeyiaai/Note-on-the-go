@@ -205,13 +205,45 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(iSettings);*/
                 break;
             case R.id.action_add_note:
-                Intent iNotes = new Intent(getApplicationContext(), NotesActivity.class);
-                startActivity(iNotes);
+                askNoteType();
                 break;
             default:
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void askNoteType() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                MainActivity.this);
+
+        // set title
+        alertDialogBuilder.setTitle("Add Note");
+
+        // set dialog message
+        alertDialogBuilder
+                .setCancelable(true)
+                .setItems(R.array.note_type, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // The 'which' argument contains the index position
+                        // of the selected item
+                        if(which == 0){
+                            // open note
+                            Intent iNotes = new Intent(getApplicationContext(), NotesActivity.class);
+                            startActivity(iNotes);
+                        }else {
+                            // open checklist
+                            Intent iChecklist = new Intent(getApplicationContext(), ChecklistActivity.class);
+                            startActivity(iChecklist);
+                        }
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
     }
 }

@@ -69,8 +69,15 @@
 
         <receiver
             android:name=".receivers.AlarmReceiver"
-            android:enabled="true">
+            android:enabled="true" >
         </receiver>
+
+        <activity
+            android:name=".activities.ChecklistActivity"
+            android:label="@string/title_activity_checklist"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Theme.Basic">
+        </activity>
     </application>
 
 </manifest>

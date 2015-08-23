@@ -10,7 +10,6 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -175,7 +174,7 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
                                     ai.printStackTrace();
                                 } finally {
                                     dialog.cancel();
-                                    if(count == 1) {
+                                    if (count == 1) {
                                         // close the activity
                                         NotesActivity.this.finish();
                                     }
@@ -219,7 +218,7 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
                 getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
         if (notesFragment != null) {
-            if(isNoteEditedForUpdate)
+            if (isNoteEditedForUpdate)
                 notesFragment.openNoteForViewing(noteID);
         }
     }
