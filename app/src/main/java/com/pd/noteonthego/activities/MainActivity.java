@@ -234,6 +234,11 @@ public class MainActivity extends AppCompatActivity {
                             // open note
                             Intent iNotes = new Intent(getApplicationContext(), NotesActivity.class);
                             iNotes.putExtra("note-type", NoteType.BLANK.toString());
+                            iNotes.putExtra("note-update", false);
+                            iNotes.putExtra("note-id", -1);
+                            iNotes.putExtra("note-title", "");
+                            iNotes.putExtra("note-timestamp", "");
+                            iNotes.putExtra("note-color", "");
                             startActivity(iNotes);
                         }else {
                             // open checklist
@@ -241,6 +246,11 @@ public class MainActivity extends AppCompatActivity {
                             // startActivity(iChecklist);
                             Intent iNotes = new Intent(getApplicationContext(), NotesActivity.class);
                             iNotes.putExtra("note-type", NoteType.TODO.toString());
+                            iNotes.putExtra("note-update", false);
+                            iNotes.putExtra("note-id", -1);
+                            iNotes.putExtra("note-title", "");
+                            iNotes.putExtra("note-timestamp", "");
+                            iNotes.putExtra("note-color", "");
                             startActivity(iNotes);
                         }
                     }

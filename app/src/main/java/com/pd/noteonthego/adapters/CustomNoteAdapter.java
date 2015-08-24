@@ -8,10 +8,14 @@ import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.helper.NoteColor;
+import com.pd.noteonthego.helper.NoteType;
 import com.pd.noteonthego.models.Note;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -69,7 +73,26 @@ public class CustomNoteAdapter extends BaseAdapter {
 
         Note note = notes.get(position);
         holder.noteTitle.setText(note.getNoteTitle());
-        holder.noteContent.setText(note.getNoteContent());
+
+        if(note.getNoteType().equals(NoteType.TODO.toString())){
+            // it's a check list
+            Gson gson = new Gson();
+
+            Type type = new TypeToken<ArrayList<String>>() {}.getType();
+            ArrayList<String> checklistItemsArray = gson.fromJson(note.getNoteContent(), type);
+
+            StringBuilder stringBuilder = new StringBuilder();
+            for(String s: checklistItemsArray){
+                    stringBuilder.append("-" +s + "\n");
+            }
+            holder.noteTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.list, 0, 0, 0);
+            holder.noteContent.setText(stringBuilder);
+        }else {
+            // it's a note
+            holder.noteTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            holder.noteContent.setText(note.getNoteContent());
+        }
+
         // show last edit date time if edited
         if(note.getNoteLastModifiedTimeStamp().equals("")){
             holder.noteCreatedDate.setText("Created: " + note.getNoteCreatedTimeStamp());

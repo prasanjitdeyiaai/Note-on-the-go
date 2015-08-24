@@ -77,9 +77,16 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
             noteType = extras.getString("note-type");
             isNoteEditedForUpdate = extras.getBoolean("note-update");
             noteID = extras.getInt("note-id");
+
+            /**
+             * BELOW 2 ARE NOT USED
+             */
             noteTitleForEdit = extras.getString("note-title");
             noteTimestampForEdit = extras.getString("note-timestamp");
-            userSelectedNoteColor = extras.getString("note-color");
+
+            if(!extras.getString("note-color").equals("")) {
+                userSelectedNoteColor = extras.getString("note-color");
+            }
         }
 
         if(noteType.equals(NoteType.BLANK.toString())){
@@ -238,11 +245,21 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
     }
 
     private void saveNote() {
-        NotesFragment notesFragment = (NotesFragment)
-                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
-        if (notesFragment != null) {
-            notesFragment.saveNoteToDatabase(userSelectedNoteColor);
+        if(noteType.equals(NoteType.BLANK.toString())){
+            NotesFragment notesFragment = (NotesFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+            if (notesFragment != null) {
+                notesFragment.saveNoteToDatabase(userSelectedNoteColor);
+            }
+        }else {
+            ChecklistFragment checklistFragment = (ChecklistFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+            if (checklistFragment != null) {
+                checklistFragment.saveNoteToDatabase(userSelectedNoteColor);
+            }
         }
     }
 
@@ -270,12 +287,23 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
     }
 
     private void changeColor() {
-        NotesFragment notesFragment = (NotesFragment)
-                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
-        if (notesFragment != null) {
-            notesFragment.changeNoteColor();
+        if(noteType.equals(NoteType.BLANK.toString())){
+            NotesFragment notesFragment = (NotesFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+            if (notesFragment != null) {
+                notesFragment.changeNoteColor();
+            }
+        }else {
+            ChecklistFragment checklistFragment = (ChecklistFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+            if (checklistFragment != null) {
+                checklistFragment.changeNoteColor();
+            }
         }
+
     }
 
     @Override
@@ -306,12 +334,24 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
     }
 
     private void changeNoteBackground(String userSelectedNoteColor) {
-        NotesFragment notesFragment = (NotesFragment)
-                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
-        if (notesFragment != null) {
-            notesFragment.changeNoteBackgroundColor(userSelectedNoteColor);
+        if(noteType.equals(NoteType.BLANK.toString())){
+            NotesFragment notesFragment = (NotesFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+            if (notesFragment != null) {
+                notesFragment.changeNoteBackgroundColor(userSelectedNoteColor);
+            }
+        }else {
+            ChecklistFragment checklistFragment = (ChecklistFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+            if (checklistFragment != null) {
+                checklistFragment.changeNoteBackgroundColor(userSelectedNoteColor);
+            }
         }
+
+
     }
 
     @Override
