@@ -78,8 +78,8 @@
     </array>
 
     <string name="title_activity_reminder">ReminderActivity</string>
-    <string name="reminder_date">Select Date</string>
-    <string name="reminder_time">Select Time</string>
+    <string name="reminder_date">SELECT DATE</string>
+    <string name="reminder_time">SELECT TIME</string>
     <string name="reminder_type">Select Reminder Type</string>
     <string name="add_reminder_title">Add Reminder</string>
     <string name="reminder_set">Reminder set</string>

@@ -95,7 +95,7 @@ public class CustomNoteAdapter extends BaseAdapter {
 
         if(note.getIsReminderSet() == 1){
             holder.noteReminder.setVisibility(View.VISIBLE);
-            holder.noteReminder.setText(context.getResources().getString(R.string.reminder_set) + ": " + note.getReminderDateTime() + " " + note.getReminderType());
+            holder.noteReminder.setText(context.getResources().getString(R.string.reminder_set) + ": " + note.getReminderDateTime() + "    " + note.getReminderType());
         }else {
             holder.noteReminder.setVisibility(View.GONE);
         }

@@ -82,6 +82,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
 
         alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        intent.putExtra("reminder-identification", 1);
         alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
 
     }
