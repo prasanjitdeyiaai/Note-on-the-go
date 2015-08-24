@@ -1,10 +1,9 @@
 package com.pd.noteonthego.activities;
 
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +15,6 @@ import com.pd.noteonthego.R;
 import com.pd.noteonthego.adapters.CustomChecklistAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ChecklistActivity extends AppCompatActivity {
 
@@ -53,6 +51,8 @@ public class ChecklistActivity extends AppCompatActivity {
     public void addChecklistItem(View v){
         tempChecklist.add(mChecklistItem.getText().toString());
         adapter.updateNoteAdapter(tempChecklist);
+        mChecklistItem.setText("");
+        mChecklistItem.requestFocus();
     }
 
     @Override

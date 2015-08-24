@@ -5,14 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pd.noteonthego.R;
-import com.pd.noteonthego.models.Note;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Prasanjit on 8/22/2015.
@@ -20,9 +18,9 @@ import java.util.List;
 public class CustomChecklistAdapter extends BaseAdapter {
     Context context = null;
     private LayoutInflater mInflater;
-    private List<String> items;
+    private ArrayList<String> items;
 
-    public CustomChecklistAdapter(Context context, List<String> items) {
+    public CustomChecklistAdapter(Context context, ArrayList<String> items) {
         this.context = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.items = items;
@@ -44,7 +42,7 @@ public class CustomChecklistAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
+    public View getView(final int position, View convertView, ViewGroup viewGroup) {
 
         ViewHolder holder = null;
 
@@ -53,6 +51,7 @@ public class CustomChecklistAdapter extends BaseAdapter {
 
             convertView = mInflater.inflate(R.layout.custom_checklist_row, null);
             holder.chkItem = (TextView) convertView.findViewById(R.id.chk_item);
+            holder.clearItem = (ImageView)convertView.findViewById(R.id.clear_item);
 
             convertView.setTag(holder);
         } else {
@@ -60,6 +59,13 @@ public class CustomChecklistAdapter extends BaseAdapter {
         }
 
         holder.chkItem.setText(items.get(position));
+        holder.clearItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                items.remove(position);
+                updateNoteAdapter(items);
+            }
+        });
 
         return convertView;
     }
@@ -67,6 +73,7 @@ public class CustomChecklistAdapter extends BaseAdapter {
     public static class ViewHolder {
 
         public TextView chkItem;
+        public ImageView clearItem;
     }
 
     public void updateNoteAdapter(ArrayList<String> noteArrayList){
