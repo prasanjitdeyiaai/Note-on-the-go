@@ -16,16 +16,21 @@ import android.widget.Toast;
 
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
+import com.pd.noteonthego.fragments.ChecklistFragment;
 import com.pd.noteonthego.fragments.NotesFragment;
 import com.pd.noteonthego.helper.NoteColor;
 import com.pd.noteonthego.helper.NoteContentProvider;
+import com.pd.noteonthego.helper.NoteType;
 
-public class NotesActivity extends AppCompatActivity implements NotesFragment.OnFragmentInteractionListener, NoteColorDialogFragment.NoticeDialogListener {
+public class NotesActivity extends AppCompatActivity implements NotesFragment.OnFragmentInteractionListener, NoteColorDialogFragment.NoticeDialogListener, ChecklistFragment.OnChecklistFragmentInteractionListener {
 
     private String userSelectedNoteColor = String.valueOf(NoteColor.WHITE);
     private String noteTitleForEdit, noteTimestampForEdit;
     private boolean isNoteEditedForUpdate = false;
     private int noteID;
+    private String noteType;
+    NotesFragment notesFragment;
+    ChecklistFragment checklistFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,25 +62,34 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
             }
 
             // Create a new Fragment to be placed in the activity layout
-            NotesFragment notesFragment = new NotesFragment();
+            notesFragment = new NotesFragment();
+            checklistFragment = new ChecklistFragment();
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
             notesFragment.setArguments(getIntent().getExtras());
-
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, notesFragment).commit();
+            checklistFragment.setArguments(getIntent().getExtras());
         }
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             // open for editing
+            noteType = extras.getString("note-type");
             isNoteEditedForUpdate = extras.getBoolean("note-update");
             noteID = extras.getInt("note-id");
             noteTitleForEdit = extras.getString("note-title");
             noteTimestampForEdit = extras.getString("note-timestamp");
             userSelectedNoteColor = extras.getString("note-color");
+        }
+
+        if(noteType.equals(NoteType.BLANK.toString())){
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, notesFragment).commit();
+        }else {
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, checklistFragment).commit();
         }
     }
 
@@ -302,6 +316,11 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
+
+    }
+
+    @Override
+    public void onChecklistFragmentInteraction() {
 
     }
 }

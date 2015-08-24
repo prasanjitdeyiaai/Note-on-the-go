@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.adapters.CustomNoteAdapter;
 import com.pd.noteonthego.helper.NoteContentProvider;
+import com.pd.noteonthego.helper.NoteType;
 import com.pd.noteonthego.models.Note;
 
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 Note note = availableNotes.get(position);
 
                 Intent editNote = new Intent(getApplicationContext(), NotesActivity.class);
+                editNote.putExtra("note-type", note.getNoteType());
                 editNote.putExtra("note-update", true);
                 editNote.putExtra("note-id", note.getNoteID());
                 editNote.putExtra("note-title", note.getNoteTitle());
@@ -231,11 +233,15 @@ public class MainActivity extends AppCompatActivity {
                         if(which == 0){
                             // open note
                             Intent iNotes = new Intent(getApplicationContext(), NotesActivity.class);
+                            iNotes.putExtra("note-type", NoteType.BLANK.toString());
                             startActivity(iNotes);
                         }else {
                             // open checklist
-                            Intent iChecklist = new Intent(getApplicationContext(), ChecklistActivity.class);
-                            startActivity(iChecklist);
+                            // Intent iChecklist = new Intent(getApplicationContext(), ChecklistActivity.class);
+                            // startActivity(iChecklist);
+                            Intent iNotes = new Intent(getApplicationContext(), NotesActivity.class);
+                            iNotes.putExtra("note-type", NoteType.TODO.toString());
+                            startActivity(iNotes);
                         }
                     }
                 });

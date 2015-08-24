@@ -1,24 +1,34 @@
 package com.pd.noteonthego.fragments;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
 import com.pd.noteonthego.R;
+import com.pd.noteonthego.adapters.CustomChecklistAdapter;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ChecklistFragment.OnFragmentInteractionListener} interface
+ * {@link ChecklistFragment.OnChecklistFragmentInteractionListener} interface
  * to handle interaction events.
  */
 public class ChecklistFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private OnChecklistFragmentInteractionListener mListener;
+    private ListView mChecklist;
+    private EditText mChecklistItem;
+    private ArrayList<String> tempChecklist;
+    private CustomChecklistAdapter adapter;
+    private Button mBtnAddItem;
 
     public ChecklistFragment() {
         // Required empty public constructor
@@ -39,18 +49,36 @@ public class ChecklistFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_checklist, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction();
-        }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mChecklist = (ListView)getActivity().findViewById(R.id.check_listview);
+        mChecklistItem = (EditText)getActivity().findViewById(R.id.edt_list_item);
+        tempChecklist = new ArrayList<String>();
+        adapter = new CustomChecklistAdapter(getActivity(), tempChecklist);
+        mChecklist.setAdapter(adapter);
+        mBtnAddItem = (Button)getActivity().findViewById(R.id.btn_add_item);
+        mBtnAddItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addChecklistItem();
+            }
+        });
+    }
+
+    public void addChecklistItem(){
+        tempChecklist.add(mChecklistItem.getText().toString());
+        adapter.updateNoteAdapter(tempChecklist);
+        mChecklistItem.setText("");
+        mChecklistItem.requestFocus();
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnChecklistFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -73,9 +101,9 @@ public class ChecklistFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnChecklistFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction();
+        public void onChecklistFragmentInteraction();
     }
 
 }
