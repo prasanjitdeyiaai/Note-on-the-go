@@ -54,7 +54,7 @@
     <string name="note_updated">Note Updated</string>
     <string name="note_saved">Note Saved</string>
     <string name="add_text">Add text here...</string>
-    <string name="send_to">Share note to...</string>
+    <string name="send_to">Share note</string>
     <string name="note_empty">Empty note</string>
 
     <array name="note_colors">

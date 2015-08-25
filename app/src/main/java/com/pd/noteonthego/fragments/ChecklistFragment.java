@@ -2,6 +2,8 @@ package com.pd.noteonthego.fragments;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -13,9 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.adapters.CustomChecklistAdapter;
 import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
@@ -23,7 +27,9 @@ import com.pd.noteonthego.helper.DBHelper;
 import com.pd.noteonthego.helper.NoteColor;
 import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.helper.NoteType;
+import com.pd.noteonthego.models.Note;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,6 +51,9 @@ public class ChecklistFragment extends Fragment{
     private EditText mNoteTitle;
 
     private RelativeLayout mChecklistContainer;
+    private TextView mNoteExtras, mNoteExtrasReminder;
+
+    private int noteID = -1;
 
     public ChecklistFragment() {
         // Required empty public constructor
@@ -84,13 +93,31 @@ public class ChecklistFragment extends Fragment{
 
         mChecklistContainer = (RelativeLayout) getActivity().findViewById(R.id.checklist_container);
         mNoteTitle = (EditText) getActivity().findViewById(R.id.checklist_title);
+
+        mNoteExtras = (TextView) getActivity().findViewById(R.id.checklist_extras);
+        mNoteExtrasReminder = (TextView)getActivity().findViewById(R.id.checklist_extras_reminder);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        String dateTime = simpleDateFormat.format(new Date());
+        mNoteExtras.setText(dateTime);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mListener != null) {
+            mListener.onChecklistFragmentInteraction();
+        }
     }
 
     public void addChecklistItem(){
-        tempChecklist.add(mChecklistItem.getText().toString());
-        adapter.updateNoteAdapter(tempChecklist);
-        mChecklistItem.setText("");
-        mChecklistItem.requestFocus();
+        // only when text box is not empty
+        if(!mChecklistItem.getText().toString().trim().equals("")) {
+            tempChecklist.add(mChecklistItem.getText().toString());
+            adapter.updateNoteAdapter(tempChecklist);
+            mChecklistItem.setText("");
+            mChecklistItem.requestFocus();
+        }
     }
 
     public void changeNoteColor() {
@@ -170,6 +197,98 @@ public class ChecklistFragment extends Fragment{
         // close the activity
         getActivity().finish();
         return 1;
+    }
+
+    public void shareNoteUsingIntent(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String s: tempChecklist){
+            stringBuilder.append("-" +s + "\n");
+        }
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, mNoteTitle.getText().toString() + " \n " +stringBuilder);
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.send_to)));
+    }
+
+    public void openNoteForViewing(int noteID) {
+        // DBHelper dbHelper = new DBHelper(getActivity());
+        if (noteID != -1) {
+
+            // first update the noteID for use in setting reminder
+            this.noteID = noteID;
+
+            // Retrieve note records
+            Uri notes = Uri.parse(NoteContentProvider.URL);
+
+            String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
+            String[] whereArgs = new String[]{String.valueOf(noteID)};
+            Cursor c = getActivity().getContentResolver().query(notes, null, whereClause, whereArgs, null);
+            Note note = NoteContentProvider.getNoteFromCursor(c);
+
+            // Note note = dbHelper.getNote(noteTitle, noteTimestamp);
+
+            // fill the title
+            mNoteTitle.setText(note.getNoteTitle());
+
+            Gson gson = new Gson();
+
+            Type type = new TypeToken<ArrayList<String>>() {}.getType();
+            ArrayList<String> checklistItemsArray = gson.fromJson(note.getNoteContent(), type);
+            tempChecklist.addAll(checklistItemsArray);
+            adapter.updateNoteAdapter(tempChecklist);
+
+            if(!note.getNoteLastModifiedTimeStamp().equals("")){
+                mNoteExtras.setText("Created: " + note.getNoteCreatedTimeStamp() + "    Edited: " + note.getNoteLastModifiedTimeStamp());
+            }else {
+                mNoteExtras.setText("Created: " + note.getNoteCreatedTimeStamp());
+            }
+            if(note.getIsReminderSet() == 1){
+                mNoteExtrasReminder.setText(getResources().getString(R.string.reminder_set) + ": " + note.getReminderDateTime() + " " + note.getReminderType());
+            }else {
+                mNoteExtrasReminder.setText(R.string.no_reminder);
+            }
+            changeNoteBackgroundColor(note.getNoteColor());
+        }
+
+    }
+
+    public void updateNote(String noteColor, int noteID) {
+        //DBHelper dbHelper = new DBHelper(getActivity());
+
+        String title = mNoteTitle.getText().toString();
+
+        Gson gson = new Gson();
+        String content = gson.toJson(tempChecklist);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        String dateTime = simpleDateFormat.format(new Date());
+
+        // Note note = new Note(title, content, "", dateTime, noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
+        // long rowsUpdated = dbHelper.updateNote(noteID, note);
+
+        // Update note
+        ContentValues values = new ContentValues();
+
+        String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(noteID)};
+
+        values.put(NoteContentProvider.COLUMN_NOTES_TITLE, title);
+        values.put(NoteContentProvider.COLUMN_NOTES_CONTENT, content);
+
+        values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, dateTime);
+        values.put(NoteContentProvider.COLUMN_NOTES_COLOR, noteColor);
+
+        long rowsUpdated = getActivity().getContentResolver().update(
+                NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
+
+        if (rowsUpdated > 0) {
+            Toast.makeText(getActivity(), R.string.note_updated, Toast.LENGTH_SHORT).show();
+        }
+
+        // close the activity
+        getActivity().finish();
     }
 
     @Override

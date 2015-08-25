@@ -8,6 +8,26 @@
     android:id="@+id/checklist_container"
     tools:context="com.pd.noteonthego.fragments.ChecklistFragment">
 
+    <TextView
+        android:id="@+id/checklist_extras"
+        android:textSize="11sp"
+        android:fontFamily="sans-serif-light"
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/note_text_color_dark"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/checklist_extras_reminder"
+        android:textSize="11sp"
+        android:layout_above="@+id/checklist_extras"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@color/note_text_color_dark"
+        android:textStyle="italic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/checklist_title"
         android:layout_width="match_parent"
@@ -53,6 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="12dp"
-        android:layout_below="@+id/input_container"></ListView>
+        android:layout_below="@+id/input_container"
+        android:layout_above="@+id/checklist_extras_reminder"></ListView>
 
 </RelativeLayout>

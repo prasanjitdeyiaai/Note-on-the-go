@@ -153,11 +153,21 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
     }
 
     private void shareNote() {
-        NotesFragment notesFragment = (NotesFragment)
-                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
-        if (notesFragment != null) {
-            notesFragment.shareNoteUsingIntent();
+        if(noteType.equals(NoteType.BLANK.toString())){
+            NotesFragment notesFragment = (NotesFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+            if (notesFragment != null) {
+                notesFragment.shareNoteUsingIntent();
+            }
+        }else {
+            ChecklistFragment checklistFragment = (ChecklistFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+            if (checklistFragment != null) {
+                checklistFragment.shareNoteUsingIntent();
+            }
         }
     }
 
@@ -264,11 +274,20 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
     }
 
     private void updateNote() {
-        NotesFragment notesFragment = (NotesFragment)
-                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if(noteType.equals(NoteType.BLANK.toString())){
+            NotesFragment notesFragment = (NotesFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
-        if (notesFragment != null) {
-            notesFragment.updateNote(userSelectedNoteColor, noteID);
+            if (notesFragment != null) {
+                notesFragment.updateNote(userSelectedNoteColor, noteID);
+            }
+        }else {
+            ChecklistFragment checklistFragment = (ChecklistFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+            if (checklistFragment != null) {
+                checklistFragment.updateNote(userSelectedNoteColor, noteID);
+            }
         }
     }
 
@@ -361,6 +380,12 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
 
     @Override
     public void onChecklistFragmentInteraction() {
+        ChecklistFragment checklistFragment = (ChecklistFragment)
+                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
+        if (checklistFragment != null) {
+            if (isNoteEditedForUpdate)
+                checklistFragment.openNoteForViewing(noteID);
+        }
     }
 }
