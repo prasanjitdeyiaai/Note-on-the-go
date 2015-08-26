@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.pd.noteonthego.R;
+import com.pd.noteonthego.activities.ReminderActivity;
 import com.pd.noteonthego.adapters.CustomChecklistAdapter;
 import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
 import com.pd.noteonthego.helper.NoteColor;
@@ -289,6 +290,12 @@ public class ChecklistFragment extends Fragment{
 
         // close the activity
         getActivity().finish();
+    }
+
+    public void setNoteReminder() {
+        Intent iReminder = new Intent(getActivity(), ReminderActivity.class);
+        iReminder.putExtra("note-id-reminder", noteID);
+        startActivity(iReminder);
     }
 
     @Override

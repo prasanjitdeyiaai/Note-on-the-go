@@ -297,11 +297,20 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
     }
 
     private void setReminder() {
-        NotesFragment notesFragment = (NotesFragment)
-                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if(noteType.equals(NoteType.BLANK.toString())){
+            NotesFragment notesFragment = (NotesFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
-        if (notesFragment != null) {
-            notesFragment.setNoteReminder();
+            if (notesFragment != null) {
+                notesFragment.setNoteReminder();
+            }
+        }else {
+            ChecklistFragment checklistFragment = (ChecklistFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+            if (checklistFragment != null) {
+                checklistFragment.setNoteReminder();
+            }
         }
     }
 
