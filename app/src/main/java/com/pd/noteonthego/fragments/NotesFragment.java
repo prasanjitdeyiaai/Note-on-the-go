@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.activities.ReminderActivity;
 import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
-import com.pd.noteonthego.helper.DBHelper;
 import com.pd.noteonthego.helper.NoteColor;
 import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.helper.NoteType;
@@ -27,6 +26,7 @@ import com.pd.noteonthego.models.Note;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,7 +71,7 @@ public class NotesFragment extends Fragment {
         mNoteExtras = (TextView) getActivity().findViewById(R.id.note_extras);
         mNoteExtrasReminder = (TextView)getActivity().findViewById(R.id.note_extras_reminder);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
         String dateTime = simpleDateFormat.format(new Date());
         mNoteExtras.setText(dateTime);
 
@@ -121,7 +121,7 @@ public class NotesFragment extends Fragment {
     }
 
     public int saveNoteToDatabase(String noteColor) {
-        DBHelper dbHelper = new DBHelper(getActivity());
+        // DBHelper dbHelper = new DBHelper(getActivity());
 
         String title = mNoteTitle.getText().toString();
         String content = mNoteContent.getText().toString();
@@ -137,7 +137,7 @@ public class NotesFragment extends Fragment {
             title = content;
         }
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
         String dateTime = simpleDateFormat.format(new Date());
 
         // Note note = new Note(title, content, dateTime, "", noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
@@ -180,7 +180,7 @@ public class NotesFragment extends Fragment {
         String title = mNoteTitle.getText().toString();
         String content = mNoteContent.getText().toString();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
         String dateTime = simpleDateFormat.format(new Date());
 
         // Note note = new Note(title, content, "", dateTime, noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
@@ -265,7 +265,7 @@ public class NotesFragment extends Fragment {
                 mNoteExtras.setText("Created: " + note.getNoteCreatedTimeStamp());
             }
             if(note.getIsReminderSet() == 1){
-                mNoteExtrasReminder.setText(getResources().getString(R.string.reminder_set) + ": " + note.getReminderDateTime() + " " + note.getReminderType());
+                mNoteExtrasReminder.setText(getResources().getString(R.string.reminder_set) + ": " + note.getReminderDateTime() + "    " + note.getReminderType());
             }else {
                 mNoteExtrasReminder.setText(R.string.no_reminder);
             }

@@ -28,6 +28,7 @@ import com.pd.noteonthego.receivers.AlarmReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class ReminderActivity extends AppCompatActivity implements DateDialogFragment.DateDialogListener, TimeDialogFragment.TimeDialogListener, AdapterView.OnItemSelectedListener {
 
@@ -82,7 +83,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
 
         alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-        intent.putExtra("reminder-identification", 1);
+        intent.putExtra("reminder-identification", noteID);
         alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
 
     }
@@ -98,7 +99,14 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
     }
 
     public void setReminder(View v) {
-        setReminder();
+        // ADD A CHECK HERE
+
+        if(year == 0 || month == 0 || day == 0){
+            // no need to set reminder
+            // unless date is selected
+        } else{
+            setReminder();
+        }
     }
 
     @Override
@@ -150,7 +158,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
     private void updateNoteWithReminder(Calendar calendar) {
         // Update note
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
         String datetime = simpleDateFormat.format(calendar.getTime());
 
         ContentValues values = new ContentValues();

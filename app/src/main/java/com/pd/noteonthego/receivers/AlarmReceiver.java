@@ -26,16 +26,18 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
 
-        int noteID = -1;
+        int noteID = 0;
         Bundle extras = intent.getExtras();
         if (extras != null) {
             noteID = extras.getInt("reminder-identification");
         }
 
         // show notification
+        // CHECK IF THE NOTE IS NOT DELETED
         showNotification(context, noteID);
         // play sound
         playSound();
+
     }
 
     private void playSound() {
@@ -65,6 +67,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
         Intent resultIntent = new Intent(context, NotesActivity.class);
+        resultIntent.putExtra("note-type", note.getNoteType());
         resultIntent.putExtra("note-update", true);
         resultIntent.putExtra("note-id", note.getNoteID());
         resultIntent.putExtra("note-title", note.getNoteTitle());
