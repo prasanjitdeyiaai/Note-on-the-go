@@ -24,24 +24,28 @@
 
     <string name="action_example">Example action</string>
 
-    <color name="primary">#EEEEEE</color>
-    <color name="primary_dark">#9E9E9E</color>
+    <!-- white lighter -->
+    <color name="primary">#f6f6f6</color>
+    <!-- little darker gray -->
+    <color name="primary_dark">#bdb8ad</color>
     <!-- no idea what this is accent-->
     <color name="accent">#abd0bc</color>
-    <color name="windowBackground">#303030</color>
+    <!-- light gray -->
+    <color name="windowBackground">#ebe7e0</color>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_notes">Add Note</string>
 
     <!-- TODO: added 65% A6 transparency using orange in place of red -->
+    <!--
     <color name="note_red">#ffa346</color>
     <color name="note_yellow">#ffff71</color>
     <color name="note_blue">#47E8FE</color>
     <color name="note_green">#82ff82</color>
-    <color name="note_white">#FFFFFF</color>
+    <color name="note_white">#FFFFFF</color> -->
     <color name="note_text_color">#646464</color>
-    <color name="note_text_color_dark">#4A4A4A</color>
+    <color name="note_text_color_dark">#202020</color>
 
     <string name="note_color_dialog_title">Select Color</string>
     <string name="set_reminder_dialog_title">Set Reminder</string>
@@ -87,4 +91,30 @@
     <string name="title_activity_checklist">ChecklistActivity</string>
     <string name="add_item">Add an item</string>
     <string name="btn_add">ADD</string>
+
+    <!-- TODO new light pleasing colors -->
+    <color name="note_red">#ffd5bf</color>
+    <color name="note_yellow">#fff2bc</color>
+    <color name="note_blue">#cae3e7</color>
+    <color name="note_green">#cff09e</color>
+    <color name="note_white">#f6f6f6</color>
+
+    <color name="denim">#b5ccd2</color>
+    <color name="cream">#f0ece1</color>
+    <color name="ultra">#b5dfcb</color>
+    <color name="invigorating">#eaedb4</color>
+    <color name="glass">#cae3e7</color>
+    <color name="Silly">#c6e8cb</color>
+
+    <color name="darkorange">#ff5a0b</color>
+    <color name="lightorange">#ffd5bf</color>
+    <color name="brightyellow">#fff2bc</color>
+    <color name="extremelightgreen">#e0e4cc</color>
+
+    <color name="lightgray">#ebe7e0</color>
+    <color name="littledarkergray">#bdb8ad</color>
+
+    <color name="yellowishgreen">#cff09e</color>
+    <color name="whitelighter">#f6f6f6</color>
+    <color name="whitedarker">#e8e8e8</color>
 </resources>
