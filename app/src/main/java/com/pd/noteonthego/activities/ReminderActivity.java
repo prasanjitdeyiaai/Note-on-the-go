@@ -147,8 +147,9 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         calendar.set(year, month - 1, day);
 
         // setRepeating() lets you specify a precise custom interval
+        // 15 MIN INTERVAL FOR TESTING
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                getReminderTypeInLong(event), alarmIntent);
+                15 * 1000, alarmIntent);
 
         // update the note with reminder
         updateNoteWithReminder(calendar);
