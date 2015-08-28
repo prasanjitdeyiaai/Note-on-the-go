@@ -10,8 +10,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.activities.NotesActivity;
@@ -108,9 +106,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         Cursor c = context.getContentResolver().query(notes, null, whereClause, whereArgs, null);
         Note note = NoteContentProvider.getNoteFromCursor(c);
 
-        Log.e("Alarm Receiver", note.getNoteTitle());
-        Toast.makeText(context, note.getNoteTitle(), Toast.LENGTH_SHORT).show();
-
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.add)
@@ -158,6 +153,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         Cursor c = context.getContentResolver().query(notes, null, whereClause, whereArgs, null);
         Note note = NoteContentProvider.getNoteFromCursor(c);
         if(note.getNoteTitle() == null){
+            // need to cancel the alarm
+
             return false;
         }else {
             return true;

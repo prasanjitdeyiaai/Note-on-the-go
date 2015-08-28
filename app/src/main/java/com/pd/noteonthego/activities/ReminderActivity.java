@@ -42,6 +42,8 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
     private PendingIntent alarmIntent;
 
     private int noteID = -1;
+    private static int requestCodeForAlarm = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,10 +84,6 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         mReminderType.setSelection(1);
 
         alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-        intent.putExtra("reminder-identification", noteID);
-        alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
-
     }
 
     public void setDate(View v) {
@@ -138,6 +136,11 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
     }
 
     private void setReminder() {
+
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        intent.putExtra("reminder-identification", noteID);
+        alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), ++requestCodeForAlarm, intent, 0);
+
         // Set the alarm to start at 8:30 a.m.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -147,9 +150,14 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         calendar.set(year, month - 1, day);
 
         // setRepeating() lets you specify a precise custom interval
-        // 15 MIN INTERVAL FOR TESTING
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                15 * 1000, alarmIntent);
+        if(getReminderTypeInLong(event) == 0){
+            // one time alarm
+            alarmMgr.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
+        }else{
+            // 10 MIN INTERVAL FOR TESTING
+            alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    10 * 60 * 1000, alarmIntent);
+        }
 
         // update the note with reminder
         updateNoteWithReminder(calendar);
