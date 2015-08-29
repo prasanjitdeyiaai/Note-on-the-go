@@ -2,19 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/note_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="12dp"
-    android:paddingEnd="12dp"
-    android:paddingStart="12dp"
-    android:paddingTop="12dp">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/list_note_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
+        android:layout_marginTop="12dp"
+        android:layout_alignParentTop="true"
         android:background="@android:color/transparent"
         android:minHeight="24dp"
+        android:paddingLeft="12dp"
         android:textColor="@color/note_text_color_dark"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -23,9 +22,9 @@
         android:id="@+id/list_note_created_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/list_note_title"
+        android:paddingRight="12dp"
+        android:layout_marginTop="2dp"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/list_note_title"
         android:fontFamily="sans-serif-light"
         android:textColor="@color/note_text_color_dark"
         android:textSize="11sp"
@@ -40,19 +39,44 @@
         android:layout_below="@+id/list_note_title"
         android:background="@android:color/transparent"
         android:ellipsize="end"
-        android:layout_marginBottom="2dp"
+        android:paddingLeft="12dp"
         android:maxLines="4"
         android:minHeight="24dp"
         android:textColor="@color/note_text_color_dark"
         android:textSize="14sp" />
 
+    <ImageView
+        android:id="@+id/list_note_starred"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/list_note_content"
+        android:paddingRight="12dp"
+        android:paddingLeft="12dp"
+        android:visibility="gone"
+        android:src="@drawable/color"/>
+    <TextView
+        android:id="@+id/dot_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="12dp"
+        android:text=". . . . . . . . . . . . . . . . . . ."
+        android:textSize="10sp"
+        android:textColor="@color/note_text_color_dark"
+        android:paddingLeft="12dp"
+        android:fontFamily="sans-serif-light"
+        android:visibility="gone"
+        android:layout_below="@+id/list_note_content"/>
+
     <TextView
         android:id="@+id/list_note_reminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/list_note_content"
+        android:layout_below="@+id/dot_separator"
         android:fontFamily="sans-serif-light"
+        android:paddingLeft="12dp"
         android:textSize="11sp"
+        android:layout_marginBottom="2dp"
+        android:text="fooooooo"
         android:textStyle="italic"
         android:textColor="@color/note_text_color_dark"
         android:visibility="gone" />
