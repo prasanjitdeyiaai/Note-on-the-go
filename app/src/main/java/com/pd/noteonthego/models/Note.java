@@ -60,13 +60,23 @@ public class Note {
     private String reminderDateTime;
     private String reminderType;
 
+    public int getIsStarred() {
+        return isStarred;
+    }
+
+    public void setIsStarred(int isStarred) {
+        this.isStarred = isStarred;
+    }
+
+    private int isStarred;
+
     public Note() {
 
     }
 
     public Note(String noteTitle, String noteContent, String noteTimeStamp, String noteLastModifiedTimeStamp, String noteColor,
                 String noteType, String noteImg, String noteVideo,
-                String noteAudio, int isReminderSet, String reminderDateTime, String reminderType) {
+                String noteAudio, int isReminderSet, String reminderDateTime, String reminderType, int isStarred) {
         this.noteCreatedTimeStamp = noteTimeStamp;
         this.noteContent = noteContent;
         this.noteLastModifiedTimeStamp = noteLastModifiedTimeStamp;
@@ -79,6 +89,7 @@ public class Note {
         this.isReminderSet = isReminderSet;
         this.reminderDateTime = reminderDateTime;
         this.reminderType = reminderType;
+        this.isStarred = isStarred;
     }
 
     public String getNoteTitle() {

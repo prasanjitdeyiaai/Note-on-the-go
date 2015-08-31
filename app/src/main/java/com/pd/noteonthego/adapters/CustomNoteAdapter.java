@@ -129,6 +129,11 @@ public class CustomNoteAdapter extends BaseAdapter {
         }
 
         // ADD STAR FOR NOTE
+        if(note.getIsStarred() == 1){
+            holder.noteStarred.setVisibility(View.VISIBLE);
+        }else {
+            holder.noteStarred.setVisibility(View.GONE);
+        }
 
         return convertView;
     }

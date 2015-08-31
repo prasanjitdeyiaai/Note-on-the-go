@@ -51,10 +51,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/list_note_content"
-        android:paddingRight="12dp"
-        android:paddingLeft="12dp"
+        android:padding="2dp"
         android:visibility="gone"
-        android:src="@drawable/color"/>
+        android:src="@drawable/star_white"/>
     <TextView
         android:id="@+id/dot_separator"
         android:layout_width="wrap_content"
@@ -76,7 +75,6 @@
         android:paddingLeft="12dp"
         android:textSize="11sp"
         android:layout_marginBottom="2dp"
-        android:text="fooooooo"
         android:textStyle="italic"
         android:textColor="@color/note_text_color_dark"
         android:visibility="gone" />

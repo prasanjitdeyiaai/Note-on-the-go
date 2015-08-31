@@ -39,6 +39,14 @@
         android:textStyle="bold"
         android:textSize="16sp" />
 
+    <ImageView
+        android:id="@+id/note_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/star_black"
+        android:padding="5dp"
+        android:layout_alignParentRight="true"/>
+
     <EditText
         android:id="@+id/note_content"
         android:layout_width="match_parent"

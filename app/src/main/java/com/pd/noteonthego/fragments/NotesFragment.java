@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,9 @@ public class NotesFragment extends Fragment {
     private RelativeLayout mNoteContainer;
 
     private int noteID = -1;
+    private int isStarred = 0;
+
+    private ImageView mNoteStarred;
 
     public NotesFragment() {
         // Required empty public constructor
@@ -76,6 +80,13 @@ public class NotesFragment extends Fragment {
         mNoteExtras.setText(dateTime);
 
         mNoteContainer = (RelativeLayout) getActivity().findViewById(R.id.note_container);
+        mNoteStarred = (ImageView)getActivity().findViewById(R.id.note_star);
+        mNoteStarred.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addStar();
+            }
+        });
     }
 
     @Override
@@ -161,6 +172,7 @@ public class NotesFragment extends Fragment {
         values.put(NoteContentProvider.COLUMN_NOTES_IS_REMINDER_SET, 0);
         values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_DATETIME, "");
         values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_TYPE, "");
+        values.put(NoteContentProvider.COLUMN_NOTES_STARRED, isStarred);
 
         Uri uri = getActivity().getContentResolver().insert(
                 NoteContentProvider.CONTENT_URI, values);
@@ -197,6 +209,7 @@ public class NotesFragment extends Fragment {
 
         values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, dateTime);
         values.put(NoteContentProvider.COLUMN_NOTES_COLOR, noteColor);
+        values.put(NoteContentProvider.COLUMN_NOTES_STARRED, isStarred);
 
         long rowsUpdated = getActivity().getContentResolver().update(
                 NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
@@ -269,6 +282,9 @@ public class NotesFragment extends Fragment {
             }else {
                 mNoteExtrasReminder.setText(R.string.no_reminder);
             }
+            // update the star
+            isStarred = note.getIsStarred();
+            updateStar();
             changeNoteBackgroundColor(note.getNoteColor());
         }
 
@@ -280,5 +296,27 @@ public class NotesFragment extends Fragment {
         sendIntent.putExtra(Intent.EXTRA_TEXT, mNoteTitle.getText().toString() + " - " +mNoteContent.getText().toString());
         sendIntent.setType("text/plain");
         startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.send_to)));
+    }
+
+    public void addStar(){
+        if(isStarred == 0) {
+            isStarred = 1;
+            Toast.makeText(getActivity(), "Starred", Toast.LENGTH_SHORT).show();
+            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white));
+        }
+        else {
+            isStarred = 0;
+            Toast.makeText(getActivity(), "Star removed", Toast.LENGTH_SHORT).show();
+            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_black));
+        }
+    }
+
+    public void updateStar(){
+        if(isStarred == 0) {
+            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_black));
+        }
+        else {
+            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white));
+        }
     }
 }

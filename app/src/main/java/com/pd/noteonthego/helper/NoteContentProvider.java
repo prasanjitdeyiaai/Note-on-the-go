@@ -63,6 +63,7 @@ public class NoteContentProvider extends ContentProvider {
     public static final String COLUMN_NOTES_IS_REMINDER_SET = "notes_is_reminder_set";
     public static final String COLUMN_NOTES_REMINDER_DATETIME = "notes_reminder_datetime";
     public static final String COLUMN_NOTES_REMINDER_TYPE = "notes_reminder_type";
+    public static final String COLUMN_NOTES_STARRED= "notes_starred";
 
     /**
      * Helper class that actually creates and manages
@@ -103,7 +104,9 @@ public class NoteContentProvider extends ContentProvider {
                     + COLUMN_NOTES_REMINDER_DATETIME
                     + " text not null, "
                     + COLUMN_NOTES_REMINDER_TYPE
-                    + " text not null);";
+                    + " text not null, "
+                    + COLUMN_NOTES_STARRED
+                    + " integer not null);";
 
             db.execSQL(CREATE_TABLE_NOTES);
         }
@@ -266,6 +269,7 @@ public class NoteContentProvider extends ContentProvider {
                     note.setIsReminderSet(cursor.getInt(cursor.getColumnIndex(COLUMN_NOTES_IS_REMINDER_SET)));
                     note.setReminderDateTime(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_REMINDER_DATETIME)));
                     note.setReminderType(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_REMINDER_TYPE)));
+                    note.setIsStarred(cursor.getInt(cursor.getColumnIndex(COLUMN_NOTES_STARRED)));
 
                     listOfNotes.add(note);
 
@@ -305,6 +309,7 @@ public class NoteContentProvider extends ContentProvider {
                     note.setIsReminderSet(cursor.getInt(cursor.getColumnIndex(COLUMN_NOTES_IS_REMINDER_SET)));
                     note.setReminderDateTime(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_REMINDER_DATETIME)));
                     note.setReminderType(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_REMINDER_TYPE)));
+                    note.setIsStarred(cursor.getInt(cursor.getColumnIndex(COLUMN_NOTES_STARRED)));
 
                     cursor.moveToNext();
                 }

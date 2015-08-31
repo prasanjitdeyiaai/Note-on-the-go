@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -55,6 +56,9 @@ public class ChecklistFragment extends Fragment{
     private TextView mNoteExtras, mNoteExtrasReminder;
 
     private int noteID = -1;
+    private int isStarred = 0;
+
+    private ImageView mNoteStarred;
 
     public ChecklistFragment() {
         // Required empty public constructor
@@ -97,6 +101,14 @@ public class ChecklistFragment extends Fragment{
 
         mNoteExtras = (TextView) getActivity().findViewById(R.id.checklist_extras);
         mNoteExtrasReminder = (TextView)getActivity().findViewById(R.id.checklist_extras_reminder);
+
+        mNoteStarred = (ImageView)getActivity().findViewById(R.id.note_star);
+        mNoteStarred.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addStar();
+            }
+        });
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
         String dateTime = simpleDateFormat.format(new Date());
@@ -187,6 +199,7 @@ public class ChecklistFragment extends Fragment{
         values.put(NoteContentProvider.COLUMN_NOTES_IS_REMINDER_SET, 0);
         values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_DATETIME, "");
         values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_TYPE, "");
+        values.put(NoteContentProvider.COLUMN_NOTES_STARRED, isStarred);
 
         Uri uri = getActivity().getContentResolver().insert(
                 NoteContentProvider.CONTENT_URI, values);
@@ -250,6 +263,9 @@ public class ChecklistFragment extends Fragment{
             }else {
                 mNoteExtrasReminder.setText(R.string.no_reminder);
             }
+            // update the star
+            isStarred = note.getIsStarred();
+            updateStar();
             changeNoteBackgroundColor(note.getNoteColor());
         }
 
@@ -280,6 +296,7 @@ public class ChecklistFragment extends Fragment{
 
         values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, dateTime);
         values.put(NoteContentProvider.COLUMN_NOTES_COLOR, noteColor);
+        values.put(NoteContentProvider.COLUMN_NOTES_STARRED, isStarred);
 
         long rowsUpdated = getActivity().getContentResolver().update(
                 NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
@@ -330,4 +347,25 @@ public class ChecklistFragment extends Fragment{
         public void onChecklistFragmentInteraction();
     }
 
+    public void addStar(){
+        if(isStarred == 0) {
+            isStarred = 1;
+            Toast.makeText(getActivity(), "Starred", Toast.LENGTH_SHORT).show();
+            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white));
+        }
+        else {
+            isStarred = 0;
+            Toast.makeText(getActivity(), "Star removed", Toast.LENGTH_SHORT).show();
+            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_black));
+        }
+    }
+
+    public void updateStar(){
+        if(isStarred == 0) {
+            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_black));
+        }
+        else {
+            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white));
+        }
+    }
 }
