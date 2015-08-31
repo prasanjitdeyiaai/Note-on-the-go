@@ -167,7 +167,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
     private void updateNoteWithReminder(Calendar calendar) {
         // Update note
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss aa", Locale.getDefault());
         String datetime = simpleDateFormat.format(calendar.getTime());
 
         ContentValues values = new ContentValues();
