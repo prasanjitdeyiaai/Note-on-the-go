@@ -126,12 +126,12 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             case R.id.action_save_note:
-                if (isNoteEditedForUpdate) {
+                /*if (isNoteEditedForUpdate) {
                     // for update
                     updateNote();
                 } else {
                     saveNote();
-                }
+                }*/
                 break;
             case R.id.action_delete_note:
                 deleteNote();
@@ -294,6 +294,17 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (isNoteEditedForUpdate) {
+            // for update
+            updateNote();
+        } else {
+            saveNote();
+        }
     }
 
     private void setReminder() {

@@ -3,12 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.pd.noteonthego.activities.NotesActivity">
     <item
-        android:id="@+id/action_save_note"
-        android:orderInCategory="98"
-        android:title="@string/action_save_note"
-        android:icon="@drawable/save"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/action_delete_note"
         android:orderInCategory="99"
         android:title="@string/action_delete_note"
@@ -16,16 +10,16 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/action_set_reminder"
-        android:orderInCategory="100"
+        android:orderInCategory="101"
         android:title="@string/action_add_reminder"
         android:icon="@drawable/alarm"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_change_color"
-        android:orderInCategory="101"
+        android:orderInCategory="100"
         android:title="@string/action_change_color"
         android:icon="@drawable/color"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_share_note"
         android:orderInCategory="102"
