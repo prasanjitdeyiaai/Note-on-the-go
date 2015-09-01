@@ -75,7 +75,7 @@ public class NotesFragment extends Fragment {
         mNoteExtras = (TextView) getActivity().findViewById(R.id.note_extras);
         mNoteExtrasReminder = (TextView)getActivity().findViewById(R.id.note_extras_reminder);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss aa", Locale.getDefault());
         String dateTime = simpleDateFormat.format(new Date());
         mNoteExtras.setText(dateTime);
 
@@ -148,7 +148,7 @@ public class NotesFragment extends Fragment {
             title = content;
         }
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss aa", Locale.getDefault());
         String dateTime = simpleDateFormat.format(new Date());
 
         // Note note = new Note(title, content, dateTime, "", noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
@@ -192,7 +192,7 @@ public class NotesFragment extends Fragment {
         String title = mNoteTitle.getText().toString();
         String content = mNoteContent.getText().toString();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss aa", Locale.getDefault());
         String dateTime = simpleDateFormat.format(new Date());
 
         // Note note = new Note(title, content, "", dateTime, noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");

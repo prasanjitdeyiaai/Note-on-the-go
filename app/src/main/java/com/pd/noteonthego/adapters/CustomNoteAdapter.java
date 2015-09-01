@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.pd.noteonthego.R;
+import com.pd.noteonthego.helper.Globals;
 import com.pd.noteonthego.helper.NoteColor;
 import com.pd.noteonthego.helper.NoteType;
 import com.pd.noteonthego.models.Note;
@@ -98,9 +99,9 @@ public class CustomNoteAdapter extends BaseAdapter {
 
         // show last edit date time if edited
         if(note.getNoteLastModifiedTimeStamp().equals("")){
-            holder.noteCreatedDate.setText("Created: " + note.getNoteCreatedTimeStamp());
+            holder.noteCreatedDate.setText("Created: " + Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()).toString());
         }else {
-            holder.noteCreatedDate.setText("Edited: " + note.getNoteLastModifiedTimeStamp());
+            holder.noteCreatedDate.setText("Edited: " + Globals.getInstance().convertToReadableDate(note.getNoteLastModifiedTimeStamp()).toString());
         }
 
         String color = note.getNoteColor();
