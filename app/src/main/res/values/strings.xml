@@ -118,4 +118,6 @@
     <color name="yellowishgreen">#cff09e</color>
     <color name="whitelighter">#f6f6f6</color>
     <color name="whitedarker">#e8e8e8</color>
+
+    <string name="note_preference">note_shared_preference</string>
 </resources>

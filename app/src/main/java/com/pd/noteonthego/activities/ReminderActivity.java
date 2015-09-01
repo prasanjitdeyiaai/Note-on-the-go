@@ -24,6 +24,7 @@ import com.pd.noteonthego.R;
 import com.pd.noteonthego.dialogs.DateDialogFragment;
 import com.pd.noteonthego.dialogs.TimeDialogFragment;
 import com.pd.noteonthego.helper.NoteContentProvider;
+import com.pd.noteonthego.helper.NotePreferences;
 import com.pd.noteonthego.receivers.AlarmReceiver;
 
 import java.text.SimpleDateFormat;
@@ -42,7 +43,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
     private PendingIntent alarmIntent;
 
     private int noteID = -1;
-    private static int requestCodeForAlarm = 0;
+    private int requestCodeForAlarm = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,9 +138,23 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
 
     private void setReminder() {
 
+        final Calendar c = Calendar.getInstance();
+        int dayCode  = c.get(Calendar.DATE);
+        int hourCode = c.get(Calendar.HOUR_OF_DAY);
+        int minuteCode = c.get(Calendar.MINUTE);
+        int secondCode = c.get(Calendar.SECOND);
+
+        String code = dayCode + "" + hourCode + "" + minuteCode + "" + secondCode;
+        // convert code to int
+        requestCodeForAlarm = Integer.parseInt(code);
+
+        // create a six digit code using day hour min and sec
         Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
         intent.putExtra("reminder-identification", noteID);
-        alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), ++requestCodeForAlarm, intent, 0);
+        alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), requestCodeForAlarm, intent, 0);
+
+        NotePreferences preferences = new NotePreferences(getApplicationContext());
+        preferences.setRequestCodeForReminders(String.valueOf(noteID), String.valueOf(requestCodeForAlarm));
 
         // Set the alarm to start at 8:30 a.m.
         Calendar calendar = Calendar.getInstance();
