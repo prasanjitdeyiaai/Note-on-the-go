@@ -57,7 +57,7 @@ public class IncomingCallStateReceiver extends BroadcastReceiver {
     private void createNotificationForNote(Context context) {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.add)
+                        .setSmallIcon(R.drawable.add_white)
                         .setContentTitle(context.getResources().getString(R.string.app_name))
                         .setContentText(context.getResources().getString(R.string.add_note));
 

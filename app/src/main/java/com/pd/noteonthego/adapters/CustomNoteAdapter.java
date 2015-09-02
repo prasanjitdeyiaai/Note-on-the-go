@@ -89,7 +89,7 @@ public class CustomNoteAdapter extends BaseAdapter {
             for(String s: checklistItemsArray){
                     stringBuilder.append("-" +s + "\n");
             }
-            holder.noteTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.list, 0, 0, 0);
+            holder.noteTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.check, 0, 0, 0);
             holder.noteContent.setText(stringBuilder);
         }else {
             // it's a note

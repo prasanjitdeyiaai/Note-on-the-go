@@ -206,8 +206,14 @@ public class MainActivity extends AppCompatActivity {
                 /*Intent iSettings = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(iSettings);*/
                 break;
-            case R.id.action_add_note:
-                askNoteType();
+            case R.id.action_note:
+                addNote();
+                break;
+            case R.id.action_checklist:
+                addChecklist();
+                break;
+            case R.id.action_sort:
+                sortNotes();
                 break;
             default:
                 break;
@@ -261,5 +267,33 @@ public class MainActivity extends AppCompatActivity {
 
         // show it
         alertDialog.show();
+    }
+
+    public void addNote(){
+        // open note
+        Intent iNotes = new Intent(getApplicationContext(), NotesActivity.class);
+        iNotes.putExtra("note-type", NoteType.BLANK.toString());
+        iNotes.putExtra("note-update", false);
+        iNotes.putExtra("note-id", -1);
+        iNotes.putExtra("note-title", "");
+        iNotes.putExtra("note-timestamp", "");
+        iNotes.putExtra("note-color", "");
+        startActivity(iNotes);
+    }
+
+    public void addChecklist(){
+        // open checklist
+        Intent iNotes = new Intent(getApplicationContext(), NotesActivity.class);
+        iNotes.putExtra("note-type", NoteType.TODO.toString());
+        iNotes.putExtra("note-update", false);
+        iNotes.putExtra("note-id", -1);
+        iNotes.putExtra("note-title", "");
+        iNotes.putExtra("note-timestamp", "");
+        iNotes.putExtra("note-color", "");
+        startActivity(iNotes);
+    }
+
+    public void sortNotes(){
+
     }
 }

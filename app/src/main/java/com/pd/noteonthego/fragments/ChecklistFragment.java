@@ -356,13 +356,13 @@ public class ChecklistFragment extends Fragment{
         else {
             isStarred = 0;
             Toast.makeText(getActivity(), "Star removed", Toast.LENGTH_SHORT).show();
-            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_black));
+            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white_border));
         }
     }
 
     public void updateStar(){
         if(isStarred == 0) {
-            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_black));
+            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white_border));
         }
         else {
             mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white));

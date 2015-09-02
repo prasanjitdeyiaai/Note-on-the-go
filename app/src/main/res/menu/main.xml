@@ -7,12 +7,24 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         android:icon="@drawable/settings"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_add_note"
-        android:orderInCategory="99"
+        android:id="@+id/action_note"
+        android:orderInCategory="97"
         android:title="@string/action_add_note"
-        android:icon="@drawable/add"
+        android:icon="@drawable/add_note"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_checklist"
+        android:orderInCategory="98"
+        android:title="@string/action_add_checklist"
+        android:icon="@drawable/add_checklist"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_sort"
+        android:orderInCategory="99"
+        android:title="@string/action_sort"
+        android:icon="@drawable/sort"
+        app:showAsAction="ifRoom" />
 </menu>
