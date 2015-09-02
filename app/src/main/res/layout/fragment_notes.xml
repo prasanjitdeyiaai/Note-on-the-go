@@ -15,6 +15,8 @@
         android:layout_alignParentLeft="true"
         android:textColor="@color/note_text_color_dark"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -25,6 +27,7 @@
         android:fontFamily="sans-serif-light"
         android:textColor="@color/note_text_color_dark"
         android:textStyle="italic"
+        android:layout_marginTop="2dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -32,8 +35,11 @@
         android:id="@+id/note_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="16dp"
+        android:textColor="@color/note_text_color_dark"
         android:singleLine="true"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="8dp"
         android:background="@android:color/transparent"
         android:hint="@string/note_title"
         android:maxLength="25"
@@ -52,11 +58,14 @@
         android:id="@+id/note_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:textColor="@color/note_text_color_dark"
         android:layout_below="@+id/note_title"
         android:layout_above="@+id/note_extras_reminder"
         android:background="@android:color/transparent"
         android:gravity="start"
+        android:paddingLeft="8dp"
         android:hint="@string/add_note"
-        android:textSize="14sp" />
+        android:lineSpacingExtra="8dp"
+        android:textSize="16sp" />
 
 </RelativeLayout>

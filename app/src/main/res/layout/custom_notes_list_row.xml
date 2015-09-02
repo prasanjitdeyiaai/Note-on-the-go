@@ -40,6 +40,8 @@
         android:background="@android:color/transparent"
         android:ellipsize="end"
         android:paddingLeft="12dp"
+        android:lineSpacingExtra="4dp"
+        android:layout_marginBottom="2dp"
         android:maxLines="4"
         android:minHeight="24dp"
         android:textColor="@color/note_text_color_dark"
