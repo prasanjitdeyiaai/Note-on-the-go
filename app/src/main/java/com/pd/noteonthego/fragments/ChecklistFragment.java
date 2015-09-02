@@ -110,7 +110,7 @@ public class ChecklistFragment extends Fragment{
             }
         });
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss aa", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
         String dateTime = simpleDateFormat.format(new Date());
         mNoteExtras.setText(dateTime);
     }
@@ -175,7 +175,7 @@ public class ChecklistFragment extends Fragment{
             title = content;
         }
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss aa", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
         String dateTime = simpleDateFormat.format(new Date());
 
         // Note note = new Note(title, content, dateTime, "", noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
@@ -279,7 +279,7 @@ public class ChecklistFragment extends Fragment{
         Gson gson = new Gson();
         String content = gson.toJson(tempChecklist);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss aa", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
         String dateTime = simpleDateFormat.format(new Date());
 
         // Note note = new Note(title, content, "", dateTime, noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
@@ -367,5 +367,15 @@ public class ChecklistFragment extends Fragment{
         else {
             mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white));
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

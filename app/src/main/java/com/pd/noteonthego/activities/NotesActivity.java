@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -123,20 +122,25 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         switch (id) {
             // Respond to the action bar's Up/Home button
             case R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-            case R.id.action_save_note:
-                /*if (isNoteEditedForUpdate) {
+                // onBackPressed();
+                if (isNoteEditedForUpdate) {
                     // for update
                     updateNote();
                 } else {
                     saveNote();
-                }*/
-                break;
+                }
+                //NavUtils.navigateUpFromSameTask(this);
+                //return true;
             case R.id.action_delete_note:
                 deleteNote();
                 break;
             case R.id.action_set_reminder:
+                if (isNoteEditedForUpdate) {
+                    // for update
+                    updateNote();
+                } else {
+                    saveNote();
+                }
                 setReminder();
                 break;
             case R.id.action_change_color:
@@ -150,6 +154,17 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (isNoteEditedForUpdate) {
+            // for update
+            updateNote();
+        } else {
+            saveNote();
+        }
     }
 
     private void shareNote() {
@@ -299,12 +314,42 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
     @Override
     protected void onPause() {
         super.onPause();
-        if (isNoteEditedForUpdate) {
-            // for update
-            updateNote();
-        } else {
-            saveNote();
-        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+        outState.putString("noteType", noteType);
+        outState.putBoolean("isNoteEdited", isNoteEditedForUpdate);
+        outState.putInt("noteID", noteID);
+        outState.putString("noteTitle",noteTitleForEdit);
+        outState.putString("noteTimestamp",noteTimestampForEdit);
+        outState.putString("userSelectedNoteColor",userSelectedNoteColor);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // no need to check for null as this function is only called when savedInstance is not null
+        noteType = savedInstanceState.getString("noteType");
+        isNoteEditedForUpdate = savedInstanceState.getBoolean("isNoteEdited");
+        noteID = savedInstanceState.getInt("noteID");
+        noteTitleForEdit = savedInstanceState.getString("noteTitle");
+        noteTimestampForEdit = savedInstanceState.getString("noteTimestamp");
+        userSelectedNoteColor = savedInstanceState.getString("userSelectedNoteColor");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private void setReminder() {

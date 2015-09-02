@@ -1,10 +1,5 @@
 package com.pd.noteonthego.helper;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 /**
  * Created by Prasanjit on 31-08-2015.
  */
@@ -18,16 +13,65 @@ public class Globals {
     private Globals() {
     }
 
-    public Date convertToReadableDate(String oldDate){
-
-        Date convertedDate = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss aa", Locale.getDefault());
-        try {
-            convertedDate = simpleDateFormat.parse(oldDate);
-        }catch (ParseException pe){
-            pe.printStackTrace();
+    public String convertToReadableDate(String oldDate){
+        String newDate;
+        String month = oldDate.substring(0, 2);
+        if(month.equals("08")){
+            month = "100";
         }
+        if(month.equals("09")){
+            month = "101";
+        }
+        String year = oldDate.substring(6, 10);
+        String day = oldDate.substring(3,5);
+        String hour = oldDate.substring(11, 13);
+        String minute = oldDate.substring(14, 16);
+        String ampm = oldDate.substring(20,22);
+        newDate = day + "-" + convertMonthToString(Integer.parseInt(month)) + "-" + year + " " + hour + ":" + minute + " " + ampm;
+        return newDate;
+    }
 
-        return convertedDate;
+    public String convertMonthToString(int month){
+
+        String monthInString = "";
+        switch (month){
+            case 01:
+                monthInString = "Jan";
+                break;
+            case 02:
+                monthInString = "Feb";
+                break;
+            case 03:
+                monthInString = "Mar";
+                break;
+            case 04:
+                monthInString = "Apr";
+                break;
+            case 05:
+                monthInString = "May";
+                break;
+            case 06:
+                monthInString = "June";
+                break;
+            case 07:
+                monthInString = "Jul";
+                break;
+            case 100:
+                monthInString = "Aug";
+                break;
+            case 101:
+                monthInString = "Sept";
+                break;
+            case 10:
+                monthInString = "Oct";
+                break;
+            case 11:
+                monthInString = "Nov";
+                break;
+            case 12:
+                monthInString = "Dec";
+                break;
+        }
+        return monthInString;
     }
 }

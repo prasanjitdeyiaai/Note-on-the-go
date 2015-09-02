@@ -99,9 +99,9 @@ public class CustomNoteAdapter extends BaseAdapter {
 
         // show last edit date time if edited
         if(note.getNoteLastModifiedTimeStamp().equals("")){
-            holder.noteCreatedDate.setText("Created: " + Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()).toString());
+            holder.noteCreatedDate.setText("Created: " + Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()));
         }else {
-            holder.noteCreatedDate.setText("Edited: " + Globals.getInstance().convertToReadableDate(note.getNoteLastModifiedTimeStamp()).toString());
+            holder.noteCreatedDate.setText("Edited: " + Globals.getInstance().convertToReadableDate(note.getNoteLastModifiedTimeStamp()));
         }
 
         String color = note.getNoteColor();
