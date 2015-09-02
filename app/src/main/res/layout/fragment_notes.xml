@@ -33,6 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
+        android:singleLine="true"
         android:background="@android:color/transparent"
         android:hint="@string/note_title"
         android:maxLength="25"
