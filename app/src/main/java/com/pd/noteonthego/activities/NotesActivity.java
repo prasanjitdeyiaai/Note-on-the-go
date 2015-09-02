@@ -121,16 +121,13 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         //noinspection SimplifiableIfStatement
         switch (id) {
             // Respond to the action bar's Up/Home button
-            case R.id.home:
-                // onBackPressed();
-                if (isNoteEditedForUpdate) {
-                    // for update
-                    updateNote();
-                } else {
-                    saveNote();
-                }
+            /*
+            R SHOULD ALWAYS BE FROM ANDROID
+             */
+            case android.R.id.home:
+                onBackPressed();
                 //NavUtils.navigateUpFromSameTask(this);
-                //return true;
+                return true;
             case R.id.action_delete_note:
                 deleteNote();
                 break;
