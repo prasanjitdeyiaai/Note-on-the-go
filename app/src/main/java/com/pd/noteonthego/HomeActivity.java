@@ -44,7 +44,7 @@ public class HomeActivity extends Activity {
         // only if note is not blank
         if (!noteToSave.trim().equals("")) {
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
             String currentDateAndTime = simpleDateFormat.format(new Date());
 
             // make the date easier to read
@@ -70,6 +70,8 @@ public class HomeActivity extends Activity {
             values.put(NoteContentProvider.COLUMN_NOTES_IS_REMINDER_SET, 0);
             values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_DATETIME, "");
             values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_TYPE, "");
+            // default star is set to 0 now
+            values.put(NoteContentProvider.COLUMN_NOTES_STARRED, 0);
 
             Uri uri = getContentResolver().insert(
                     NoteContentProvider.CONTENT_URI, values);
