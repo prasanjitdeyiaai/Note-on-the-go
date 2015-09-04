@@ -61,6 +61,9 @@ public class ChecklistFragment extends Fragment {
     private int isStarred = 0;
 
     private ImageView mNoteStarred;
+    private boolean isNoteEditedByUser = false;
+    private String oldNoteTitle, editedNoteTitle;
+    private int oldListCount, editedListCount;
 
     public ChecklistFragment() {
         // Required empty public constructor
@@ -176,6 +179,8 @@ public class ChecklistFragment extends Fragment {
         // Create an instance of the dialog fragment and show it
         DialogFragment dialog = new NoteColorDialogFragment();
         dialog.show(getFragmentManager(), "NoteColorDialogFragment");
+
+        isNoteEditedByUser = true;
     }
 
     public void changeNoteBackgroundColor(String backgroundColor) {
@@ -282,6 +287,8 @@ public class ChecklistFragment extends Fragment {
 
             // Note note = dbHelper.getNote(noteTitle, noteTimestamp);
 
+            oldNoteTitle = note.getNoteTitle();
+
             // fill the title
             mNoteTitle.setText(note.getNoteTitle());
 
@@ -290,7 +297,12 @@ public class ChecklistFragment extends Fragment {
             Type type = new TypeToken<ArrayList<String>>() {
             }.getType();
             ArrayList<String> checklistItemsArray = gson.fromJson(note.getNoteContent(), type);
+            // clear the list before adding new data
+            // issue occurs when returning after sharing the checklist
+            tempChecklist.clear();
+
             tempChecklist.addAll(checklistItemsArray);
+            oldListCount = tempChecklist.size();
             adapter.updateNoteAdapter(tempChecklist);
 
             if (!note.getNoteLastModifiedTimeStamp().equals("")) {
@@ -314,39 +326,51 @@ public class ChecklistFragment extends Fragment {
     public void updateNote(String noteColor, int noteID) {
         //DBHelper dbHelper = new DBHelper(getActivity());
 
-        String title = mNoteTitle.getText().toString();
+        editedNoteTitle = mNoteTitle.getText().toString();
 
-        Gson gson = new Gson();
-        String content = gson.toJson(tempChecklist);
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
-        String dateTime = simpleDateFormat.format(new Date());
-
-        // Note note = new Note(title, content, "", dateTime, noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
-        // long rowsUpdated = dbHelper.updateNote(noteID, note);
-
-        // Update note
-        ContentValues values = new ContentValues();
-
-        String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
-        String[] whereArgs = new String[]{String.valueOf(noteID)};
-
-        values.put(NoteContentProvider.COLUMN_NOTES_TITLE, title);
-        values.put(NoteContentProvider.COLUMN_NOTES_CONTENT, content);
-
-        values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, dateTime);
-        values.put(NoteContentProvider.COLUMN_NOTES_COLOR, noteColor);
-        values.put(NoteContentProvider.COLUMN_NOTES_STARRED, isStarred);
-
-        long rowsUpdated = getActivity().getContentResolver().update(
-                NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
-
-        if (rowsUpdated > 0) {
-            Toast.makeText(getActivity(), R.string.note_updated, Toast.LENGTH_SHORT).show();
+        if(!oldNoteTitle.equals(editedNoteTitle)){
+            isNoteEditedByUser = true;
+        }
+        editedListCount = tempChecklist.size();
+        if(oldListCount != editedListCount){
+            isNoteEditedByUser = true;
         }
 
-        // close the activity
-        getActivity().finish();
+        if(isNoteEditedByUser) {
+            String title = mNoteTitle.getText().toString();
+
+            Gson gson = new Gson();
+            String content = gson.toJson(tempChecklist);
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
+            String dateTime = simpleDateFormat.format(new Date());
+
+            // Note note = new Note(title, content, "", dateTime, noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
+            // long rowsUpdated = dbHelper.updateNote(noteID, note);
+
+            // Update note
+            ContentValues values = new ContentValues();
+
+            String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
+            String[] whereArgs = new String[]{String.valueOf(noteID)};
+
+            values.put(NoteContentProvider.COLUMN_NOTES_TITLE, title);
+            values.put(NoteContentProvider.COLUMN_NOTES_CONTENT, content);
+
+            values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, dateTime);
+            values.put(NoteContentProvider.COLUMN_NOTES_COLOR, noteColor);
+            values.put(NoteContentProvider.COLUMN_NOTES_STARRED, isStarred);
+
+            long rowsUpdated = getActivity().getContentResolver().update(
+                    NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
+
+            if (rowsUpdated > 0) {
+                Toast.makeText(getActivity(), R.string.note_updated, Toast.LENGTH_SHORT).show();
+            }
+
+            // close the activity
+            getActivity().finish();
+        }
     }
 
     public void setNoteReminder() {
@@ -388,6 +412,7 @@ public class ChecklistFragment extends Fragment {
     }
 
     public void addStar() {
+        isNoteEditedByUser = true;
         if (isStarred == 0) {
             isStarred = 1;
             Toast.makeText(getActivity(), "Starred", Toast.LENGTH_SHORT).show();
