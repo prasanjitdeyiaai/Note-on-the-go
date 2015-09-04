@@ -65,22 +65,14 @@
         <EditText
             android:id="@+id/edt_list_item"
             android:layout_width="0dp"
+            android:singleLine="true"
             android:background="@android:color/transparent"
             android:paddingLeft="8dp"
             android:textColor="@color/note_text_color_dark"
             android:hint="@string/add_item"
+            android:textSize="14sp"
             android:layout_height="wrap_content"
             android:layout_weight="0.8" />
-
-        <Button
-            android:id="@+id/btn_add_item"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.2"
-            android:fontFamily="sans-serif-light"
-            android:textSize="12sp"
-            android:onClick="addChecklistItem"
-            android:text="@string/btn_add" />
 
     </LinearLayout>
 
@@ -88,7 +80,7 @@
         android:id="@+id/check_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_below="@+id/input_container"
         android:layout_above="@+id/checklist_extras_reminder"></ListView>
 

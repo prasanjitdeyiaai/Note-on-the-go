@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.activities.ReminderActivity;
 import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
+import com.pd.noteonthego.helper.Globals;
 import com.pd.noteonthego.helper.NoteColor;
 import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.helper.NoteType;
@@ -291,9 +292,9 @@ public class NotesFragment extends Fragment {
             mNoteTitle.setText(note.getNoteTitle());
             mNoteContent.setText(note.getNoteContent());
             if(!note.getNoteLastModifiedTimeStamp().equals("")){
-                mNoteExtras.setText("Created: " + note.getNoteCreatedTimeStamp() + "    Edited: " + note.getNoteLastModifiedTimeStamp());
+                mNoteExtras.setText("Created: " + Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()) + "    Edited: " + Globals.getInstance().convertToReadableDate(note.getNoteLastModifiedTimeStamp()));
             }else {
-                mNoteExtras.setText("Created: " + note.getNoteCreatedTimeStamp());
+                mNoteExtras.setText("Created: " + Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()));
             }
             if(note.getIsReminderSet() == 1){
                 mNoteExtrasReminder.setText(getResources().getString(R.string.reminder_set) + ": " + note.getReminderDateTime() + "    " + note.getReminderType());

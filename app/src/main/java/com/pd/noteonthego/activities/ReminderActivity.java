@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.dialogs.DateDialogFragment;
 import com.pd.noteonthego.dialogs.TimeDialogFragment;
+import com.pd.noteonthego.helper.Globals;
 import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.helper.NotePreferences;
 import com.pd.noteonthego.models.Note;
@@ -113,7 +114,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
             Note note = NoteContentProvider.getNoteFromCursor(c);
 
             if(note.getIsReminderSet() == 1){
-                mReminderExtras.setText(getResources().getString(R.string.reminder_set) + ":  " + note.getReminderDateTime() + "    " + note.getReminderType());
+                mReminderExtras.setText(getResources().getString(R.string.reminder_set) + ":  " + Globals.getInstance().convertToReadableDate(note.getReminderDateTime()) + "    " + note.getReminderType());
                 mBtnDismiss.setVisibility(View.VISIBLE);
             }else {
                 mReminderExtras.setText(R.string.no_reminder);

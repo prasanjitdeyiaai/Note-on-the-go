@@ -8,10 +8,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -25,6 +27,7 @@ import com.pd.noteonthego.R;
 import com.pd.noteonthego.activities.ReminderActivity;
 import com.pd.noteonthego.adapters.CustomChecklistAdapter;
 import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
+import com.pd.noteonthego.helper.Globals;
 import com.pd.noteonthego.helper.NoteColor;
 import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.helper.NoteType;
@@ -42,14 +45,13 @@ import java.util.Locale;
  * {@link ChecklistFragment.OnChecklistFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class ChecklistFragment extends Fragment{
+public class ChecklistFragment extends Fragment {
 
     private OnChecklistFragmentInteractionListener mListener;
     private ListView mChecklist;
     private EditText mChecklistItem;
     private ArrayList<String> tempChecklist;
     private CustomChecklistAdapter adapter;
-    private Button mBtnAddItem;
     private EditText mNoteTitle;
 
     private RelativeLayout mChecklistContainer;
@@ -83,26 +85,63 @@ public class ChecklistFragment extends Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mChecklist = (ListView)getActivity().findViewById(R.id.check_listview);
-        mChecklistItem = (EditText)getActivity().findViewById(R.id.edt_list_item);
-        tempChecklist = new ArrayList<String>();
-        adapter = new CustomChecklistAdapter(getActivity(), tempChecklist);
-        mChecklist.setAdapter(adapter);
-        mBtnAddItem = (Button)getActivity().findViewById(R.id.btn_add_item);
-        mBtnAddItem.setOnClickListener(new View.OnClickListener() {
+        mChecklist = (ListView) getActivity().findViewById(R.id.check_listview);
+        mChecklistItem = (EditText) getActivity().findViewById(R.id.edt_list_item);
+        mChecklistItem.setImeActionLabel("Add", KeyEvent.KEYCODE_ENTER);
+        mChecklistItem.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                addChecklistItem();
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if (event == null) {
+                    // SINGLE LINE
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        // Capture soft enters in a singleLine EditText that is the last EditText.
+                        addChecklistItem();
+                    } else if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                        // Capture soft enters in other singleLine EditTexts
+                        addChecklistItem();
+                        Log.e("Checklist Fragment", "Pressed next");
+                    } else {
+                        Log.e("Checklist Fragment", "Pressed something else");
+                        return false;
+                    }  // Let system handle all other null KeyEvents
+                } else if (actionId == EditorInfo.IME_NULL) {
+                    // MULTI LINE
+                    // Capture most soft enters in multi-line EditTexts and all hard enters.
+                    // They supply a zero actionId and a valid KeyEvent rather than
+                    // a non-zero actionId and a null event like the previous cases.
+                    if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                        // We capture the event when key is first pressed.
+                        Log.e("Checklist Fragment", "Pressed something else");
+                    } else {
+                        Log.e("Checklist Fragment", "Pressed something else");
+                        return true;
+                    }   // We consume the event when the key is released.
+                } else {
+                    Log.e("Checklist Fragment", "Pressed something else");
+                    return false;
+                }
+                // We let the system handle it when the listener
+                // is triggered by something that wasn't an enter.
+
+                // Code from this point on will execute whenever the user
+                // presses enter in an attached view, regardless of position,
+                // keyboard, or singleLine status.
+
+                return true;   // Consume the event
             }
         });
 
+        tempChecklist = new ArrayList<String>();
+        adapter = new CustomChecklistAdapter(getActivity(), tempChecklist);
+        mChecklist.setAdapter(adapter);
         mChecklistContainer = (RelativeLayout) getActivity().findViewById(R.id.checklist_container);
         mNoteTitle = (EditText) getActivity().findViewById(R.id.checklist_title);
 
         mNoteExtras = (TextView) getActivity().findViewById(R.id.checklist_extras);
-        mNoteExtrasReminder = (TextView)getActivity().findViewById(R.id.checklist_extras_reminder);
+        mNoteExtrasReminder = (TextView) getActivity().findViewById(R.id.checklist_extras_reminder);
 
-        mNoteStarred = (ImageView)getActivity().findViewById(R.id.note_star);
+        mNoteStarred = (ImageView) getActivity().findViewById(R.id.note_star);
         mNoteStarred.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,9 +162,9 @@ public class ChecklistFragment extends Fragment{
         }
     }
 
-    public void addChecklistItem(){
+    public void addChecklistItem() {
         // only when text box is not empty
-        if(!mChecklistItem.getText().toString().trim().equals("")) {
+        if (!mChecklistItem.getText().toString().trim().equals("")) {
             tempChecklist.add(mChecklistItem.getText().toString());
             adapter.updateNoteAdapter(tempChecklist);
             mChecklistItem.setText("");
@@ -164,14 +203,14 @@ public class ChecklistFragment extends Fragment{
         Gson gson = new Gson();
         String content = gson.toJson(tempChecklist);
 
-        if(title.equals("") && content.equals("")){
+        if (title.equals("") && content.equals("")) {
             Toast.makeText(getActivity(), R.string.note_empty, Toast.LENGTH_SHORT).show();
             // close the activity
             getActivity().finish();
 
             return 0;
         }
-        if(title.equals("")) {
+        if (title.equals("")) {
             title = content;
         }
 
@@ -213,15 +252,15 @@ public class ChecklistFragment extends Fragment{
         return 1;
     }
 
-    public void shareNoteUsingIntent(){
+    public void shareNoteUsingIntent() {
         StringBuilder stringBuilder = new StringBuilder();
-        for(String s: tempChecklist){
-            stringBuilder.append("-" +s + "\n");
+        for (String s : tempChecklist) {
+            stringBuilder.append("-" + s + "\n");
         }
 
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, mNoteTitle.getText().toString() + " \n " +stringBuilder);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, mNoteTitle.getText().toString() + " \n " + stringBuilder);
         sendIntent.setType("text/plain");
         startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.send_to)));
     }
@@ -248,19 +287,20 @@ public class ChecklistFragment extends Fragment{
 
             Gson gson = new Gson();
 
-            Type type = new TypeToken<ArrayList<String>>() {}.getType();
+            Type type = new TypeToken<ArrayList<String>>() {
+            }.getType();
             ArrayList<String> checklistItemsArray = gson.fromJson(note.getNoteContent(), type);
             tempChecklist.addAll(checklistItemsArray);
             adapter.updateNoteAdapter(tempChecklist);
 
-            if(!note.getNoteLastModifiedTimeStamp().equals("")){
-                mNoteExtras.setText("Created: " + note.getNoteCreatedTimeStamp() + "    Edited: " + note.getNoteLastModifiedTimeStamp());
-            }else {
-                mNoteExtras.setText("Created: " + note.getNoteCreatedTimeStamp());
+            if (!note.getNoteLastModifiedTimeStamp().equals("")) {
+                mNoteExtras.setText("Created: " + Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()) + "    Edited: " + Globals.getInstance().convertToReadableDate(note.getNoteLastModifiedTimeStamp()));
+            } else {
+                mNoteExtras.setText("Created: " + Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()));
             }
-            if(note.getIsReminderSet() == 1){
+            if (note.getIsReminderSet() == 1) {
                 mNoteExtrasReminder.setText(getResources().getString(R.string.reminder_set) + ": " + note.getReminderDateTime() + "     " + note.getReminderType());
-            }else {
+            } else {
                 mNoteExtrasReminder.setText(R.string.no_reminder);
             }
             // update the star
@@ -347,24 +387,22 @@ public class ChecklistFragment extends Fragment{
         public void onChecklistFragmentInteraction();
     }
 
-    public void addStar(){
-        if(isStarred == 0) {
+    public void addStar() {
+        if (isStarred == 0) {
             isStarred = 1;
             Toast.makeText(getActivity(), "Starred", Toast.LENGTH_SHORT).show();
             mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white));
-        }
-        else {
+        } else {
             isStarred = 0;
             Toast.makeText(getActivity(), "Star removed", Toast.LENGTH_SHORT).show();
             mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white_border));
         }
     }
 
-    public void updateStar(){
-        if(isStarred == 0) {
+    public void updateStar() {
+        if (isStarred == 0) {
             mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white_border));
-        }
-        else {
+        } else {
             mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white));
         }
     }
