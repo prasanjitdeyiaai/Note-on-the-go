@@ -9,7 +9,7 @@
     <string name="action_save_note">Save Note</string>
     <string name="action_star_note">Star Note</string>
     <string name="action_delete_note">Delete Note</string>
-    <string name="action_add_reminder">Add Reminder</string>
+    <string name="action_add_reminder">Reminder</string>
     <string name="action_change_color">Change Color</string>
     <string name="action_share_note">Share</string>
     <string name="title_activity_reader">ReaderActivity</string>
@@ -120,4 +120,5 @@
     <color name="whitedarker">#e8e8e8</color>
 
     <string name="note_preference">note_shared_preference</string>
+    <string name="reminder_removed">Reminder removed</string>
 </resources>

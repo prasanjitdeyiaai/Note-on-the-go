@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -25,6 +27,7 @@ import com.pd.noteonthego.dialogs.DateDialogFragment;
 import com.pd.noteonthego.dialogs.TimeDialogFragment;
 import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.helper.NotePreferences;
+import com.pd.noteonthego.models.Note;
 import com.pd.noteonthego.receivers.AlarmReceiver;
 
 import java.text.SimpleDateFormat;
@@ -44,6 +47,9 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
 
     private int noteID = -1;
     private int requestCodeForAlarm = 0;
+
+    private TextView mReminderExtras;
+    private Button mBtnDismiss;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,9 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         mReminderTime = (TextView) findViewById(R.id.set_reminder_time);
         mBtnSetReminder = (Button) findViewById(R.id.btn_reminder_set);
 
+        mReminderExtras = (TextView) findViewById(R.id.reminder_already_set);
+        mBtnDismiss = (Button) findViewById(R.id.reminder_dismiss);
+
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.reminder_type, android.R.layout.simple_spinner_item);
@@ -85,6 +94,77 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         mReminderType.setSelection(1);
 
         alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        getPreviousReminder();
+    }
+
+    /**
+     * get previously set reminder
+     */
+    public void getPreviousReminder(){
+        if (noteID != -1) {
+
+            // Retrieve note records
+            Uri notes = Uri.parse(NoteContentProvider.URL);
+
+            String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
+            String[] whereArgs = new String[]{String.valueOf(noteID)};
+            Cursor c = getContentResolver().query(notes, null, whereClause, whereArgs, null);
+            Note note = NoteContentProvider.getNoteFromCursor(c);
+
+            if(note.getIsReminderSet() == 1){
+                mReminderExtras.setText(getResources().getString(R.string.reminder_set) + ":  " + note.getReminderDateTime() + "    " + note.getReminderType());
+                mBtnDismiss.setVisibility(View.VISIBLE);
+            }else {
+                mReminderExtras.setText(R.string.no_reminder);
+                mBtnDismiss.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /**
+     * dismiss reminder
+     * @param view
+     */
+    public void dismissReminder(View view){
+        NotePreferences preferences = new NotePreferences(getApplicationContext());
+        String requestCode = preferences.getRequestCodeForReminders(String.valueOf(noteID));
+
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), Integer.parseInt(requestCode), intent, 0);
+
+        // And cancel the alarm.
+        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+        am.cancel(sender);
+
+        mReminderExtras.setText(R.string.no_reminder);
+        mBtnDismiss.setVisibility(View.GONE);
+
+        // update database
+        updateNoteWithReminder();
+    }
+
+    /**
+     * update database for the reminder
+     */
+    private void updateNoteWithReminder() {
+        // Update note
+
+        ContentValues values = new ContentValues();
+
+        String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(noteID)};
+
+        values.put(NoteContentProvider.COLUMN_NOTES_IS_REMINDER_SET, 0);
+        values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_TYPE, "");
+        values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_DATETIME, "");
+
+        long rowsUpdated = getContentResolver().update(
+                NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
+
+        if (rowsUpdated > 0) {
+            Toast.makeText(getApplicationContext(), R.string.reminder_removed, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void setDate(View v) {

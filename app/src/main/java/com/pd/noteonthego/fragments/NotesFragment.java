@@ -1,8 +1,6 @@
 package com.pd.noteonthego.fragments;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -24,10 +22,8 @@ import com.pd.noteonthego.activities.ReminderActivity;
 import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
 import com.pd.noteonthego.helper.NoteColor;
 import com.pd.noteonthego.helper.NoteContentProvider;
-import com.pd.noteonthego.helper.NotePreferences;
 import com.pd.noteonthego.helper.NoteType;
 import com.pd.noteonthego.models.Note;
-import com.pd.noteonthego.receivers.AlarmReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,7 +48,7 @@ public class NotesFragment extends Fragment {
     private int noteID = -1;
     private int isStarred = 0;
 
-    private ImageView mNoteStarred, mRemoveReminder;
+    private ImageView mNoteStarred;
 
     private boolean isNoteEditedByUser = false;
     private String oldNoteTitle, editedNoteTitle, oldNoteContent, editedNoteContent;
@@ -94,54 +90,7 @@ public class NotesFragment extends Fragment {
                 addStar();
             }
         });
-
-        mRemoveReminder = (ImageView)getActivity().findViewById(R.id.note_remove_reminder);
-        mRemoveReminder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeReminder();
-            }
-        });
     }
-
-    private void removeReminder() {
-        NotePreferences preferences = new NotePreferences(getActivity());
-        String requestCode = preferences.getRequestCodeForReminders(String.valueOf(noteID));
-
-        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-        PendingIntent sender = PendingIntent.getBroadcast(getActivity(), Integer.parseInt(requestCode), intent, 0);
-
-        // And cancel the alarm.
-        AlarmManager am = (AlarmManager)getActivity().getSystemService(getActivity().ALARM_SERVICE);
-        am.cancel(sender);
-
-        mNoteExtrasReminder.setText(R.string.no_reminder);
-        mRemoveReminder.setVisibility(View.GONE);
-
-        // update database
-        updateNoteWithReminder();
-    }
-
-    private void updateNoteWithReminder() {
-        // Update note
-
-        ContentValues values = new ContentValues();
-
-        String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
-        String[] whereArgs = new String[]{String.valueOf(noteID)};
-
-        values.put(NoteContentProvider.COLUMN_NOTES_IS_REMINDER_SET, 0);
-        values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_TYPE, "");
-        values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_DATETIME, "");
-
-        long rowsUpdated = getActivity().getContentResolver().update(
-                NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
-
-        if (rowsUpdated > 0) {
-            Toast.makeText(getActivity(), "Alarm removed", Toast.LENGTH_SHORT).show();
-        }
-    }
-
 
     @Override
     public void onResume() {
@@ -248,8 +197,6 @@ public class NotesFragment extends Fragment {
 
         if(!oldNoteTitle.equals(editedNoteTitle) || !oldNoteContent.equals(editedNoteContent)){
             isNoteEditedByUser = true;
-        }else{
-            isNoteEditedByUser = false;
         }
 
         // update only if user actually updates the app
@@ -350,10 +297,8 @@ public class NotesFragment extends Fragment {
             }
             if(note.getIsReminderSet() == 1){
                 mNoteExtrasReminder.setText(getResources().getString(R.string.reminder_set) + ": " + note.getReminderDateTime() + "    " + note.getReminderType());
-                mRemoveReminder.setVisibility(View.VISIBLE);
             }else {
                 mNoteExtrasReminder.setText(R.string.no_reminder);
-                mRemoveReminder.setVisibility(View.GONE);
             }
             // update the star
             isStarred = note.getIsStarred();

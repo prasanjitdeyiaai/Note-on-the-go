@@ -8,6 +8,28 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.pd.noteonthego.activities.ReminderActivity">
 
+    <TextView
+        android:id="@+id/reminder_already_set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center_horizontal"
+        android:padding="8dp"
+        android:text="@string/no_reminder"
+        android:background="@android:color/holo_red_dark"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/reminder_dismiss"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DISMISS"
+        android:onClick="dismissReminder"
+        android:fontFamily="sans-serif-light"
+        android:textSize="12sp"
+        android:visibility="visible"
+        android:layout_below="@+id/reminder_already_set"
+        android:layout_marginTop="8dp" />
 
     <Button
         android:id="@+id/reminder_date"
@@ -15,23 +37,22 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="32dp"
+        android:layout_below="@+id/reminder_dismiss"
+        android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
-        android:textSize="12sp"
         android:fontFamily="sans-serif-light"
         android:onClick="setDate"
-        android:text="@string/reminder_date" />
+        android:text="@string/reminder_date"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/set_reminder_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignBaseline="@+id/reminder_date"
-        android:layout_marginBottom="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
-
         />
 
     <Button
@@ -39,19 +60,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/reminder_date"
-        android:layout_marginBottom="32dp"
-        android:textSize="12sp"
+        android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif-light"
         android:onClick="setTime"
-        android:text="@string/reminder_time" />
+        android:text="@string/reminder_time"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/set_reminder_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/reminder_time"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="32dp"
-        android:layout_alignBaseline="@+id/reminder_time" />
+        android:layout_marginBottom="16dp" />
 
     <Spinner
         android:id="@+id/spinner_reminder_type"
@@ -60,16 +81,16 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/reminder_time"
-        android:layout_marginBottom="32dp" />
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/btn_reminder_set"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
+        android:layout_below="@+id/spinner_reminder_type"
         android:fontFamily="sans-serif-light"
         android:onClick="setReminder"
-        android:layout_below="@+id/spinner_reminder_type"
-        android:text="SET REMINDER"/>
+        android:text="SET REMINDER"
+        android:textSize="12sp" />
 
 </RelativeLayout>
