@@ -30,7 +30,7 @@
     <!-- white lighter -->
     <color name="primary">#f6f6f6</color>
     <!-- little darker gray -->
-    <color name="primary_dark">#bdb8ad</color>
+    <color name="primary_dark">#39494F</color>
     <!-- no idea what this is accent-->
     <color name="accent">#abd0bc</color>
     <!-- light gray -->
@@ -123,4 +123,5 @@
     <string name="reminder_removed">Reminder removed</string>
 
     <color name="transparent_black">#0D000000</color>
+    <color name="new_color">#4A5E66</color>
 </resources>

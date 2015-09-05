@@ -1,91 +1,82 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/checklist_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="12dp"
     android:paddingLeft="12dp"
     android:paddingRight="12dp"
-    android:id="@+id/checklist_container"
+    android:paddingTop="12dp"
     tools:context="com.pd.noteonthego.fragments.ChecklistFragment">
 
     <EditText
         android:id="@+id/checklist_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/note_text_color_dark"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="12dp"
         android:layout_marginTop="8dp"
-        android:paddingLeft="8dp"
         android:background="@android:color/transparent"
         android:hint="@string/note_title"
-        android:singleLine="true"
         android:maxLength="25"
-        android:textStyle="bold"
-        android:textSize="16sp" />
+        android:paddingLeft="8dp"
+        android:singleLine="true"
+        android:textColor="@color/note_text_color_dark"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/note_star"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/star_white_border"
+        android:layout_alignParentRight="true"
         android:padding="5dp"
-        android:layout_alignParentRight="true"/>
+        android:src="@drawable/star_white_border" />
 
 
-    <LinearLayout
-        android:id="@+id/input_container"
+    <EditText
+        android:id="@+id/edt_list_item"
         android:layout_width="match_parent"
-        android:padding="2dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/checklist_title"
-        android:layout_height="wrap_content">
+        android:background="@android:color/transparent"
+        android:hint="@string/add_item"
+        android:paddingLeft="8dp"
+        android:singleLine="true"
+        android:textColor="@color/note_text_color_dark"
+        android:textSize="14sp" />
 
-        <EditText
-            android:id="@+id/edt_list_item"
-            android:layout_width="0dp"
-            android:singleLine="true"
-            android:background="@android:color/transparent"
-            android:paddingLeft="8dp"
-            android:textColor="@color/note_text_color_dark"
-            android:hint="@string/add_item"
-            android:textSize="14sp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.8" />
+    <TextView
+        android:id="@+id/checklist_extras"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:fontFamily="sans-serif-light"
+        android:paddingLeft="8dp"
+        android:textColor="@color/note_text_color_dark"
+        android:textSize="11sp"
+        android:textStyle="italic" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/checklist_extras_reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/checklist_extras"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-light"
+        android:paddingLeft="8dp"
+        android:textColor="@color/note_text_color_dark"
+        android:textSize="11sp"
+        android:textStyle="italic" />
 
     <ListView
         android:id="@+id/check_listview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="200dp"
-        android:layout_marginTop="24dp"
-        android:layout_below="@+id/input_container"></ListView>
-
-    <TextView
-        android:id="@+id/checklist_extras_reminder"
-        android:textSize="11sp"
-        android:layout_below="@+id/check_listview"
-        android:fontFamily="sans-serif-light"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/checklist_extras_reminder"
+        android:layout_below="@+id/edt_list_item"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="2dp"
-        android:paddingLeft="8dp"
-        android:textColor="@color/note_text_color_dark"
-        android:textStyle="italic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/checklist_extras"
-        android:textSize="11sp"
-        android:fontFamily="sans-serif-light"
-        android:layout_alignParentLeft="true"
-        android:paddingLeft="8dp"
-        android:layout_below="@+id/checklist_extras_reminder"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
-        android:textStyle="italic"
-        android:textColor="@color/note_text_color_dark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:minHeight="200dp"></ListView>
 
 </RelativeLayout>

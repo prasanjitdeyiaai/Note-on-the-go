@@ -105,7 +105,9 @@ public class ChecklistFragment extends Fragment {
                         addChecklistItem();
                         Log.e("Checklist Fragment", "Pressed next");
                     } else {
-                        Log.e("Checklist Fragment", "Pressed something else");
+                        // everything else should work here
+                        addChecklistItem();
+                        Log.e("Checklist Fragment", "Single line anything other key like ADD in LGG2");
                         return false;
                     }  // Let system handle all other null KeyEvents
                 } else if (actionId == EditorInfo.IME_NULL) {
