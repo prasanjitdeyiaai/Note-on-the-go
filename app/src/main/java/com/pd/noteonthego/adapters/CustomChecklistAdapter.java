@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -23,6 +24,7 @@ public class CustomChecklistAdapter extends BaseAdapter {
     Context context = null;
     private LayoutInflater mInflater;
     private ArrayList<String> items;
+    private ArrayList<Integer> selectedItems;
 
     public CustomChecklistAdapter(Context context, ArrayList<String> items) {
         this.context = context;
@@ -49,6 +51,7 @@ public class CustomChecklistAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup viewGroup) {
 
         ViewHolder holder = null;
+        selectedItems = new ArrayList<Integer>();
 
         if (convertView == null) {
             holder = new ViewHolder();
@@ -79,6 +82,13 @@ public class CustomChecklistAdapter extends BaseAdapter {
             }
         });
 
+        holder.chkItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                    selectedItems.add(position);
+            }
+        });
         return convertView;
     }
 
@@ -106,6 +116,7 @@ public class CustomChecklistAdapter extends BaseAdapter {
         input.setHint(R.string.edit_item);
         input.setBackgroundColor(Color.TRANSPARENT);
         // alert.setMessage(R.string.edit_item);
+        alert.setTitle(R.string.edit_item);
         alert.setView(input);
         alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
@@ -125,4 +136,8 @@ public class CustomChecklistAdapter extends BaseAdapter {
         });
         alert.show();
     }
+
+    public ArrayList<Integer> getSelectedItems(){
+        return selectedItems;
+    };
 }

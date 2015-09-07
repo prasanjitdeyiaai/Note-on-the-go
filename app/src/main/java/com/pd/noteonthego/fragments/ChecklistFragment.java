@@ -332,7 +332,13 @@ public class ChecklistFragment extends Fragment {
     }
 
     public void updateNote(String noteColor, int noteID) {
-        //DBHelper dbHelper = new DBHelper(getActivity());
+
+        ArrayList<Integer> itemsSelected = adapter.getSelectedItems();
+
+        for (int i = 0; i < itemsSelected.size(); i++) {
+            Log.e("Selected Items" , "" + itemsSelected.get(i));
+        }
+
 
         editedNoteTitle = mNoteTitle.getText().toString();
 
