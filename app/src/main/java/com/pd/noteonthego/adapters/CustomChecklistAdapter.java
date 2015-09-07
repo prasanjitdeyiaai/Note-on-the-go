@@ -1,12 +1,16 @@
 package com.pd.noteonthego.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.pd.noteonthego.R;
 
@@ -50,8 +54,9 @@ public class CustomChecklistAdapter extends BaseAdapter {
             holder = new ViewHolder();
 
             convertView = mInflater.inflate(R.layout.custom_checklist_row, null);
-            holder.chkItem = (TextView) convertView.findViewById(R.id.chk_item);
+            holder.chkItem = (CheckBox) convertView.findViewById(R.id.chk_item);
             holder.clearItem = (ImageView)convertView.findViewById(R.id.clear_item);
+            holder.editItem = (ImageView)convertView.findViewById(R.id.edit_item);
 
             convertView.setTag(holder);
         } else {
@@ -67,17 +72,57 @@ public class CustomChecklistAdapter extends BaseAdapter {
             }
         });
 
+        holder.editItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openForEditingListItem(position);
+            }
+        });
+
         return convertView;
     }
 
     public static class ViewHolder {
 
-        public TextView chkItem;
-        public ImageView clearItem;
+        public CheckBox chkItem;
+        public ImageView clearItem, editItem;
     }
 
     public void updateNoteAdapter(ArrayList<String> noteArrayList){
         this.items = noteArrayList;
         notifyDataSetChanged();
+    }
+
+    /**
+     * editing list item
+     * @param position
+     */
+    private void openForEditingListItem(final int position) {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        final EditText input = new EditText(context);
+        input.setTextSize(14);
+        input.setText(items.get(position));
+        input.setSelection(items.get(position).length());
+        input.setHint(R.string.edit_item);
+        input.setBackgroundColor(Color.TRANSPARENT);
+        // alert.setMessage(R.string.edit_item);
+        alert.setView(input);
+        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String editedListItem = input.getText().toString().trim();
+                if (!editedListItem.equals("")) {
+                    items.remove(position);
+                    items.add(position, editedListItem);
+                    updateNoteAdapter(items);
+                }
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.cancel();
+            }
+        });
+        alert.show();
     }
 }

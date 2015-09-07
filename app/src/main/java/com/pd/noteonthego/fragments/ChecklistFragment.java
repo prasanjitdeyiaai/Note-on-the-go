@@ -36,6 +36,7 @@ import com.pd.noteonthego.models.Note;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -64,6 +65,7 @@ public class ChecklistFragment extends Fragment {
     private boolean isNoteEditedByUser = false;
     private String oldNoteTitle, editedNoteTitle;
     private int oldListCount, editedListCount;
+    private ArrayList<String> oldTempChecklist;
 
     public ChecklistFragment() {
         // Required empty public constructor
@@ -138,6 +140,7 @@ public class ChecklistFragment extends Fragment {
         });
 
         tempChecklist = new ArrayList<String>();
+        oldTempChecklist = new ArrayList<String>();
         adapter = new CustomChecklistAdapter(getActivity(), tempChecklist);
         mChecklist.setAdapter(adapter);
         mChecklistContainer = (RelativeLayout) getActivity().findViewById(R.id.checklist_container);
@@ -304,6 +307,9 @@ public class ChecklistFragment extends Fragment {
             tempChecklist.clear();
 
             tempChecklist.addAll(checklistItemsArray);
+
+            oldTempChecklist.addAll(tempChecklist);
+
             oldListCount = tempChecklist.size();
             adapter.updateNoteAdapter(tempChecklist);
 
@@ -334,7 +340,12 @@ public class ChecklistFragment extends Fragment {
             isNoteEditedByUser = true;
         }
         editedListCount = tempChecklist.size();
+        // if size is different update
         if(oldListCount != editedListCount){
+            isNoteEditedByUser = true;
+        }
+        // if list items are different update
+        if(!areListsEqual(oldTempChecklist, tempChecklist)){
             isNoteEditedByUser = true;
         }
 
@@ -442,5 +453,32 @@ public class ChecklistFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    /**
+     * check if the two arraylists are equal
+     * @param oldList
+     * @param newList
+     * @return
+     */
+    public  boolean areListsEqual(ArrayList<String> oldList, ArrayList<String> newList){
+        if (oldList == null && newList == null){
+            return true;
+        }
+
+        if((oldList == null && newList != null)
+                || oldList != null && newList == null
+                || oldList.size() != newList.size()){
+            return false;
+        }
+
+        ArrayList<String> oldListTemp, newListTemp;
+        //to avoid messing the order of the lists we will use a copy
+        oldListTemp = new ArrayList<String>(oldList);
+        newListTemp = new ArrayList<String>(newList);
+
+        Collections.sort(oldListTemp);
+        Collections.sort(newListTemp);
+        return oldListTemp.equals(newListTemp);
     }
 }

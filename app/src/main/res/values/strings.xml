@@ -121,6 +121,7 @@
 
     <string name="note_preference">note_shared_preference</string>
     <string name="reminder_removed">Reminder removed</string>
+    <string name="edit_item">Edit Item</string>
 
     <color name="transparent_black">#0D000000</color>
     <color name="new_color">#4A5E66</color>
