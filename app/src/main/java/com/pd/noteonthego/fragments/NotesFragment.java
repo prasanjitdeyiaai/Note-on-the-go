@@ -163,6 +163,7 @@ public class NotesFragment extends Fragment {
 
         values.put(NoteContentProvider.COLUMN_NOTES_TITLE, title);
         values.put(NoteContentProvider.COLUMN_NOTES_CONTENT, content);
+        values.put(NoteContentProvider.COLUMN_NOTES_TODO_CHECKED_POSITIONS, "");
         values.put(NoteContentProvider.COLUMN_NOTES_CREATED_TIMESTAMP, dateTime);
 
         values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, "");

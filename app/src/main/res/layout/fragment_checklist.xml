@@ -74,6 +74,7 @@
         android:id="@+id/check_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:choiceMode="multipleChoice"
         android:layout_above="@+id/checklist_extras_reminder"
         android:layout_below="@+id/edt_list_item"
         android:layout_marginTop="16dp"

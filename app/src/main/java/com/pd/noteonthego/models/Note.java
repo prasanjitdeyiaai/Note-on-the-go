@@ -27,6 +27,16 @@ public class Note {
 
     private String noteLastModifiedTimeStamp;
     private String noteContent;
+
+    public String getNoteTodoCheckedPositions() {
+        return noteTodoCheckedPositions;
+    }
+
+    public void setNoteTodoCheckedPositions(String noteTodoCheckedPositions) {
+        this.noteTodoCheckedPositions = noteTodoCheckedPositions;
+    }
+
+    private String noteTodoCheckedPositions;
     private String noteColor;
     private String noteType;
     private String noteImg;
@@ -74,11 +84,12 @@ public class Note {
 
     }
 
-    public Note(String noteTitle, String noteContent, String noteTimeStamp, String noteLastModifiedTimeStamp, String noteColor,
+    public Note(String noteTitle, String noteContent, String noteTodoCheckedPositions, String noteTimeStamp, String noteLastModifiedTimeStamp, String noteColor,
                 String noteType, String noteImg, String noteVideo,
                 String noteAudio, int isReminderSet, String reminderDateTime, String reminderType, int isStarred) {
         this.noteCreatedTimeStamp = noteTimeStamp;
         this.noteContent = noteContent;
+        this.noteTodoCheckedPositions = noteTodoCheckedPositions;
         this.noteLastModifiedTimeStamp = noteLastModifiedTimeStamp;
         this.noteColor = noteColor;
         this.noteType = noteType;

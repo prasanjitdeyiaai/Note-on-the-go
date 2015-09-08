@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.pd.noteonthego.helper.OneLineCheckableListItem xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -9,11 +9,21 @@
     android:paddingTop="12dp"
     android:paddingBottom="12dp">
 
-    <CheckBox
+    <ImageView
+        android:id="@+id/SelectImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/unchecked"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true" />
+
+    <TextView
         android:id="@+id/chk_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:paddingLeft="4dp"
+        android:layout_toRightOf="@+id/SelectImageView"
         android:background="@android:color/transparent"
         android:textColor="@color/note_text_color_dark"
         android:textSize="14sp" />
@@ -36,4 +46,4 @@
         android:layout_marginRight="6dp"
         android:src="@drawable/edit"/>
 
-</RelativeLayout>
+</com.pd.noteonthego.helper.OneLineCheckableListItem>

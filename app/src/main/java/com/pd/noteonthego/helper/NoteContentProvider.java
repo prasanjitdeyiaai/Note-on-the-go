@@ -55,6 +55,7 @@ public class NoteContentProvider extends ContentProvider {
     public static final String COLUMN_NOTES_CREATED_TIMESTAMP = "notes_created_timestamp";
     public static final String COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP = "notes_last_modified_timestamp";
     public static final String COLUMN_NOTES_CONTENT = "notes_content";
+    public static final String COLUMN_NOTES_TODO_CHECKED_POSITIONS = "notes_todo_checked_positions";
     public static final String COLUMN_NOTES_COLOR = "notes_color";
     public static final String COLUMN_NOTES_TYPE = "notes_type";
     public static final String COLUMN_NOTES_IMAGE = "notes_image";
@@ -88,6 +89,8 @@ public class NoteContentProvider extends ContentProvider {
                     + COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP
                     + " text not null, "
                     + COLUMN_NOTES_CONTENT
+                    + " text not null, "
+                    + COLUMN_NOTES_TODO_CHECKED_POSITIONS
                     + " text not null, "
                     + COLUMN_NOTES_COLOR
                     + " text not null, "
@@ -259,6 +262,7 @@ public class NoteContentProvider extends ContentProvider {
                     note.setNoteID(cursor.getInt(cursor.getColumnIndex(COLUMN_NOTES_ID)));
                     note.setNoteTitle(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_TITLE)));
                     note.setNoteContent(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_CONTENT)));
+                    note.setNoteTodoCheckedPositions(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_TODO_CHECKED_POSITIONS)));
                     note.setNoteCreatedTimeStamp(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_CREATED_TIMESTAMP)));
                     note.setNoteLastModifiedTimeStamp(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP)));
                     note.setNoteColor(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_COLOR)));
@@ -299,6 +303,7 @@ public class NoteContentProvider extends ContentProvider {
                     note.setNoteID(cursor.getInt(cursor.getColumnIndex(COLUMN_NOTES_ID)));
                     note.setNoteTitle(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_TITLE)));
                     note.setNoteContent(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_CONTENT)));
+                    note.setNoteTodoCheckedPositions(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_TODO_CHECKED_POSITIONS)));
                     note.setNoteCreatedTimeStamp(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_CREATED_TIMESTAMP)));
                     note.setNoteLastModifiedTimeStamp(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP)));
                     note.setNoteColor(cursor.getString(cursor.getColumnIndex(COLUMN_NOTES_COLOR)));

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +52,7 @@ public class ChecklistFragment extends Fragment {
     private OnChecklistFragmentInteractionListener mListener;
     private ListView mChecklist;
     private EditText mChecklistItem;
-    private ArrayList<String> tempChecklist;
+    private ArrayList<String> tempChecklist, selectedItems;
     private CustomChecklistAdapter adapter;
     private EditText mNoteTitle;
 
@@ -64,7 +65,7 @@ public class ChecklistFragment extends Fragment {
     private ImageView mNoteStarred;
     private boolean isNoteEditedByUser = false;
     private String oldNoteTitle, editedNoteTitle;
-    private int oldListCount, editedListCount;
+    private int oldListCount, editedListCount, oldSelectedItemsCount, editedSelectedItemsCount;
     private ArrayList<String> oldTempChecklist;
 
     public ChecklistFragment() {
@@ -141,6 +142,7 @@ public class ChecklistFragment extends Fragment {
 
         tempChecklist = new ArrayList<String>();
         oldTempChecklist = new ArrayList<String>();
+        selectedItems = new ArrayList<String>();
         adapter = new CustomChecklistAdapter(getActivity(), tempChecklist);
         mChecklist.setAdapter(adapter);
         mChecklistContainer = (RelativeLayout) getActivity().findViewById(R.id.checklist_container);
@@ -206,14 +208,30 @@ public class ChecklistFragment extends Fragment {
     }
 
     public int saveNoteToDatabase(String noteColor) {
-        // DBHelper dbHelper = new DBHelper(getActivity());
+
+        SparseBooleanArray checked = mChecklist.getCheckedItemPositions();
+        for (int i = 0; i < checked.size(); i++) {
+            // Item position in adapter
+            int position = checked.keyAt(i);
+            // Add sport if it is checked i.e.) == TRUE!
+            if (checked.valueAt(i)) {
+                selectedItems.add(String.valueOf(position));
+                Log.e("Save note", "Selected items " + adapter.getItem(position));
+            }
+        }
 
         String title = mNoteTitle.getText().toString();
 
         Gson gson = new Gson();
         String content = gson.toJson(tempChecklist);
+        String checkedContent = "";
+        if(selectedItems.size() > 0) {
+            checkedContent = gson.toJson(selectedItems);
+        }else {
+            checkedContent = "";
+        }
 
-        if (title.equals("") && content.equals("")) {
+        if (title.equals("") && tempChecklist.size() < 1) {
             Toast.makeText(getActivity(), R.string.note_empty, Toast.LENGTH_SHORT).show();
             // close the activity
             getActivity().finish();
@@ -235,6 +253,7 @@ public class ChecklistFragment extends Fragment {
 
         values.put(NoteContentProvider.COLUMN_NOTES_TITLE, title);
         values.put(NoteContentProvider.COLUMN_NOTES_CONTENT, content);
+        values.put(NoteContentProvider.COLUMN_NOTES_TODO_CHECKED_POSITIONS, checkedContent);
         values.put(NoteContentProvider.COLUMN_NOTES_CREATED_TIMESTAMP, dateTime);
 
         values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, "");
@@ -301,6 +320,8 @@ public class ChecklistFragment extends Fragment {
 
             Type type = new TypeToken<ArrayList<String>>() {
             }.getType();
+            ArrayList<String> checkedItemsArray = gson.fromJson(note.getNoteTodoCheckedPositions(), type);
+            oldSelectedItemsCount = checkedItemsArray.size();
             ArrayList<String> checklistItemsArray = gson.fromJson(note.getNoteContent(), type);
             // clear the list before adding new data
             // issue occurs when returning after sharing the checklist
@@ -312,6 +333,10 @@ public class ChecklistFragment extends Fragment {
 
             oldListCount = tempChecklist.size();
             adapter.updateNoteAdapter(tempChecklist);
+
+            for(String s: checkedItemsArray){
+                mChecklist.setItemChecked(Integer.parseInt(s), true);
+            }
 
             if (!note.getNoteLastModifiedTimeStamp().equals("")) {
                 mNoteExtras.setText("Created: " + Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()) + "    Edited: " + Globals.getInstance().convertToReadableDate(note.getNoteLastModifiedTimeStamp()));
@@ -333,12 +358,18 @@ public class ChecklistFragment extends Fragment {
 
     public void updateNote(String noteColor, int noteID) {
 
-        ArrayList<Integer> itemsSelected = adapter.getSelectedItems();
-
-        for (int i = 0; i < itemsSelected.size(); i++) {
-            Log.e("Selected Items" , "" + itemsSelected.get(i));
+        SparseBooleanArray checked = mChecklist.getCheckedItemPositions();
+        for (int i = 0; i < checked.size(); i++) {
+            // Item position in adapter
+            int position = checked.keyAt(i);
+            // Add sport if it is checked i.e.) == TRUE!
+            if (checked.valueAt(i)) {
+                selectedItems.add(String.valueOf(position));
+                Log.e("Update note", "Selected items " + adapter.getItem(position));
+            }
         }
 
+        editedSelectedItemsCount = selectedItems.size();
 
         editedNoteTitle = mNoteTitle.getText().toString();
 
@@ -355,11 +386,21 @@ public class ChecklistFragment extends Fragment {
             isNoteEditedByUser = true;
         }
 
+        if(oldSelectedItemsCount != editedSelectedItemsCount){
+            isNoteEditedByUser = true;
+        }
+
         if(isNoteEditedByUser) {
             String title = mNoteTitle.getText().toString();
 
             Gson gson = new Gson();
             String content = gson.toJson(tempChecklist);
+            String checkedContent = "";
+            if(selectedItems.size() > 0) {
+                checkedContent = gson.toJson(selectedItems);
+            }else {
+                checkedContent = "";
+            }
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
             String dateTime = simpleDateFormat.format(new Date());
@@ -375,6 +416,7 @@ public class ChecklistFragment extends Fragment {
 
             values.put(NoteContentProvider.COLUMN_NOTES_TITLE, title);
             values.put(NoteContentProvider.COLUMN_NOTES_CONTENT, content);
+            values.put(NoteContentProvider.COLUMN_NOTES_TODO_CHECKED_POSITIONS, checkedContent);
 
             values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, dateTime);
             values.put(NoteContentProvider.COLUMN_NOTES_COLOR, noteColor);

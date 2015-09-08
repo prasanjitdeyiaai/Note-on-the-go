@@ -8,10 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.pd.noteonthego.R;
 
@@ -57,7 +56,7 @@ public class CustomChecklistAdapter extends BaseAdapter {
             holder = new ViewHolder();
 
             convertView = mInflater.inflate(R.layout.custom_checklist_row, null);
-            holder.chkItem = (CheckBox) convertView.findViewById(R.id.chk_item);
+            holder.chkItem = (TextView) convertView.findViewById(R.id.chk_item);
             holder.clearItem = (ImageView)convertView.findViewById(R.id.clear_item);
             holder.editItem = (ImageView)convertView.findViewById(R.id.edit_item);
 
@@ -81,20 +80,12 @@ public class CustomChecklistAdapter extends BaseAdapter {
                 openForEditingListItem(position);
             }
         });
-
-        holder.chkItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                    selectedItems.add(position);
-            }
-        });
         return convertView;
     }
 
     public static class ViewHolder {
 
-        public CheckBox chkItem;
+        public TextView chkItem;
         public ImageView clearItem, editItem;
     }
 
