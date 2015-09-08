@@ -321,7 +321,6 @@ public class ChecklistFragment extends Fragment {
             Type type = new TypeToken<ArrayList<String>>() {
             }.getType();
             ArrayList<String> checkedItemsArray = gson.fromJson(note.getNoteTodoCheckedPositions(), type);
-            oldSelectedItemsCount = checkedItemsArray.size();
             ArrayList<String> checklistItemsArray = gson.fromJson(note.getNoteContent(), type);
             // clear the list before adding new data
             // issue occurs when returning after sharing the checklist
@@ -334,8 +333,11 @@ public class ChecklistFragment extends Fragment {
             oldListCount = tempChecklist.size();
             adapter.updateNoteAdapter(tempChecklist);
 
-            for(String s: checkedItemsArray){
-                mChecklist.setItemChecked(Integer.parseInt(s), true);
+            if(checkedItemsArray != null) {
+                oldSelectedItemsCount = checkedItemsArray.size();
+                for (String s : checkedItemsArray) {
+                    mChecklist.setItemChecked(Integer.parseInt(s), true);
+                }
             }
 
             if (!note.getNoteLastModifiedTimeStamp().equals("")) {

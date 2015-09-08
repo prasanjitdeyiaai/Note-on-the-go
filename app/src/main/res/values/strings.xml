@@ -28,9 +28,9 @@
     <string name="action_example">Example action</string>
 
     <!-- white lighter -->
-    <color name="primary">#f6f6f6</color>
+    <color name="primary">#F1F8E9</color>
     <!-- little darker gray -->
-    <color name="primary_dark">#39494F</color>
+    <color name="primary_dark">#33691E</color>
     <!-- no idea what this is accent-->
     <color name="accent">#abd0bc</color>
     <!-- light gray -->
@@ -53,7 +53,7 @@
     <string name="note_select_btn">Select</string>
     <string name="note_cancel_btn">Cancel</string>
     <string name="note_confirm_btn">Confirm</string>
-    <string name="all_notes">All-Notes</string>
+    <string name="all_notes">ALL NOTES</string>
     <string name="alert_delete_note">Do you want to continue deleting the note?</string>
     <string name="note_deleted">Deleted</string>
     <string name="note_updated">Saved</string>
@@ -129,4 +129,7 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <color name="material_light_green">#F1F8E9</color>
+    <color name="material_light_green_dark">#33691E</color>
 </resources>
