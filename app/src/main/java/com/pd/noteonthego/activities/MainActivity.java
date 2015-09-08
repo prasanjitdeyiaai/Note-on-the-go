@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -203,8 +206,8 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.action_settings:
-                /*Intent iSettings = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(iSettings);*/
+                Intent iSettings = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(iSettings);
                 break;
             case R.id.action_note:
                 addNote();

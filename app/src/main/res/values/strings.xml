@@ -125,4 +125,8 @@
 
     <color name="transparent_black">#0D000000</color>
     <color name="new_color">#4A5E66</color>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

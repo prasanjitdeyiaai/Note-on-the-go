@@ -71,6 +71,10 @@
             android:enabled="true" >
         </receiver>
 
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>
