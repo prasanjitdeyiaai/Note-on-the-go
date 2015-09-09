@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        // set the default values in settings preference
+        PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

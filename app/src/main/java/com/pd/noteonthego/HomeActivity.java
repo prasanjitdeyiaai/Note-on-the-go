@@ -57,6 +57,7 @@ public class HomeActivity extends Activity {
 
             values.put(NoteContentProvider.COLUMN_NOTES_TITLE, "Note_" + month + date + year);
             values.put(NoteContentProvider.COLUMN_NOTES_CONTENT, noteToSave);
+            values.put(NoteContentProvider.COLUMN_NOTES_TODO_CHECKED_POSITIONS, "");
             values.put(NoteContentProvider.COLUMN_NOTES_CREATED_TIMESTAMP, currentDateAndTime);
 
             values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, "");

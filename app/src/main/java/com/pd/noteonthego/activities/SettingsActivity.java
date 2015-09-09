@@ -1,7 +1,9 @@
 package com.pd.noteonthego.activities;
 
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,10 +13,21 @@ import com.pd.noteonthego.fragments.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity implements SettingsFragment.OnFragmentInteractionListener{
 
+    public static final String KEY_CALL_NOTIFICATION = "pref_call_notification";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.action_settings);
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                // only for lollipop and newer versions
+                actionBar.setElevation(0);
+            }
+        }
 
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction()

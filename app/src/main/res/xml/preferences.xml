@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 <SwitchPreference
-    android:defaultValue="Enable"
+    android:defaultValue="true"
     android:title="Enable notification on call"
     android:summary="Display notification icon for adding a note during a call"
     android:key="pref_call_notification"/>
