@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,13 +21,16 @@ import android.widget.Toast;
 
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.adapters.CustomNoteAdapter;
+import com.pd.noteonthego.dialogs.SortDialogFragment;
 import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.helper.NoteType;
 import com.pd.noteonthego.models.Note;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SortDialogFragment.SortDialogListener{
 
     private ListView noteListView;
     private CustomNoteAdapter noteAdapter;
@@ -298,6 +302,95 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sortNotes(){
+        // Create an instance of the dialog fragment and show it
+        DialogFragment dialog = new SortDialogFragment();
+        dialog.show(getSupportFragmentManager(), "SortDialogFragment");
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog, int selectedSortIndex) {
+        ArrayList<Note> tempList = new ArrayList<Note>();
+        List<Note> notesOnly = new ArrayList<Note>();
+        List<Note> todoOnly = new ArrayList<Note>();
+
+        switch (selectedSortIndex) {
+            case 0:
+                // last created
+                tempList.addAll(availableNotes);
+                availableNotes.clear();
+                Collections.sort(tempList, Note.noteLastCreatedAscComparator);
+                availableNotes.addAll(tempList);
+                noteAdapter.updateNoteAdapter(availableNotes);
+                break;
+            case 1:
+                // last edited
+                tempList.addAll(availableNotes);
+                availableNotes.clear();
+                Collections.sort(tempList, Note.noteLastEditedAscComparator);
+                availableNotes.addAll(tempList);
+                noteAdapter.updateNoteAdapter(availableNotes);
+                break;
+            case 2:
+                // starred first
+                List<Note> notesStarred = new ArrayList<Note>();
+                List<Note> notesNotStarred = new ArrayList<Note>();
+                for(Note note: availableNotes){
+                    if(note.getIsStarred() ==  1){
+                        notesStarred.add(note);
+                    }else {
+                        notesNotStarred.add(note);
+                    }
+                }
+                availableNotes.clear();
+                availableNotes.addAll(notesStarred);
+                availableNotes.addAll(notesNotStarred);
+                noteAdapter.updateNoteAdapter(availableNotes);
+                notesStarred.clear();
+                notesNotStarred.clear();
+                break;
+            case 3:
+                // notes first
+                for(Note note: availableNotes){
+                    if(note.getNoteType().equals(NoteType.BLANK.toString())){
+                        notesOnly.add(note);
+                    }else if(note.getNoteType().equals(NoteType.TODO.toString())){
+                        todoOnly.add(note);
+                    }else {
+                        // do nothing
+                    }
+                }
+                availableNotes.clear();
+                availableNotes.addAll(notesOnly);
+                availableNotes.addAll(todoOnly);
+                noteAdapter.updateNoteAdapter(availableNotes);
+                notesOnly.clear();
+                todoOnly.clear();
+                break;
+            case 4:
+                // todo first
+                for(Note note: availableNotes){
+                    if(note.getNoteType().equals(NoteType.BLANK.toString())){
+                        notesOnly.add(note);
+                    }else if(note.getNoteType().equals(NoteType.TODO.toString())){
+                        todoOnly.add(note);
+                    }else {
+                        // do nothing
+                    }
+                }
+                availableNotes.clear();
+                availableNotes.addAll(todoOnly);
+                availableNotes.addAll(notesOnly);
+                noteAdapter.updateNoteAdapter(availableNotes);
+                notesOnly.clear();
+                todoOnly.clear();
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
 
     }
 }

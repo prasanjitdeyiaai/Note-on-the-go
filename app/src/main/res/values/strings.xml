@@ -70,6 +70,22 @@
         <item>White</item>
     </array>
 
+    <array name="note_sort_options">
+        <item>Created First</item>
+        <item>Last edited First</item>
+        <item>Starred First</item>
+        <item>Notes First</item>
+        <item>Todo First</item>
+    </array>
+
+    <array name="note_sort_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </array>
+
     <array name="reminder_type">
         <item>One Time Event</item>
         <item>Daily</item>
@@ -132,4 +148,6 @@
 
     <color name="material_light_green">#F1F8E9</color>
     <color name="material_light_green_dark">#33691E</color>
+
+    <string name="note_sort_dialog_title">Sort By</string>
 </resources>

@@ -1,9 +1,11 @@
 package com.pd.noteonthego.models;
 
+import java.util.Comparator;
+
 /**
  * Created by pradey on 8/6/2015.
  */
-public class Note {
+public class Note implements Comparator<Note>{
 
     public int getNoteID() {
         return noteID;
@@ -168,4 +170,41 @@ public class Note {
     }
 
     private String noteAudio;
+
+    @Override
+    public int compare(Note lhs, Note rhs) {
+        return 0;
+    }
+
+    /*
+    sort notes using last edited in ascending order
+     */
+    public static Comparator<Note> noteLastEditedAscComparator
+            = new Comparator<Note>() {
+
+        public int compare(Note note1, Note note2) {
+
+            String noteEdited1 = note1.getNoteLastModifiedTimeStamp().toUpperCase();
+            String noteEdited2 = note2.getNoteLastModifiedTimeStamp().toUpperCase();
+
+            //ascending order
+            return noteEdited2.compareTo(noteEdited1);
+        }
+    };
+
+    /*
+    sort notes using last created in ascending order
+     */
+    public static Comparator<Note> noteLastCreatedAscComparator
+            = new Comparator<Note>() {
+
+        public int compare(Note note1, Note note2) {
+
+            String noteEdited1 = note1.getNoteCreatedTimeStamp().toUpperCase();
+            String noteEdited2 = note2.getNoteCreatedTimeStamp().toUpperCase();
+
+            //ascending order
+            return noteEdited1.compareTo(noteEdited2);
+        }
+    };
 }

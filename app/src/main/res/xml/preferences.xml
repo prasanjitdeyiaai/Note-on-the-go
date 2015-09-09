@@ -5,4 +5,12 @@
     android:title="Enable notification on call"
     android:summary="Display notification icon for adding a note during a call"
     android:key="pref_call_notification"/>
+    <ListPreference
+        android:title="Default sort"
+        android:summary="Sort order for notes list"
+        android:dialogTitle="Sort By"
+        android:key="pref_sort_order"
+        android:entries="@array/note_sort_options"
+        android:entryValues="@array/note_sort_values"
+        android:defaultValue="2" />
 </PreferenceScreen>
