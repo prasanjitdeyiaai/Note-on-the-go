@@ -14,6 +14,7 @@ import com.pd.noteonthego.fragments.SettingsFragment;
 public class SettingsActivity extends AppCompatActivity implements SettingsFragment.OnFragmentInteractionListener{
 
     public static final String KEY_CALL_NOTIFICATION = "pref_call_notification";
+    public static final String KEY_SORT_ORDER = "pref_sort_order";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

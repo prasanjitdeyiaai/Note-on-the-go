@@ -2,6 +2,7 @@ package com.pd.noteonthego.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
 
     private ListView noteListView;
     private CustomNoteAdapter noteAdapter;
-    private ArrayList<Note> availableNotes;
+    private ArrayList<Note> availableNotes, tempSortedNotes;
     private TextView mNoNotes;
 
     @Override
@@ -57,14 +58,18 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
         noteListView = (ListView) findViewById(R.id.note_list);
         mNoNotes = (TextView)findViewById(R.id.no_notes);
 
-        // DBHelper helper = new DBHelper(getApplicationContext());
-        // availableNotes = helper.getAllNotes();
+        // get the saved sort order here and in on resume
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String sortOrderValue = sharedPref.getString(SettingsActivity.KEY_SORT_ORDER, "0");
 
         // Retrieve note records
         Uri notes = Uri.parse(NoteContentProvider.URL);
 
-        Cursor c = getContentResolver().query(notes, null, null, null, null);
-        availableNotes = NoteContentProvider.getNoteListFromCursor(c);
+        Cursor c = getContentResolver().query(notes, null, null, null, getSortOrder(sortOrderValue));
+
+        availableNotes = new ArrayList<Note>();
+        availableNotes.clear();
+        availableNotes.addAll(getTempSortedNotes(sortOrderValue, c));
 
         noteAdapter = new CustomNoteAdapter(getApplicationContext(), availableNotes);
 
@@ -94,6 +99,112 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
                 return true;
             }
         });
+    }
+
+    /**
+     * starred, notes first and todo first will use default sort from content provider
+     * @param sortOrderValue
+     * @return the sort order
+     */
+    private String getSortOrder(String sortOrderValue){
+        String sortOrder = "";
+        switch (Integer.parseInt(sortOrderValue)){
+            case 0:
+                // nothing selected so default sort
+                sortOrder = "";
+                break;
+            case 1:
+                // last created first
+                sortOrder = NoteContentProvider.COLUMN_NOTES_CREATED_TIMESTAMP + " ASC";
+                break;
+            case 2:
+                // last edited first
+                sortOrder = NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP + " DESC";
+                break;
+            case 3:
+                // always show starred first
+                sortOrder = "";
+                break;
+            case 4:
+                // always show notes first
+                sortOrder = "";
+                break;
+            case 5:
+                // always show todo first
+                sortOrder = "";
+                break;
+            default:
+                // nothing selected so default sort
+                sortOrder = "";
+                break;
+        }
+        return sortOrder;
+    }
+
+    /**
+     * for starred, note only and todo only will use other temporary lists for sorting
+     * @param sortOrderValue
+     * @param c
+     * @return a temporary list of notes
+     */
+    private ArrayList<Note> getTempSortedNotes(String sortOrderValue, Cursor c){
+        List<Note> notesOnly = new ArrayList<Note>();
+        List<Note> todoOnly = new ArrayList<Note>();
+
+        if(sortOrderValue.equals("3")){
+            // starred first
+            List<Note> notesStarred = new ArrayList<Note>();
+            List<Note> notesNotStarred = new ArrayList<Note>();
+            tempSortedNotes = NoteContentProvider.getNoteListFromCursor(c);
+            for(Note note: tempSortedNotes){
+                if(note.getIsStarred() ==  1){
+                    notesStarred.add(note);
+                }else {
+                    notesNotStarred.add(note);
+                }
+            }
+            tempSortedNotes.clear();
+            tempSortedNotes.addAll(notesStarred);
+            tempSortedNotes.addAll(notesNotStarred);
+            notesStarred.clear();
+            notesNotStarred.clear();
+        }else if(sortOrderValue.equals("4")){
+            // notes first
+            tempSortedNotes = NoteContentProvider.getNoteListFromCursor(c);
+            for(Note note: tempSortedNotes){
+                if(note.getNoteType().equals(NoteType.BLANK.toString())){
+                    notesOnly.add(note);
+                }else if(note.getNoteType().equals(NoteType.TODO.toString())){
+                    todoOnly.add(note);
+                }else {
+                    // do nothing
+                }
+            }
+            tempSortedNotes.clear();
+            tempSortedNotes.addAll(notesOnly);
+            tempSortedNotes.addAll(todoOnly);
+            notesOnly.clear();
+            todoOnly.clear();
+        }else if(sortOrderValue.equals("5")){
+            tempSortedNotes = NoteContentProvider.getNoteListFromCursor(c);
+            for(Note note: tempSortedNotes){
+                if(note.getNoteType().equals(NoteType.BLANK.toString())){
+                    notesOnly.add(note);
+                }else if(note.getNoteType().equals(NoteType.TODO.toString())){
+                    todoOnly.add(note);
+                }else {
+                    // do nothing
+                }
+            }
+            tempSortedNotes.clear();
+            tempSortedNotes.addAll(todoOnly);
+            tempSortedNotes.addAll(notesOnly);
+            notesOnly.clear();
+            todoOnly.clear();
+        }else {
+            tempSortedNotes = NoteContentProvider.getNoteListFromCursor(c);
+        }
+        return tempSortedNotes;
     }
 
     private void alertUserForDeletion(final int position) {
@@ -175,15 +286,19 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
         super.onResume();
 
         if (noteAdapter != null) {
-            // DBHelper dbHelper = new DBHelper(getApplicationContext());
-            // update the availableNotes array list
-            // availableNotes = dbHelper.getAllNotes();
+
+            // get the saved sort order
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            String sortOrderValue = sharedPref.getString(SettingsActivity.KEY_SORT_ORDER, "0");
 
             // Retrieve note records
             Uri notes = Uri.parse(NoteContentProvider.URL);
 
-            Cursor c = getContentResolver().query(notes, null, null, null, null);
-            availableNotes = NoteContentProvider.getNoteListFromCursor(c);
+            Cursor c = getContentResolver().query(notes, null, null, null, getSortOrder(sortOrderValue));
+
+            availableNotes = new ArrayList<Note>();
+            availableNotes.clear();
+            availableNotes.addAll(getTempSortedNotes(sortOrderValue, c));
 
             noteAdapter.updateNoteAdapter(availableNotes);
         }

@@ -71,20 +71,20 @@
     </array>
 
     <array name="note_sort_options">
-        <item>Created First</item>
+        <item>Last created First</item>
         <item>Last edited First</item>
         <item>Starred First</item>
         <item>Notes First</item>
         <item>Todo First</item>
     </array>
 
-    <array name="note_sort_values">
+    <string-array name="note_sort_values">
         <item>1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
-    </array>
+    </string-array>
 
     <array name="reminder_type">
         <item>One Time Event</item>
