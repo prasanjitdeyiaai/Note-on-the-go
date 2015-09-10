@@ -20,7 +20,7 @@
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="android:colorAccent">@color/accent</item>
         <!--   window background -->
-        <item name="android:windowBackground">@color/whitedarker</item>
+        <item name="android:windowBackground">@android:color/white</item>
     </style>
 
     <style name="App_EditTextStyle" parent="@android:style/Widget.EditText">

@@ -112,9 +112,10 @@
     <!-- TODO new light pleasing colors -->
     <color name="note_red">#ffd5bf</color>
     <color name="note_yellow">#fff2bc</color>
-    <color name="note_blue">#cae3e7</color>
+    <!-- using sweeter blue -->
+    <color name="note_blue">#bbf1f4</color>
     <color name="note_green">#cff09e</color>
-    <color name="note_white">#ffffff</color>
+    <color name="note_white">@android:color/white</color>
 
     <color name="denim">#b5ccd2</color>
     <color name="cream">#f0ece1</color>
@@ -134,6 +135,9 @@
     <color name="yellowishgreen">#cff09e</color>
     <color name="whitelighter">#f6f6f6</color>
     <color name="whitedarker">#e8e8e8</color>
+
+    <color name="sweet_blue">#aaeef1</color>
+    <color name="sweeter_blue">#bbf1f4</color>
 
     <string name="note_preference">note_shared_preference</string>
     <string name="reminder_removed">Reminder removed</string>
