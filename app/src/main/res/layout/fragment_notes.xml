@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:padding="5dp"
-                android:src="@drawable/star_white_border" />
+                android:src="@drawable/ic_toggle_star_outline" />
 
             <EditText
                 android:id="@+id/note_content"

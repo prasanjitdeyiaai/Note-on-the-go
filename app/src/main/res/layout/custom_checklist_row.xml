@@ -13,7 +13,7 @@
         android:id="@+id/SelectImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/unchecked"
+        android:src="@drawable/ic_toggle_check_box_outline_blank"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true" />
 
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/clear"/>
+        android:src="@drawable/ic_content_clear"/>
 
 
     <ImageView
@@ -44,6 +44,6 @@
         android:layout_toLeftOf="@+id/clear_item"
         android:layout_centerVertical="true"
         android:layout_marginRight="6dp"
-        android:src="@drawable/edit"/>
+        android:src="@drawable/ic_editor_mode_edit"/>
 
 </com.pd.noteonthego.helper.OneLineCheckableListItem>

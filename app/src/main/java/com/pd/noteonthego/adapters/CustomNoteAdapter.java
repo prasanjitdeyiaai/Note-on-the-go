@@ -99,30 +99,30 @@ public class CustomNoteAdapter extends BaseAdapter {
 
         // show last edit date time if edited
         if(note.getNoteLastModifiedTimeStamp().equals("")){
-            holder.noteCreatedDate.setText("Created: " + Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()));
+            holder.noteCreatedDate.setText(Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()));
         }else {
-            holder.noteCreatedDate.setText("Edited: " + Globals.getInstance().convertToReadableDate(note.getNoteLastModifiedTimeStamp()));
+            holder.noteCreatedDate.setText(Globals.getInstance().convertToReadableDate(note.getNoteLastModifiedTimeStamp()));
         }
 
         String color = note.getNoteColor();
         if (color.equals(String.valueOf(NoteColor.YELLOW))) {
-            // holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_yellow));
-            holder.container.setBackground(context.getResources().getDrawable(R.drawable.shadow_note_yellow));
+            holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_yellow));
+            //holder.container.setBackground(context.getResources().getDrawable(R.drawable.shadow_yellow));
         } else if (color.equals(String.valueOf(NoteColor.BLUE))) {
-            // holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_blue));
-            holder.container.setBackground(context.getResources().getDrawable(R.drawable.shadow_note_blue));
+            holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_blue));
+            //holder.container.setBackground(context.getResources().getDrawable(R.drawable.shadow_blue));
         } else if (color.equals(String.valueOf(NoteColor.GREEN))) {
-            // holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_green));
-            holder.container.setBackground(context.getResources().getDrawable(R.drawable.shadow_note_green));
+            holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_green));
+            //holder.container.setBackground(context.getResources().getDrawable(R.drawable.shadow_green));
         } else if (color.equals(String.valueOf(NoteColor.WHITE))) {
-            // holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_white));
-            holder.container.setBackground(context.getResources().getDrawable(R.drawable.shadow_note_white));
+            holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_white));
+            //holder.container.setBackground(context.getResources().getDrawable(R.drawable.shadow_white));
             // holder.noteCreatedDate.setTextColor(context.getResources().getColor(R.color.note_text_color_dark));
             // holder.noteReminder.setTextColor(context.getResources().getColor(R.color.note_text_color_dark));
         } else {
             //holder.container.setBackground(context.getResources().getDrawable(R.drawable.custom_note_list_background_selector));
-            // holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_red));
-            holder.container.setBackground(context.getResources().getDrawable(R.drawable.shadow_note_red));
+            holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_red));
+            //holder.container.setBackground(context.getResources().getDrawable(R.drawable.shadow_red));
         }
 
         if(note.getIsReminderSet() == 1){

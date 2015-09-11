@@ -22,7 +22,7 @@ public class Globals {
         if(month.equals("09")){
             month = "101";
         }
-        String year = oldDate.substring(6, 10);
+        String year = oldDate.substring(8, 10);
         String day = oldDate.substring(3,5);
         String hour = oldDate.substring(11, 13);
         String minute = oldDate.substring(14, 16);
@@ -51,7 +51,7 @@ public class Globals {
                 monthInString = "May";
                 break;
             case 06:
-                monthInString = "June";
+                monthInString = "Jun";
                 break;
             case 07:
                 monthInString = "Jul";
@@ -60,7 +60,7 @@ public class Globals {
                 monthInString = "Aug";
                 break;
             case 101:
-                monthInString = "Sept";
+                monthInString = "Sep";
                 break;
             case 10:
                 monthInString = "Oct";

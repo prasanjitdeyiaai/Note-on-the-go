@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/note_container"
     android:layout_width="match_parent"
+    android:padding="8dp"
+    android:background="@color/note_yellow"
     android:layout_height="wrap_content">
 
     <TextView
@@ -9,12 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="2dp"
-        android:layout_marginTop="12dp"
+
         android:background="@android:color/transparent"
         android:minHeight="24dp"
-        android:paddingLeft="12dp"
-        android:textColor="@color/note_text_color_dark"
+        android:textColor="@color/dark_holo_blue"
+        android:text="Note Title is max 20"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -23,63 +24,72 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="2dp"
         android:fontFamily="sans-serif-light"
-        android:paddingRight="12dp"
-        android:textColor="@color/note_text_color_dark"
+        android:text="11-Sep-15 08:00 pm"
+        android:drawablePadding="2dp"
+        android:drawableLeft="@drawable/ic_content_create"
+        android:textColor="@color/dark_holo_blue"
         android:textSize="11sp"
-
         />
 
     <!-- max lines important here -->
-    <TextView
-        android:id="@+id/list_note_content"
+    <LinearLayout
+        android:id="@+id/list_note_content_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/list_note_title"
-        android:layout_marginBottom="2dp"
-        android:background="@android:color/transparent"
-        android:ellipsize="end"
-        android:lineSpacingExtra="4dp"
-        android:maxLines="4"
-        android:minHeight="24dp"
-        android:paddingLeft="12dp"
-        android:textColor="@color/note_text_color_dark"
-        android:textSize="14sp" />
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/list_note_starred"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/list_note_content"
-        android:padding="2dp"
-        android:src="@drawable/star_white"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/list_note_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.9"
+            android:layout_height="wrap_content"
+
+
+            android:background="@android:color/transparent"
+            android:ellipsize="end"
+            android:lineSpacingExtra="4dp"
+            android:text="This is content which is quite long \nGoes onto second line as well"
+            android:maxLines="4"
+            android:minHeight="24dp"
+            android:textColor="@color/light_holo_blue"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/list_note_starred"
+            android:layout_width="0dp"
+            android:layout_weight="0.1"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_toggle_star"
+            android:visibility="visible" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/dot_separator"
         android:layout_width="wrap_content"
         android:layout_height="12dp"
-        android:layout_below="@+id/list_note_content"
+        android:layout_below="@+id/list_note_content_container"
         android:fontFamily="sans-serif-light"
-        android:paddingLeft="12dp"
+
         android:text=". . . . . . . . . . . . . . . . . . ."
-        android:textColor="@color/note_text_color_dark"
+        android:textColor="@color/dark_holo_blue"
         android:textSize="10sp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/list_note_reminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dot_separator"
-        android:layout_marginBottom="2dp"
         android:fontFamily="sans-serif-light"
-        android:paddingLeft="12dp"
-        android:textColor="@color/note_text_color_dark"
+
+        android:textColor="@color/dark_holo_blue"
+        android:text="Reminder set: 12-Oct-15 09:00 pm    One Time Event"
         android:textSize="11sp"
         android:textStyle="italic"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 </RelativeLayout>

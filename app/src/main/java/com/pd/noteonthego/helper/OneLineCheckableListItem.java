@@ -25,7 +25,7 @@ public class OneLineCheckableListItem extends RelativeLayout implements Checkabl
         this.checked = checked;
 
         ImageView iv = (ImageView) findViewById(R.id.SelectImageView);
-        iv.setImageResource(checked ? R.drawable.checked : R.drawable.unchecked);
+        iv.setImageResource(checked ? R.drawable.ic_toggle_check_box : R.drawable.ic_toggle_check_box_outline_blank);
 
     }
 

@@ -10,7 +10,7 @@
         <item name="android:editTextStyle">@style/App_EditTextStyle</item>
     </style>
 
-    <style name="Theme.Basic" parent="Theme.AppCompat.Light">
+    <style name="Theme.Basic" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
         <!-- colorPrimary works and android:colorPrimary doesn't -->
@@ -20,7 +20,7 @@
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="android:colorAccent">@color/accent</item>
         <!--   window background -->
-        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowBackground">@color/google_gray</item>
     </style>
 
     <style name="App_EditTextStyle" parent="@android:style/Widget.EditText">

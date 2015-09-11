@@ -27,10 +27,10 @@
 
     <string name="action_example">Example action</string>
 
-    <!-- white lighter -->
-    <color name="primary">#F1F8E9</color>
-    <!-- little darker gray -->
-    <color name="primary_dark">#33691E</color>
+    <!-- white lighter #F1F8E9 -->
+    <color name="primary">#3aa148</color>
+    <!-- little darker gray #33691E -->
+    <color name="primary_dark">#008c4d</color>
     <!-- no idea what this is accent-->
     <color name="accent">#abd0bc</color>
     <!-- light gray -->
@@ -154,4 +154,7 @@
     <color name="material_light_green_dark">#33691E</color>
 
     <string name="note_sort_dialog_title">Sort By</string>
+    <color name="google_gray">#f1f1f1</color>
+    <color name="dark_holo_blue">#193741</color>
+    <color name="light_holo_blue">#6c9597</color>
 </resources>

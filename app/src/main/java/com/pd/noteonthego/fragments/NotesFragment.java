@@ -323,21 +323,21 @@ public class NotesFragment extends Fragment {
         if(isStarred == 0) {
             isStarred = 1;
             Toast.makeText(getActivity(), "Starred", Toast.LENGTH_SHORT).show();
-            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white));
+            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_toggle_star));
         }
         else {
             isStarred = 0;
             Toast.makeText(getActivity(), "Star removed", Toast.LENGTH_SHORT).show();
-            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white_border));
+            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_toggle_star_outline));
         }
     }
 
     public void updateStar(){
         if(isStarred == 0) {
-            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white_border));
+            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_toggle_star_outline));
         }
         else {
-            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.star_white));
+            mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_toggle_star));
         }
     }
 
