@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/clear_item"
         android:layout_centerVertical="true"
-        android:layout_marginRight="6dp"
+        android:layout_marginRight="12dp"
         android:src="@drawable/ic_editor_mode_edit"/>
 
 </com.pd.noteonthego.helper.OneLineCheckableListItem>

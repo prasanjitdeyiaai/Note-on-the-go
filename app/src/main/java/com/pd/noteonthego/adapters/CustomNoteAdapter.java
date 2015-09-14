@@ -99,9 +99,9 @@ public class CustomNoteAdapter extends BaseAdapter {
 
         // show last edit date time if edited
         if(note.getNoteLastModifiedTimeStamp().equals("")){
-            holder.noteCreatedDate.setText(Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()));
+            holder.noteCreatedDate.setText(Globals.getInstance().convertToReadableDateShort(note.getNoteCreatedTimeStamp()));
         }else {
-            holder.noteCreatedDate.setText(Globals.getInstance().convertToReadableDate(note.getNoteLastModifiedTimeStamp()));
+            holder.noteCreatedDate.setText(Globals.getInstance().convertToReadableDateShort(note.getNoteLastModifiedTimeStamp()));
         }
 
         String color = note.getNoteColor();
@@ -127,7 +127,7 @@ public class CustomNoteAdapter extends BaseAdapter {
 
         if(note.getIsReminderSet() == 1){
             holder.noteReminder.setVisibility(View.VISIBLE);
-            holder.noteReminder.setText(context.getResources().getString(R.string.reminder_set) + ": " + note.getReminderDateTime() + "    " + note.getReminderType());
+            holder.noteReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
             holder.noteDotSeparator.setVisibility(View.VISIBLE);
         }else {
             holder.noteReminder.setVisibility(View.GONE);

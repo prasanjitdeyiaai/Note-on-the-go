@@ -27,9 +27,28 @@ public class Globals {
         String hour = oldDate.substring(11, 13);
         String minute = oldDate.substring(14, 16);
         String ampm = oldDate.substring(20,22);
-        newDate = day + "-" + convertMonthToString(Integer.parseInt(month)) + "-" + year + " " + hour + ":" + minute + " " + ampm;
+        newDate = day + "-" + convertMonthToString(Integer.parseInt(month)) + "-" + year + " " + hour + ":" + minute + " " + ampm.toLowerCase();
         return newDate;
     }
+
+    public String convertToReadableDateShort(String oldDate){
+        String newDate;
+        String month = oldDate.substring(0, 2);
+        if(month.equals("08")){
+            month = "100";
+        }
+        if(month.equals("09")){
+            month = "101";
+        }
+        String year = oldDate.substring(8, 10);
+        String day = oldDate.substring(3,5);
+        String hour = oldDate.substring(11, 13);
+        String minute = oldDate.substring(14, 16);
+        String ampm = oldDate.substring(20,22);
+        newDate = day + " " + convertMonthToString(Integer.parseInt(month)) + " " + hour + ":" + minute + " " + ampm.toLowerCase();
+        return newDate;
+    }
+
 
     public String convertMonthToString(int month){
 

@@ -61,7 +61,10 @@ public class Note implements Comparator<Note>{
     }
 
     public String getReminderType() {
-        return reminderType;
+        if(reminderType.equals("One Time Event"))
+            return "Once";
+        else
+            return reminderType;
     }
 
     public void setReminderType(String reminderType) {

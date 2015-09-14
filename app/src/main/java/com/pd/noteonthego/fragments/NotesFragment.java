@@ -293,12 +293,12 @@ public class NotesFragment extends Fragment {
             mNoteTitle.setText(note.getNoteTitle());
             mNoteContent.setText(note.getNoteContent());
             if(!note.getNoteLastModifiedTimeStamp().equals("")){
-                mNoteExtras.setText("Created: " + Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()) + "    Edited: " + Globals.getInstance().convertToReadableDate(note.getNoteLastModifiedTimeStamp()));
+                mNoteExtras.setText(Globals.getInstance().convertToReadableDate(note.getNoteLastModifiedTimeStamp()));
             }else {
-                mNoteExtras.setText("Created: " + Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()));
+                mNoteExtras.setText(Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()));
             }
             if(note.getIsReminderSet() == 1){
-                mNoteExtrasReminder.setText(getResources().getString(R.string.reminder_set) + ": " + note.getReminderDateTime() + "    " + note.getReminderType());
+                mNoteExtrasReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
             }else {
                 mNoteExtrasReminder.setText(R.string.no_reminder);
             }
