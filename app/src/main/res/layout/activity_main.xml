@@ -8,8 +8,8 @@
     <ListView
         android:id="@+id/note_list"
         android:divider="@color/google_gray"
-        android:dividerHeight="3dp"
-        android:layout_margin="3dp"
+        android:dividerHeight="6dp"
+        android:layout_margin="6dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
 
