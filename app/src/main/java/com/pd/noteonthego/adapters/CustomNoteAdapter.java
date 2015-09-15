@@ -67,7 +67,6 @@ public class CustomNoteAdapter extends BaseAdapter {
             holder.noteContent = (TextView) convertView.findViewById(R.id.list_note_content);
             holder.noteCreatedDate = (TextView) convertView.findViewById(R.id.list_note_created_date);
             holder.noteReminder = (TextView) convertView.findViewById(R.id.list_note_reminder);
-            holder.noteDotSeparator = (TextView)convertView.findViewById(R.id.dot_separator);
             holder.noteStarred = (ImageView)convertView.findViewById(R.id.list_note_starred);
 
             convertView.setTag(holder);
@@ -128,10 +127,8 @@ public class CustomNoteAdapter extends BaseAdapter {
         if(note.getIsReminderSet() == 1){
             holder.noteReminder.setVisibility(View.VISIBLE);
             holder.noteReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
-            holder.noteDotSeparator.setVisibility(View.VISIBLE);
         }else {
             holder.noteReminder.setVisibility(View.GONE);
-            holder.noteDotSeparator.setVisibility(View.GONE);
         }
 
         // ADD STAR FOR NOTE
@@ -151,7 +148,6 @@ public class CustomNoteAdapter extends BaseAdapter {
         public TextView noteCreatedDate;
         public RelativeLayout container;
         public TextView noteReminder;
-        public TextView noteDotSeparator;
         public ImageView noteStarred;
     }
 

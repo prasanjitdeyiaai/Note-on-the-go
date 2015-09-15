@@ -91,6 +91,7 @@
         android:fontFamily="sans-serif-light"
         android:onClick="setReminder"
         android:text="SET REMINDER"
+        android:enabled="false"
         android:textSize="12sp" />
 
 </RelativeLayout>

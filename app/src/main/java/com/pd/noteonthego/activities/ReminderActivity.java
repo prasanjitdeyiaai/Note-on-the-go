@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.dialogs.DateDialogFragment;
@@ -52,6 +54,8 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
     private TextView mReminderExtras;
     private Button mBtnDismiss;
 
+    private boolean isDateSelected = false, isTimeSelected = false, isPreviousReminderSet = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +69,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
                 actionBar.setElevation(0);
             }
             // not working
-            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(true);
             // actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
         }
@@ -116,6 +120,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
             if(note.getIsReminderSet() == 1){
                 mReminderExtras.setText(getResources().getString(R.string.reminder_set) + ":  " + Globals.getInstance().convertToReadableDate(note.getReminderDateTime()) + "    " + note.getReminderType());
                 mBtnDismiss.setVisibility(View.VISIBLE);
+                isPreviousReminderSet = true;
             }else {
                 mReminderExtras.setText(R.string.no_reminder);
                 mBtnDismiss.setVisibility(View.GONE);
@@ -146,7 +151,8 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
     }
 
     /**
-     * update database for the reminder
+     * update database
+     * for the deleted reminder
      */
     private void updateNoteWithReminder() {
         // Update note
@@ -180,13 +186,21 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
 
     public void setReminder(View v) {
         // ADD A CHECK HERE
-
-        if(year == 0 || month == 0 || day == 0){
-            // no need to set reminder
-            // unless date is selected
-        } else{
-            setReminder();
+        if(isPreviousReminderSet){
+            // previous reminder found
+            updateReminder();
+        }else {
+            setReminder(-1);
         }
+    }
+
+    private void updateReminder() {
+        // get the old request code for reminder
+        NotePreferences preferences = new NotePreferences(getApplicationContext());
+        String requestCode = preferences.getRequestCodeForReminders(String.valueOf(noteID));
+
+        // create a new alarm
+        setReminder(Integer.parseInt(requestCode));
     }
 
     @Override
@@ -204,8 +218,8 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         int id = item.getItemId();
 
         // Respond to the action bar's Up/Home button
-        if (id == R.id.home) {
-            // NavUtils.navigateUpFromSameTask(this);
+        if (id == android.R.id.home) {
+            NavUtils.navigateUpFromSameTask(this);
             return true;
         }
 
@@ -217,7 +231,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         super.onPause();
     }
 
-    private void setReminder() {
+    private void setReminder(int oldRequestCode) {
 
         final Calendar c = Calendar.getInstance();
         int dayCode  = c.get(Calendar.DATE);
@@ -232,10 +246,17 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         // create a six digit code using day hour min and sec
         Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
         intent.putExtra("reminder-identification", noteID);
-        alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), requestCodeForAlarm, intent, 0);
 
         NotePreferences preferences = new NotePreferences(getApplicationContext());
-        preferences.setRequestCodeForReminders(String.valueOf(noteID), String.valueOf(requestCodeForAlarm));
+        if(oldRequestCode != -1){
+            // update the alarm
+            alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), oldRequestCode, intent, 0);
+            preferences.setRequestCodeForReminders(String.valueOf(noteID), String.valueOf(oldRequestCode));
+        }else {
+            // create a new alarm
+            alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), requestCodeForAlarm, intent, 0);
+            preferences.setRequestCodeForReminders(String.valueOf(noteID), String.valueOf(requestCodeForAlarm));
+        }
 
         // Set the alarm to start at 8:30 a.m.
         Calendar calendar = Calendar.getInstance();
@@ -260,6 +281,11 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         ReminderActivity.this.finish();
     }
 
+    /**
+     * creates a new reminder
+     * updates database with alarm time
+     * @param calendar
+     */
     private void updateNoteWithReminder(Calendar calendar) {
         // Update note
 
@@ -279,7 +305,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
                 NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
 
         if (rowsUpdated > 0) {
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.reminder_set) + " on " + datetime, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.reminder_set) + " on " + Globals.getInstance().convertToReadableDateShort(datetime), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -288,14 +314,37 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         this.year = year;
         this.month = month;
         this.day = day;
-        mReminderDate.setText(month + "/" + day + "/" + year);
+        if(month == 8){
+            month = 100;
+        }
+        if(month == 9){
+            month = 101;
+        }
+        mReminderDate.setText(day + " " + Globals.getInstance().convertMonthToString(month) + " " + year);
+        isDateSelected = true;
+        if(isTimeSelected){
+            mBtnSetReminder.setEnabled(true);
+        }else {
+            mBtnSetReminder.setEnabled(false);
+        }
     }
 
     @Override
     public void onTimeDialogPositiveClick(DialogFragment dialog, int hour, int minute) {
         this.hour = hour;
         this.minute = minute;
-        mReminderTime.setText(hour + ":" + minute);
+
+        if(hour < 12){
+            mReminderTime.setText(hour + " : " + minute + " am");
+        }else {
+            mReminderTime.setText((hour - 12) + " : " + minute + " pm");
+        }
+        isTimeSelected = true;
+        if(isDateSelected){
+            mBtnSetReminder.setEnabled(true);
+        }else {
+            mBtnSetReminder.setEnabled(false);
+        }
     }
 
     @Override

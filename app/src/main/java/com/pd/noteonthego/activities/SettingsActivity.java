@@ -3,6 +3,7 @@ package com.pd.noteonthego.activities;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -28,6 +29,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
                 // only for lollipop and newer versions
                 actionBar.setElevation(0);
             }
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
         // Display the fragment as the main content.
@@ -49,6 +51,11 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            NavUtils.navigateUpFromSameTask(this);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

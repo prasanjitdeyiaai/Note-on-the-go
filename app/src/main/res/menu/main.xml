@@ -10,13 +10,6 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_search"
-        android:orderInCategory="96"
-        android:title="@string/action_search_note"
-        android:icon="@drawable/ic_action_action_search"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/action_note"
         android:orderInCategory="97"
         android:title="@string/action_add_note"

@@ -67,23 +67,11 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/dot_separator"
-        android:layout_width="wrap_content"
-        android:layout_height="12dp"
-        android:layout_below="@+id/list_note_content_container"
-        android:fontFamily="sans-serif-light"
-        android:text=". . . . . . . . . . . . . . . . . . . . . . . . . . . ."
-        android:textColor="@color/dark_holo_blue"
-        android:textSize="10sp"
-        android:visibility="visible" />
-
-    <TextView
         android:id="@+id/list_note_reminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dot_separator"
+        android:layout_below="@+id/list_note_content_container"
         android:fontFamily="sans-serif-light"
-
         android:drawableLeft="@drawable/ic_action_schedule"
         android:drawablePadding="2dp"
         android:textColor="@color/dark_holo_blue"
