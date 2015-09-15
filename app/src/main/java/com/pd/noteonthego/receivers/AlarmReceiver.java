@@ -62,7 +62,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 boolean isReminderCompleted = false;
 
                 String eventType = note.getReminderType();
-                if(eventType.equals("One Time Event")){
+                if(eventType.equals("Once")){
                     // clear the reminder and update isReminderSet = 0;
                     isReminderCompleted = true;
                 }else if(eventType.equals("Daily")){
