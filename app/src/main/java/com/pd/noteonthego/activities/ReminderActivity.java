@@ -118,7 +118,14 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
             Note note = NoteContentProvider.getNoteFromCursor(c);
 
             if(note.getIsReminderSet() == 1){
-                mReminderExtras.setText(getResources().getString(R.string.reminder_set) + ":  " + Globals.getInstance().convertToReadableDate(note.getReminderDateTime()) + "    " + note.getReminderType());
+                if(note.getReminderType().toLowerCase().equals("once")){
+                    mReminderExtras.setText( getResources().getString(R.string.reminder_set) + ": " + note.getReminderType().toLowerCase() + " at " +
+                            Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                }else {
+                    mReminderExtras.setText( getResources().getString(R.string.reminder_set) + ": " + note.getReminderType().toLowerCase() + " from " +
+                            Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                }
+
                 mBtnDismiss.setVisibility(View.VISIBLE);
                 isPreviousReminderSet = true;
             }else {

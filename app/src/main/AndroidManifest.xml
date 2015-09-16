@@ -28,7 +28,8 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/Theme.Basic" >
+            android:theme="@style/Theme.Basic"
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,7 +39,8 @@
         <activity
             android:name=".activities.NotesActivity"
             android:label="@string/title_activity_notes"
-            android:theme="@style/Theme.Basic" />
+            android:theme="@style/Theme.Basic"
+            android:windowSoftInputMode="stateHidden" />
 
         <receiver
             android:name=".receivers.IncomingCallStateReceiver"
@@ -74,8 +76,13 @@
 
         <activity
             android:name=".activities.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".activities.MainActivity" >
+        </activity>
+        <activity
+            android:name=".activities.AboutActivity"
             android:parentActivityName=".activities.MainActivity"
-            android:label="@string/title_activity_settings" >
+            android:label="@string/title_activity_about" >
         </activity>
     </application>
 

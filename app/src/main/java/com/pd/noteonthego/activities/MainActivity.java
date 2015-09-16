@@ -338,6 +338,9 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
             case R.id.action_sort:
                 sortNotes();
                 break;
+            case R.id.action_about:
+                startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                break;
             default:
                 break;
         }

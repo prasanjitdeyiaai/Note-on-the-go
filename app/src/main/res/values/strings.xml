@@ -7,6 +7,7 @@
     <string name="action_search_note">Search</string>
     <string name="action_add_checklist">Add Checklist</string>
     <string name="action_sort">Sort</string>
+    <string name="action_about">About</string>
     <string name="action_save_note">Save Note</string>
     <string name="action_star_note">Star Note</string>
     <string name="action_delete_note">Delete Note</string>
@@ -73,8 +74,8 @@
     </array>
 
     <array name="note_sort_options">
-        <item>Last created First</item>
-        <item>Last edited First</item>
+        <item>Created First</item>
+        <item>Edited First</item>
         <item>Starred First</item>
         <item>Notes First</item>
         <item>Todo First</item>
@@ -159,4 +160,5 @@
     <color name="google_gray">#f1f1f1</color>
     <color name="dark_holo_blue">#193741</color>
     <color name="light_holo_blue">#6c9597</color>
+    <string name="title_activity_about">AboutActivity</string>
 </resources>
