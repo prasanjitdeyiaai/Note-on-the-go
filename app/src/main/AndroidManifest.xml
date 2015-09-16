@@ -86,6 +86,16 @@
             android:parentActivityName=".activities.MainActivity"
             android:label="@string/title_activity_about" >
         </activity>
+
+        <receiver android:name="com.pd.noteonthego.helper.OneByOneAppWidgetProvider" >
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget_provider_info" />
+        </receiver>
     </application>
 
 </manifest>

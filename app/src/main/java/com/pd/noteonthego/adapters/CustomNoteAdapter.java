@@ -131,7 +131,12 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
 
         if (note.getIsReminderSet() == 1) {
             holder.noteReminder.setVisibility(View.VISIBLE);
-            holder.noteReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+            if(note.getReminderType().toLowerCase().equals("once")){
+                holder.noteReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+            }else {
+                holder.noteReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " from " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+            }
+
         } else {
             holder.noteReminder.setVisibility(View.GONE);
         }
