@@ -57,7 +57,7 @@
     <string name="note_cancel_btn">Cancel</string>
     <string name="note_confirm_btn">Confirm</string>
     <string name="all_notes">ALL NOTES</string>
-    <string name="alert_delete_note">Do you want to continue deleting the note?</string>
+    <string name="alert_delete_note">Delete note?</string>
     <string name="note_deleted">Deleted</string>
     <string name="note_updated">Saved</string>
     <string name="note_saved">Saved</string>

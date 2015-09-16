@@ -3,7 +3,6 @@
     android:id="@+id/note_container"
     android:layout_width="match_parent"
     android:padding="8dp"
-    android:background="@color/note_yellow"
     android:layout_height="wrap_content">
 
     <TextView
@@ -11,11 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-
         android:background="@android:color/transparent"
         android:minHeight="24dp"
         android:textColor="@color/dark_holo_blue"
-        android:text="Note Title is max 20"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -25,7 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:fontFamily="sans-serif-light"
-        android:text="11-Sep-15 08:00 pm"
         android:drawablePadding="2dp"
         android:textStyle="italic"
         android:drawableLeft="@drawable/ic_content_create"
@@ -50,7 +46,6 @@
             android:background="@android:color/transparent"
             android:ellipsize="end"
             android:lineSpacingExtra="4dp"
-            android:text="This is content which is quite long \nGoes onto second line as well"
             android:maxLines="4"
             android:minHeight="24dp"
             android:textColor="@color/note_text_color_gray"
@@ -63,7 +58,7 @@
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_toggle_star"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </LinearLayout>
 
     <TextView
@@ -78,6 +73,6 @@
         android:text="Reminds monthly 12 Oct 09:00 pm"
         android:textSize="10sp"
         android:textStyle="italic"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -93,6 +93,8 @@ public class ChecklistFragment extends Fragment {
 
         mChecklist = (ListView) getActivity().findViewById(R.id.check_listview);
         mChecklistItem = (EditText) getActivity().findViewById(R.id.edt_list_item);
+        mChecklistItem.requestFocus();
+
         mChecklistItem.setImeActionLabel("Add", KeyEvent.KEYCODE_ENTER);
         mChecklistItem.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -161,7 +163,7 @@ public class ChecklistFragment extends Fragment {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
         String dateTime = simpleDateFormat.format(new Date());
-        mNoteExtras.setText(dateTime);
+        mNoteExtras.setText(Globals.getInstance().convertToReadableDateShort(dateTime));
     }
 
     @Override

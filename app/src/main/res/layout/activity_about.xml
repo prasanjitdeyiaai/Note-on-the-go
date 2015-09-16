@@ -9,8 +9,29 @@
     tools:context="com.pd.noteonthego.activities.AboutActivity">
 
     <TextView
+        android:id="@+id/developer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Developed by XYZ" />
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:textSize="18sp"
+        android:textColor="@color/material_light_green_dark"
+        android:text="Developer - Prasanjit Dey" />
+
+    <TextView
+        android:id="@+id/libraries_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/developer"
+        android:text="Open Source Libraries"
+        android:textSize="18sp"
+        android:layout_marginBottom="2dp"
+        android:textColor="@android:color/holo_red_dark"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/libraries_title"
+        android:text="Android Open Source Project \nMaterial Design Icons \nGSON library" />
 
 </RelativeLayout>

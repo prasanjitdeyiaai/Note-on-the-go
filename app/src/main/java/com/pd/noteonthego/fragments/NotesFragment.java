@@ -76,12 +76,14 @@ public class NotesFragment extends Fragment {
 
         mNoteTitle = (EditText) getActivity().findViewById(R.id.note_title);
         mNoteContent = (EditText) getActivity().findViewById(R.id.note_content);
+        mNoteContent.requestFocus();
+
         mNoteExtras = (TextView) getActivity().findViewById(R.id.note_extras);
         mNoteExtrasReminder = (TextView)getActivity().findViewById(R.id.note_extras_reminder);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
         String dateTime = simpleDateFormat.format(new Date());
-        mNoteExtras.setText(dateTime);
+        mNoteExtras.setText(Globals.getInstance().convertToReadableDateShort(dateTime));
 
         mNoteContainer = (RelativeLayout) getActivity().findViewById(R.id.note_container);
         mNoteStarred = (ImageView)getActivity().findViewById(R.id.note_star);
@@ -292,6 +294,8 @@ public class NotesFragment extends Fragment {
             // fill the edit texts
             mNoteTitle.setText(note.getNoteTitle());
             mNoteContent.setText(note.getNoteContent());
+            mNoteContent.setSelection(note.getNoteContent().length());
+
             if(!note.getNoteLastModifiedTimeStamp().equals("")){
                 mNoteExtras.setText(Globals.getInstance().convertToReadableDate(note.getNoteLastModifiedTimeStamp()));
             }else {
