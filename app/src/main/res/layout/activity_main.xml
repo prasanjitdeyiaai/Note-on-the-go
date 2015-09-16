@@ -5,25 +5,9 @@
     android:layout_height="match_parent"
     tools:context="com.pd.noteonthego.fragments.NotesFragment">
 
-    <EditText
-        android:id="@+id/note_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="12dp"
-        android:drawableRight="@drawable/ic_action_search"
-        android:background="@android:color/transparent"
-        android:hint="@string/action_search_note"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:singleLine="true"
-        android:textColor="@color/note_text_color_dark"
-        />
-
     <ListView
         android:id="@+id/note_list"
         android:divider="@color/google_gray"
-        android:layout_below="@+id/note_search"
         android:dividerHeight="6dp"
         android:layout_margin="6dp"
         android:layout_width="match_parent"

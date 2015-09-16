@@ -1,7 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:appcompat="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.pd.noteonthego.activities.MainActivity">
+
+    <item
+        android:id="@+id/action_search"
+        android:orderInCategory="96"
+        android:title="@string/action_search_note"
+        android:icon="@drawable/ic_action_action_search"
+        appcompat:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always" />
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
