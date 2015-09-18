@@ -4,5 +4,6 @@
     android:minWidth="40dp"
     android:updatePeriodMillis="0"
     android:minHeight="32dp"
+    android:configure="com.pd.noteonthego.activities.OneByOneWidgetConfigureActivity"
     android:initialLayout="@layout/onebyone_widget">
 </appwidget-provider>

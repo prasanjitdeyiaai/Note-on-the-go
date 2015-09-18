@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:background="@android:color/transparent"
         android:minHeight="24dp"
         android:textColor="@color/dark_holo_blue"

@@ -35,7 +35,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
+
+            <meta-data
+                android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
         <activity
@@ -83,19 +85,27 @@
         </activity>
         <activity
             android:name=".activities.AboutActivity"
-            android:parentActivityName=".activities.MainActivity"
-            android:label="@string/title_activity_about" >
+            android:label="@string/title_activity_about"
+            android:parentActivityName=".activities.MainActivity" >
         </activity>
 
-        <receiver android:name="com.pd.noteonthego.helper.OneByOneAppWidgetProvider" >
-
+        <receiver android:name=".helper.OneByOneAppWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
-            <meta-data android:name="android.appwidget.provider"
+            <meta-data
+                android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_provider_info" />
         </receiver>
+
+        <activity
+            android:name=".activities.OneByOneWidgetConfigureActivity"
+            android:label="@string/title_activity_one_by_one_widget_configure">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

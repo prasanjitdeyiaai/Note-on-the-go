@@ -151,7 +151,7 @@ public class NotesFragment extends Fragment {
             return 0;
         }
         if(title.equals("")) {
-            title = content;
+            title = content.substring(0,20);
         }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());

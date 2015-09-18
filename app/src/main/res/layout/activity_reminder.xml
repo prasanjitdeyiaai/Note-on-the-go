@@ -27,7 +27,7 @@
         android:onClick="dismissReminder"
         android:fontFamily="sans-serif-light"
         android:textSize="12sp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_below="@+id/reminder_already_set"
         android:layout_marginTop="8dp" />
 

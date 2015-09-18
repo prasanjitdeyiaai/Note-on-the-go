@@ -243,7 +243,13 @@ public class ChecklistFragment extends Fragment {
             return 0;
         }
         if (title.equals("")) {
-            title = content;
+            int indexOfCloseBracket = content.indexOf(']');
+            String contentLong = content.substring(2, indexOfCloseBracket - 1);
+            if(contentLong.length() > 20){
+                title = contentLong.substring(0, 20);
+            }else{
+                title = contentLong;
+            }
         }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
