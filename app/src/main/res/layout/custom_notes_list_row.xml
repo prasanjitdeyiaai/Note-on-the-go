@@ -43,6 +43,7 @@
             android:layout_width="0dp"
             android:layout_weight="0.9"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
             android:background="@android:color/transparent"
             android:ellipsize="end"
             android:lineSpacingExtra="4dp"

@@ -10,11 +10,20 @@
     android:paddingBottom="12dp">
 
     <ImageView
+        android:id="@+id/drag_handle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_action_drag_handler"/>
+
+    <ImageView
         android:id="@+id/SelectImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_toggle_check_box_outline_blank"
-        android:layout_alignParentLeft="true"
+        android:layout_toRightOf="@+id/drag_handle"
+        android:layout_marginLeft="12dp"
         android:layout_centerVertical="true" />
 
     <TextView
@@ -22,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:fontFamily="sans-serif-light"
         android:paddingLeft="4dp"
         android:layout_toRightOf="@+id/SelectImageView"
         android:background="@android:color/transparent"

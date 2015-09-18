@@ -17,13 +17,13 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mobeta.android.dslv.DragSortListView;
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.activities.ReminderActivity;
 import com.pd.noteonthego.adapters.CustomChecklistAdapter;
@@ -50,7 +50,7 @@ import java.util.Locale;
 public class ChecklistFragment extends Fragment {
 
     private OnChecklistFragmentInteractionListener mListener;
-    private ListView mChecklist;
+    private DragSortListView mChecklist;
     private EditText mChecklistItem;
     private ArrayList<String> tempChecklist, selectedItems;
     private CustomChecklistAdapter adapter;
@@ -91,7 +91,7 @@ public class ChecklistFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mChecklist = (ListView) getActivity().findViewById(R.id.check_listview);
+        mChecklist = (DragSortListView) getActivity().findViewById(R.id.check_listview);
         mChecklistItem = (EditText) getActivity().findViewById(R.id.edt_list_item);
         mChecklistItem.requestFocus();
 
@@ -147,6 +147,8 @@ public class ChecklistFragment extends Fragment {
         selectedItems = new ArrayList<String>();
         adapter = new CustomChecklistAdapter(getActivity(), tempChecklist);
         mChecklist.setAdapter(adapter);
+        mChecklist.setDropListener(onDrop);
+
         mChecklistContainer = (RelativeLayout) getActivity().findViewById(R.id.checklist_container);
         mNoteTitle = (EditText) getActivity().findViewById(R.id.checklist_title);
 
@@ -533,4 +535,20 @@ public class ChecklistFragment extends Fragment {
         Collections.sort(newListTemp);
         return oldListTemp.equals(newListTemp);
     }
+
+    private DragSortListView.DropListener onDrop =
+            new DragSortListView.DropListener() {
+                @Override
+                public void drop(int from, int to) {
+                    if (from != to) {
+                        String item = (String) adapter.getItem(from);
+                        tempChecklist.remove(item);
+                        tempChecklist.add(to, item);
+                        adapter.updateNoteAdapter(tempChecklist);
+                        mChecklist.moveCheckState(from, to);
+
+                        isNoteEditedByUser = true;
+                    }
+                }
+            };
 }

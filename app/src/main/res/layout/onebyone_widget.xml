@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_container"
     android:layout_width="match_parent"
-    android:paddingRight="4dp"
+    android:layout_height="match_parent"
+    android:background="@color/note_green"
+    android:paddingBottom="4dp"
     android:paddingLeft="4dp"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    android:layout_height="match_parent">
+    android:paddingRight="4dp"
+    android:paddingTop="4dp">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/widget_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Widget"/>
+        android:fontFamily="sans-serif-light"
+        android:textStyle="bold"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:text="Title 78901234567890" />
 
 </RelativeLayout>

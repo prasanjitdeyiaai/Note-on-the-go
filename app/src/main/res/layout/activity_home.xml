@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:fontFamily="sans-serif-light"
         android:hint="@string/add_text"
         android:textColorHint="@android:color/white"
         android:textColor="@android:color/white"

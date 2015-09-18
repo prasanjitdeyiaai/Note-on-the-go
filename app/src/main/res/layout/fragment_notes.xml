@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/note_title"
                 android:background="@android:color/transparent"
+                android:fontFamily="sans-serif-light"
                 android:gravity="start"
                 android:hint="@string/add_note"
                 android:lineSpacingExtra="8dp"
