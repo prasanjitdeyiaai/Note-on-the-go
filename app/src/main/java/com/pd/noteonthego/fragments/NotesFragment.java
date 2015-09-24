@@ -185,7 +185,7 @@ public class NotesFragment extends Fragment {
                 NoteContentProvider.CONTENT_URI, values);
 
         if (uri != null) {
-            Toast.makeText(getActivity(), R.string.note_saved, Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getActivity(), R.string.note_saved, Toast.LENGTH_SHORT).show();
         }
 
         // close the activity
@@ -231,7 +231,7 @@ public class NotesFragment extends Fragment {
                     NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
 
             if (rowsUpdated > 0) {
-                Toast.makeText(getActivity(), R.string.note_updated, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), R.string.note_updated, Toast.LENGTH_SHORT).show();
             }
 
             // close the activity
@@ -326,12 +326,12 @@ public class NotesFragment extends Fragment {
         isNoteEditedByUser = true;
         if(isStarred == 0) {
             isStarred = 1;
-            Toast.makeText(getActivity(), "Starred", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.star_note, Toast.LENGTH_SHORT).show();
             mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_toggle_star));
         }
         else {
             isStarred = 0;
-            Toast.makeText(getActivity(), "Star removed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.unstar_note, Toast.LENGTH_SHORT).show();
             mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_toggle_star_outline));
         }
     }

@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mobeta.android.dslv.DragSortListView;
@@ -243,7 +244,7 @@ public class ChecklistFragment extends Fragment {
             return 0;
         }
         if (title.equals("")) {
-            int indexOfCloseBracket = content.indexOf(']');
+            int indexOfCloseBracket = content.indexOf(',');
             String contentLong = content.substring(2, indexOfCloseBracket - 1);
             if(contentLong.length() > 20){
                 title = contentLong.substring(0, 20);
@@ -283,7 +284,7 @@ public class ChecklistFragment extends Fragment {
                 NoteContentProvider.CONTENT_URI, values);
 
         if (uri != null) {
-            Toast.makeText(getActivity(), R.string.note_saved, Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getActivity(), R.string.note_saved, Toast.LENGTH_SHORT).show();
         }
 
         // close the activity
@@ -417,9 +418,6 @@ public class ChecklistFragment extends Fragment {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
             String dateTime = simpleDateFormat.format(new Date());
 
-            // Note note = new Note(title, content, "", dateTime, noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
-            // long rowsUpdated = dbHelper.updateNote(noteID, note);
-
             // Update note
             ContentValues values = new ContentValues();
 
@@ -438,7 +436,7 @@ public class ChecklistFragment extends Fragment {
                     NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
 
             if (rowsUpdated > 0) {
-                Toast.makeText(getActivity(), R.string.note_updated, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), R.string.note_updated, Toast.LENGTH_SHORT).show();
             }
 
             // close the activity
@@ -488,11 +486,11 @@ public class ChecklistFragment extends Fragment {
         isNoteEditedByUser = true;
         if (isStarred == 0) {
             isStarred = 1;
-            Toast.makeText(getActivity(), "Starred", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.star_note, Toast.LENGTH_SHORT).show();
             mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_toggle_star));
         } else {
             isStarred = 0;
-            Toast.makeText(getActivity(), "Star removed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.unstar_note, Toast.LENGTH_SHORT).show();
             mNoteStarred.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_toggle_star_outline));
         }
     }

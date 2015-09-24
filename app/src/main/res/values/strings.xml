@@ -63,7 +63,7 @@
     <string name="note_saved">Saved</string>
     <string name="add_text">Add text here...</string>
     <string name="send_to">Share note</string>
-    <string name="note_empty">Empty note</string>
+    <string name="note_empty">Empty note discared</string>
 
     <array name="note_colors">
         <item>Yellow</item>
@@ -107,7 +107,7 @@
     <string name="reminder_type">Select Reminder Type</string>
     <string name="add_reminder_title">Add Reminder</string>
     <string name="reminder_set">Reminder set</string>
-    <string name="no_reminder">No Reminder set</string>
+    <string name="no_reminder">No Reminder</string>
     <string name="title_activity_checklist">ChecklistActivity</string>
     <string name="add_item">Add an item</string>
     <string name="btn_add">ADD</string>
@@ -165,4 +165,6 @@
     <string name="contact_email">prasanjitde@gmail.com</string>
     <string name="title_activity_one_by_one_widget_configure">OneByOneWidgetConfigureActivity
     </string>
+    <string name="star_note">Star</string>
+    <string name="unstar_note">Unstar</string>
 </resources>
