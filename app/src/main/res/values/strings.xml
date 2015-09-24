@@ -63,7 +63,7 @@
     <string name="note_saved">Saved</string>
     <string name="add_text">Add text here...</string>
     <string name="send_to">Share note</string>
-    <string name="note_empty">Empty note discared</string>
+    <string name="note_empty">Empty note discarded</string>
 
     <array name="note_colors">
         <item>Yellow</item>
@@ -167,4 +167,10 @@
     </string>
     <string name="star_note">Star</string>
     <string name="unstar_note">Unstar</string>
+
+    <!-- actual (approx) color names added -->
+    <color name="peach_puff">#ffd5bf</color>
+    <color name="colonal_white">#fff2bc</color>
+    <color name="charlotte">#bbf1f4</color>
+    <color name="reef">#cff09e</color>
 </resources>

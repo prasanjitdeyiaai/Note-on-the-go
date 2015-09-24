@@ -232,8 +232,6 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
                                 try {
                                     Note note = availableNotes.get(position);
 
-                                    // DBHelper dbHelper = new DBHelper(MainActivity.this);
-                                    // long count = dbHelper.deleteNoteByTitleAndTimestamp(new Strng[]{note.getNoteTitle(), note.getNoteCreatedTimeStamp()});
                                     String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
                                     String[] whereArgs = new String[]{String.valueOf(note.getNoteID())};
                                     int count = getContentResolver().delete(notes, whereClause, whereArgs);
@@ -242,10 +240,16 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
                                         Toast.makeText(MainActivity.this, "Note Deleted", Toast.LENGTH_SHORT).show();
                                         if (noteAdapter != null) {
 
-                                            Cursor c = getContentResolver().query(notes, null, null, null, null);
-                                            availableNotes = NoteContentProvider.getNoteListFromCursor(c);
+                                            // get the saved sort order
+                                            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                            String sortOrderValue = sharedPref.getString(SettingsActivity.KEY_SORT_ORDER, "0");
 
-                                            //availableNotes = dbHelper.getAllNotes();
+                                            Cursor c = getContentResolver().query(notes, null, null, null, getSortOrder(sortOrderValue));
+
+                                            availableNotes = new ArrayList<Note>();
+                                            availableNotes.clear();
+                                            availableNotes.addAll(getTempSortedNotes(sortOrderValue, c));
+
                                             noteAdapter.updateNoteAdapter(availableNotes);
                                         }
                                     }

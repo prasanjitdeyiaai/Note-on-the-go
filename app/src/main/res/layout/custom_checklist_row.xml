@@ -6,8 +6,8 @@
     android:paddingLeft="12dp"
     android:paddingRight="12dp"
     android:background="@color/transparent_black"
-    android:paddingTop="12dp"
-    android:paddingBottom="12dp">
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
 
     <ImageView
         android:id="@+id/drag_handle"
@@ -26,18 +26,6 @@
         android:layout_marginLeft="12dp"
         android:layout_centerVertical="true" />
 
-    <TextView
-        android:id="@+id/chk_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:fontFamily="sans-serif-light"
-        android:paddingLeft="4dp"
-        android:layout_toRightOf="@+id/SelectImageView"
-        android:background="@android:color/transparent"
-        android:textColor="@color/note_text_color_dark"
-        android:textSize="14sp" />
-
     <ImageView
         android:id="@+id/clear_item"
         android:layout_width="wrap_content"
@@ -53,7 +41,23 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/clear_item"
         android:layout_centerVertical="true"
-        android:layout_marginRight="12dp"
+        android:layout_marginRight="16dp"
         android:src="@drawable/ic_editor_mode_edit"/>
+
+    <TextView
+        android:id="@+id/chk_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/edit_item"
+        android:layout_centerVertical="true"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-light"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:layout_toRightOf="@+id/SelectImageView"
+        android:background="@android:color/transparent"
+        android:textColor="@color/note_text_color_dark"
+        android:textSize="14sp" />
 
 </com.pd.noteonthego.helper.OneLineCheckableListItem>

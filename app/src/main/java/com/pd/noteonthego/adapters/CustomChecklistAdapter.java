@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -106,9 +107,17 @@ public class CustomChecklistAdapter extends BaseAdapter {
         input.setSelection(items.get(position).length());
         input.setHint(R.string.edit_item);
         input.setBackgroundColor(Color.TRANSPARENT);
+        input.setSingleLine();
+        FrameLayout container = new FrameLayout(context);
+        FrameLayout.LayoutParams params = new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftMargin = 16; // remember to scale correctly
+        params.rightMargin = 16;
+        params.topMargin = 32;
+        input.setLayoutParams(params);
+        container.addView(input);
         // alert.setMessage(R.string.edit_item);
         alert.setTitle(R.string.edit_item);
-        alert.setView(input);
+        alert.setView(container);
         alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String editedListItem = input.getText().toString().trim();
