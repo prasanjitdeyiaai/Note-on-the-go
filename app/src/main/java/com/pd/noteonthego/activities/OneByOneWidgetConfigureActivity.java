@@ -3,12 +3,11 @@ package com.pd.noteonthego.activities;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
-import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +24,11 @@ import com.pd.noteonthego.models.Note;
 
 import java.util.ArrayList;
 
+/**
+ * whenever configure activity is created
+ * widget provider class on update is not called for the first time
+ * so click event is handled here in this class
+ */
 public class OneByOneWidgetConfigureActivity extends AppCompatActivity {
     int mAppWidgetId;
     private ListView noteListView;
@@ -37,6 +41,19 @@ public class OneByOneWidgetConfigureActivity extends AppCompatActivity {
         setContentView(R.layout.activity_one_by_one_widget_configure);
 
         noteListView = (ListView)findViewById(R.id.widget_list);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("Select a note");
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                // only for lollipop and newer versions
+                actionBar.setElevation(0);
+            }
+            // not working
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            // actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
+        }
 
         // get the widget ID
         Intent intent = getIntent();
@@ -64,8 +81,23 @@ public class OneByOneWidgetConfigureActivity extends AppCompatActivity {
 
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
 
+                // Create an Intent to launch ExampleActivity
+                Intent intent = new Intent(getApplicationContext(), NotesActivity.class);
+                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+                intent.putExtra("note-type", note.getNoteType());
+                intent.putExtra("note-update", true);
+                intent.putExtra("note-id", note.getNoteID());
+                intent.putExtra("note-title", note.getNoteTitle());
+                intent.putExtra("note-timestamp", note.getNoteCreatedTimeStamp());
+                intent.putExtra("note-color", note.getNoteColor());
+                PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), mAppWidgetId, intent, 0);
+
+                // Get the layout for the App Widget and attach an on-click listener
+                // to the container (entire widget)
+
                 RemoteViews views = new RemoteViews(getApplicationContext().getPackageName(),
                         R.layout.onebyone_widget);
+                views.setOnClickPendingIntent(R.id.widget_container, pendingIntent);
                 views.setTextViewText(R.id.widget_title, note.getNoteTitle());
                 views.setTextColor(R.id.widget_title, getResources().getColor(R.color.dark_holo_blue));
 
