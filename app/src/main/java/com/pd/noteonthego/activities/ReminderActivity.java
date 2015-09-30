@@ -280,7 +280,8 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         }else{
             // 10 MIN INTERVAL FOR TESTING
             alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    10 * 60 * 1000, alarmIntent);
+                    // 10 * 60 * 1000, alarmIntent);
+                    getReminderTypeInLong(event), alarmIntent);
         }
 
         // update the note with reminder

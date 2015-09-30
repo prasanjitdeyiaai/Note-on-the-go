@@ -91,7 +91,11 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
 
             StringBuilder stringBuilder = new StringBuilder();
             for (String s : checklistItemsArray) {
-                stringBuilder.append("-" + s + "\n");
+                if(s.length() > 20){
+                    stringBuilder.append("\u2022 " + s.substring(0, 21) + "... " + "\n");
+                }else {
+                    stringBuilder.append("\u2022 " + s + "\n");
+                }
             }
             holder.noteTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.check, 0, 0, 0);
             holder.noteContent.setText(stringBuilder);
