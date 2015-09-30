@@ -104,6 +104,7 @@ public class CustomChecklistAdapter extends BaseAdapter {
         final EditText input = new EditText(context);
         input.setTextSize(14);
         input.setText(items.get(position));
+        // NOT WORKING
         input.setSelection(items.get(position).length());
         input.setHint(R.string.edit_item);
         input.setBackgroundColor(Color.TRANSPARENT);

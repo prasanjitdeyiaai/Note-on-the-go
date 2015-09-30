@@ -244,20 +244,11 @@ public class ChecklistFragment extends Fragment {
             return 0;
         }
         if (title.equals("")) {
-            int indexOfCloseBracket = content.indexOf(',');
-            String contentLong = content.substring(2, indexOfCloseBracket - 1);
-            if(contentLong.length() > 20){
-                title = contentLong.substring(0, 20);
-            }else{
-                title = contentLong;
-            }
+            title = tempChecklist.get(0);
         }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
         String dateTime = simpleDateFormat.format(new Date());
-
-        // Note note = new Note(title, content, dateTime, "", noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
-        // long rowsAdded = dbHelper.addNote(note);
 
         // Add a new note
         ContentValues values = new ContentValues();

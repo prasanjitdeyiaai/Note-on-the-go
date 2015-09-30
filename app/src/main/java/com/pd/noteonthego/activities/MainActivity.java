@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
         noteListView = (ListView) findViewById(R.id.note_list);
         mNoNotes = (TextView)findViewById(R.id.no_notes);
 
-        // mEdtSearch = (EditText)findViewById(R.id.note_search);
-
         // get the saved sort order here and in on resume
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String sortOrderValue = sharedPref.getString(SettingsActivity.KEY_SORT_ORDER, "0");
@@ -120,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
                 break;
             case 1:
                 // last created first
-                sortOrder = NoteContentProvider.COLUMN_NOTES_CREATED_TIMESTAMP + " ASC";
+                sortOrder = NoteContentProvider.COLUMN_NOTES_CREATED_TIMESTAMP + " DESC";
                 break;
             case 2:
                 // last edited first

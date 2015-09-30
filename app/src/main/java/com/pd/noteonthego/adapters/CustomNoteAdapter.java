@@ -79,7 +79,11 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
         }
 
         Note note = filteredNotes.get(position);
-        holder.noteTitle.setText(note.getNoteTitle());
+        if(note.getNoteTitle().length() > 20) {
+            holder.noteTitle.setText(note.getNoteTitle().substring(0, 21));
+        }else{
+            holder.noteTitle.setText(note.getNoteTitle());
+        }
 
         if (note.getNoteType().equals(NoteType.TODO.toString())) {
             // it's a check list
