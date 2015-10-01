@@ -7,7 +7,7 @@
 
     <ListView
         android:id="@+id/note_list"
-        android:divider="@color/google_gray"
+        android:divider="@color/note_white"
         android:dividerHeight="2dp"
         android:layout_margin="3dp"
         android:layout_width="match_parent"

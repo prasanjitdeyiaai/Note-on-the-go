@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/list_note_title"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="6dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -63,7 +63,7 @@
                     android:background="@android:color/transparent"
                     android:ellipsize="end"
                     android:fontFamily="sans-serif-light"
-                    android:lineSpacingExtra="4dp"
+                    android:lineSpacingExtra="0dp"
                     android:maxLines="4"
                     android:minHeight="24dp"
                     android:textColor="@color/note_text_color_gray"
@@ -87,7 +87,6 @@
                 android:drawableLeft="@drawable/ic_action_schedule"
                 android:drawablePadding="2dp"
                 android:fontFamily="sans-serif-light"
-                android:text="Reminds monthly 12 Oct 09:00 pm"
                 android:textColor="@color/dark_holo_blue"
                 android:textSize="10sp"
                 android:textStyle="italic"
