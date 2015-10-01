@@ -286,12 +286,12 @@ public class ChecklistFragment extends Fragment {
     public void shareNoteUsingIntent() {
         StringBuilder stringBuilder = new StringBuilder();
         for (String s : tempChecklist) {
-            stringBuilder.append("-" + s + "\n");
+            stringBuilder.append("\u2022 " + s + "\n");
         }
 
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, mNoteTitle.getText().toString() + " \n " + stringBuilder);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, mNoteTitle.getText().toString() + " \n" + stringBuilder);
         sendIntent.setType("text/plain");
         startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.send_to)));
     }

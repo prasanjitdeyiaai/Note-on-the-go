@@ -161,7 +161,7 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
         Animation animation = AnimationUtils.loadAnimation(context, R.anim.custom_fadein_animation);
         animation.setDuration(500);
         convertView.startAnimation(animation);
-        animation = null;;
+        animation = null;
 
         return convertView;
     }
