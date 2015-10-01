@@ -182,6 +182,15 @@ public class ChecklistFragment extends Fragment {
         if (!mChecklistItem.getText().toString().trim().equals("")) {
             tempChecklist.add(mChecklistItem.getText().toString());
             adapter.updateNoteAdapter(tempChecklist);
+
+            // scroll to the end of the list
+            mChecklist.post(new Runnable() {
+                @Override
+                public void run() {
+                    mChecklist.smoothScrollToPosition(adapter.getCount() - 1);
+                }
+            });
+
             mChecklistItem.setText("");
             mChecklistItem.requestFocus();
         }
