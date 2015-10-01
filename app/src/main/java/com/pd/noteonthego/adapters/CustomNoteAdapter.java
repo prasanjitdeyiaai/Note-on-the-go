@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -155,6 +157,11 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
         } else {
             holder.noteStarred.setVisibility(View.GONE);
         }
+
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.custom_fadein_animation);
+        animation.setDuration(500);
+        convertView.startAnimation(animation);
+        animation = null;;
 
         return convertView;
     }
