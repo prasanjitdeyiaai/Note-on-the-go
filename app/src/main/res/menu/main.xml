@@ -14,10 +14,10 @@
 
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
+        android:orderInCategory="99"
         android:title="@string/action_settings"
         android:icon="@drawable/ic_action_action_settings"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_note"
@@ -32,14 +32,8 @@
         android:icon="@drawable/ic_action_assignment_turned_in"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_sort"
-        android:orderInCategory="99"
-        android:title="@string/action_sort"
-        android:icon="@drawable/ic_action_action_swap_vert"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/action_about"
-        android:orderInCategory="101"
+        android:orderInCategory="100"
         android:title="@string/action_about"
         app:showAsAction="never" />
 </menu>

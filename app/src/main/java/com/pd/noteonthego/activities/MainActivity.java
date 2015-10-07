@@ -370,9 +370,6 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
             case R.id.action_checklist:
                 addChecklist();
                 break;
-            case R.id.action_sort:
-                sortNotes();
-                break;
             case R.id.action_about:
                 startActivity(new Intent(getApplicationContext(), AboutActivity.class));
                 break;
@@ -468,7 +465,7 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
 
         switch (selectedSortIndex) {
             case 0:
-                // last created
+                // last created first
                 tempList.addAll(availableNotes);
                 availableNotes.clear();
                 Collections.sort(tempList, Note.noteLastCreatedAscComparator);
