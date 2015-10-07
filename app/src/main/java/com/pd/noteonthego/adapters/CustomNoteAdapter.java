@@ -145,10 +145,24 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
 
         if (note.getIsReminderSet() == 1) {
             holder.noteReminder.setVisibility(View.VISIBLE);
-            if(note.getReminderType().toLowerCase().equals("once")){
-                holder.noteReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+            if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("0")){
+                if(note.getReminderType().toLowerCase().equals("once")){
+                    holder.noteReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " today at " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                }else {
+                    holder.noteReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " from today at " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                }
+            }else if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("1")){
+                if(note.getReminderType().toLowerCase().equals("once")){
+                    holder.noteReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " tomorrow at " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                }else {
+                    holder.noteReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " from tomorrow at " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                }
             }else {
-                holder.noteReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " from " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                if(note.getReminderType().toLowerCase().equals("once")){
+                    holder.noteReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                }else {
+                    holder.noteReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " from " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                }
             }
 
         } else {

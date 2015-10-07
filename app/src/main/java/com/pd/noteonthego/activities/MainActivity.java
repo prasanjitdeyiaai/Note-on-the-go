@@ -13,7 +13,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -298,8 +297,6 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
             // get the saved sort order
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             String sortOrderValue = sharedPref.getString(SettingsActivity.KEY_SORT_ORDER, "0");
-
-            Log.e("Main Activity" , sortOrderValue);
 
             // Retrieve note records
             Uri notes = Uri.parse(NoteContentProvider.URL);
