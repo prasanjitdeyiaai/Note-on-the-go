@@ -71,9 +71,9 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
             holder.container = (RelativeLayout) convertView.findViewById(R.id.note_container);
             holder.noteTitle = (TextView) convertView.findViewById(R.id.list_note_title);
             holder.noteContent = (TextView) convertView.findViewById(R.id.list_note_content);
-            holder.noteCreatedDate = (TextView) convertView.findViewById(R.id.list_note_created_date);
             holder.noteReminder = (TextView) convertView.findViewById(R.id.list_note_reminder);
             holder.noteStarred = (ImageView) convertView.findViewById(R.id.list_note_starred);
+            holder.bigDate = (TextView) convertView.findViewById(R.id.big_date);
 
             convertView.setTag(holder);
         } else {
@@ -113,9 +113,9 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
 
         // show last edit date time if edited
         if (note.getNoteLastModifiedTimeStamp().equals("")) {
-            holder.noteCreatedDate.setText(Globals.getInstance().convertToReadableDateShort(note.getNoteCreatedTimeStamp()));
+            holder.bigDate.setText(Globals.getInstance().convertToReadableDateExtraShort(note.getNoteCreatedTimeStamp()));
         } else {
-            holder.noteCreatedDate.setText(Globals.getInstance().convertToReadableDateShort(note.getNoteLastModifiedTimeStamp()));
+            holder.bigDate.setText(Globals.getInstance().convertToReadableDateExtraShort(note.getNoteLastModifiedTimeStamp()));
         }
 
         String color = note.getNoteColor();
@@ -175,7 +175,7 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
 
         public TextView noteTitle;
         public TextView noteContent;
-        public TextView noteCreatedDate;
+        public TextView bigDate;
         public RelativeLayout container;
         public TextView noteReminder;
         public ImageView noteStarred;
