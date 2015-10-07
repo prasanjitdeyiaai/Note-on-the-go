@@ -19,6 +19,7 @@ public class AboutActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(getResources().getString(R.string.app_name));
+            actionBar.setElevation(0);
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 // only for lollipop and newer versions
                 actionBar.setElevation(0);

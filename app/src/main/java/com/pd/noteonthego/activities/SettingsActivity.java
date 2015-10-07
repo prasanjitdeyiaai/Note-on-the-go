@@ -25,6 +25,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(R.string.action_settings);
+            actionBar.setElevation(0);
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 // only for lollipop and newer versions
                 actionBar.setElevation(0);
