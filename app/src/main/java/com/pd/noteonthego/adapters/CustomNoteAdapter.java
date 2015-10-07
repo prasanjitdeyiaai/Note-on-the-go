@@ -96,11 +96,15 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
             ArrayList<String> checklistItemsArray = gson.fromJson(note.getNoteContent(), type);
 
             StringBuilder stringBuilder = new StringBuilder();
-            for (String s : checklistItemsArray) {
+            for (int i = 0; i < checklistItemsArray.size(); i++) {
+                String s = checklistItemsArray.get(i);
                 if(s.length() > 20){
-                    stringBuilder.append("\u2022 " + s.substring(0, 21) + "... " + "\n");
+                    stringBuilder.append("\u2022 " + s.substring(0, 21) + "... ");
                 }else {
-                    stringBuilder.append("\u2022 " + s + "\n");
+                    stringBuilder.append("\u2022 " + s);
+                }
+                if(i != checklistItemsArray.size() - 1){
+                    stringBuilder.append("\n");
                 }
             }
             holder.noteTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.check, 0, 0, 0);

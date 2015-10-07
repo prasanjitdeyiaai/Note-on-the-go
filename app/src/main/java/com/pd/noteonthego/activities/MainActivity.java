@@ -13,6 +13,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -298,6 +299,8 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             String sortOrderValue = sharedPref.getString(SettingsActivity.KEY_SORT_ORDER, "0");
 
+            Log.e("Main Activity" , sortOrderValue);
+
             // Retrieve note records
             Uri notes = Uri.parse(NoteContentProvider.URL);
 
@@ -368,9 +371,6 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
                 break;
             case R.id.action_checklist:
                 addChecklist();
-                break;
-            case R.id.action_sort:
-                sortNotes();
                 break;
             case R.id.action_about:
                 startActivity(new Intent(getApplicationContext(), AboutActivity.class));
@@ -467,7 +467,7 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
 
         switch (selectedSortIndex) {
             case 0:
-                // last created
+                // last created first
                 tempList.addAll(availableNotes);
                 availableNotes.clear();
                 Collections.sort(tempList, Note.noteLastCreatedAscComparator);
