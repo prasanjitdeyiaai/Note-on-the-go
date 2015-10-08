@@ -50,12 +50,15 @@ public class HomeActivity extends Activity {
             // make the date easier to read
             String month = currentDateAndTime.substring(0,2);
             String date = currentDateAndTime.substring(3,5);
-            String year = currentDateAndTime.substring(6,10);
+            // String year = currentDateAndTime.substring(6,10);
+            String hour = currentDateAndTime.substring(11,13);
+            String min = currentDateAndTime.substring(14,16);
+            String sec = currentDateAndTime.substring(17,19);
 
             // Add a new note
             ContentValues values = new ContentValues();
 
-            values.put(NoteContentProvider.COLUMN_NOTES_TITLE, "Note_" + month + date + year);
+            values.put(NoteContentProvider.COLUMN_NOTES_TITLE, "Note_" + month + date + hour + min + sec);
             values.put(NoteContentProvider.COLUMN_NOTES_CONTENT, noteToSave);
             values.put(NoteContentProvider.COLUMN_NOTES_TODO_CHECKED_POSITIONS, "");
             values.put(NoteContentProvider.COLUMN_NOTES_CREATED_TIMESTAMP, currentDateAndTime);

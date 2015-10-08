@@ -9,25 +9,26 @@
             android:id="@+id/note_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="12dp"
-            android:paddingStart="12dp"
-            android:paddingTop="12dp">
+            android:padding="12dp">
 
             <TextView
-                android:id="@+id/note_header_reminder"
+                android:id="@+id/note_extras_reminder"
                 android:layout_width="wrap_content"
-                android:text="Reminds once on 20 Sep 09 00 pm"
+                android:drawableLeft="@drawable/ic_action_schedule"
+                android:drawablePadding="2dp"
+                android:layout_marginTop="12dp"
                 android:fontFamily="sans-serif-light"
+                android:text="@string/no_reminder"
                 android:textSize="10sp"
                 android:paddingLeft="8dp"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/checklist_header_info"
+                android:id="@+id/note_extras"
                 android:layout_width="wrap_content"
-                android:text="20 Sep 09 00 pm"
                 android:fontFamily="sans-serif-light"
                 android:layout_alignParentRight="true"
+                android:layout_marginTop="12dp"
                 android:drawableLeft="@drawable/ic_content_create"
                 android:drawablePadding="2dp"
                 android:layout_alignBaseline="@+id/list_note_title"
@@ -40,8 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_below="@+id/note_header_reminder"
+                android:layout_marginTop="16dp"
+                android:layout_below="@+id/note_extras_reminder"
                 android:background="@android:color/transparent"
                 android:hint="@string/note_title"
                 android:maxLength="25"
@@ -55,9 +56,10 @@
             <ImageView
                 android:id="@+id/note_star"
                 android:layout_width="wrap_content"
-                android:layout_below="@+id/note_header_reminder"
+                android:layout_below="@+id/note_extras_reminder"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_marginTop="8dp"
                 android:padding="5dp"
                 android:src="@drawable/ic_toggle_star_outline" />
 
@@ -71,39 +73,10 @@
                 android:gravity="start"
                 android:hint="@string/add_note"
                 android:lineSpacingExtra="8dp"
-                android:minHeight="72dp"
+                android:minHeight="144dp"
                 android:paddingLeft="8dp"
                 android:textColor="@color/note_text_color_dark"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/note_extras_reminder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/note_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="sans-serif-light"
-                android:paddingLeft="8dp"
-                android:textColor="@color/note_text_color_dark"
-                android:textSize="11sp"
-                android:textStyle="normal" />
-
-            <TextView
-                android:id="@+id/note_extras"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_content_create"
-                android:drawablePadding="2dp"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/note_extras_reminder"
-                android:layout_marginBottom="2dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="sans-serif-light"
-                android:paddingLeft="8dp"
-                android:textColor="@color/note_text_color_dark"
-                android:textSize="11sp"
-                android:textStyle="normal" />
+                android:textSize="14sp" />
 
         </RelativeLayout>
 </ScrollView>

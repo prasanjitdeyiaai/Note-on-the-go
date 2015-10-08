@@ -301,15 +301,15 @@ public class NotesFragment extends Fragment {
             mNoteContent.setSelection(note.getNoteContent().length());
 
             if(!note.getNoteLastModifiedTimeStamp().equals("")){
-                mNoteExtras.setText(Globals.getInstance().convertToReadableDate(note.getNoteLastModifiedTimeStamp()));
+                mNoteExtras.setText(Globals.getInstance().convertToReadableDateShort(note.getNoteLastModifiedTimeStamp()));
             }else {
-                mNoteExtras.setText(Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()));
+                mNoteExtras.setText(Globals.getInstance().convertToReadableDateShort(note.getNoteCreatedTimeStamp()));
             }
             if(note.getIsReminderSet() == 1){
                 if(note.getReminderType().toLowerCase().equals("once")){
-                    mNoteExtrasReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                    mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
                 }else {
-                    mNoteExtrasReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " from " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                    mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " from " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
                 }
             }else {
                 mNoteExtrasReminder.setText(R.string.no_reminder);

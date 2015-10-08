@@ -10,7 +10,7 @@
         />
 
     <stroke
-        android:color="#80808080"
+        android:color="@color/note_text_color"
         android:width="1dp"></stroke>
 
 </shape>

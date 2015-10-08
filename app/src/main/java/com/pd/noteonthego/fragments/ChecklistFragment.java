@@ -358,9 +358,9 @@ public class ChecklistFragment extends Fragment {
             }
             if (note.getIsReminderSet() == 1) {
                 if(note.getReminderType().toLowerCase().equals("once")){
-                        mNoteExtrasReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
                 }else {
-                    mNoteExtrasReminder.setText("Reminds " + note.getReminderType().toLowerCase() + " from " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                    mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " from " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
                 }
             } else {
                 mNoteExtrasReminder.setText(R.string.no_reminder);

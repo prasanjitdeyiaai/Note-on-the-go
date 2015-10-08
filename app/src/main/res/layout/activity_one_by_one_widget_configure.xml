@@ -7,9 +7,6 @@
 
     <ListView
         android:id="@+id/widget_list"
-        android:divider="@color/google_gray"
-        android:dividerHeight="6dp"
-        android:layout_margin="6dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
 

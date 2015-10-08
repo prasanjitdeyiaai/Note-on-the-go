@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         card_view:cardCornerRadius="2dp"
-        card_view:cardElevation="1dp"
+        card_view:cardElevation="2dp"
         card_view:cardUseCompatPadding="true">
 
 
@@ -19,7 +19,7 @@
             android:id="@+id/note_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="12dp">
 
             <TextView
                 android:id="@+id/big_date"
@@ -32,7 +32,7 @@
                 android:fontFamily="sans-serif-light"
                 android:gravity="center"
                 android:text="06\nSep"
-                android:textColor="@color/note_text_color_gray"
+                android:textColor="@color/note_text_color_dark"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -43,11 +43,12 @@
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/big_date"
                 android:background="@android:color/transparent"
+                android:textAllCaps="true"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="First note"
                 android:textColor="@color/dark_holo_blue"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <ImageView
@@ -75,7 +76,7 @@
                 android:lineSpacingExtra="0dp"
                 android:maxLines="4"
                 android:text="Some content here \nEven on second line"
-                android:textColor="@color/note_text_color_gray"
+                android:textColor="@color/note_text_color_dark"
                 android:textSize="14sp" />
 
             <TextView
