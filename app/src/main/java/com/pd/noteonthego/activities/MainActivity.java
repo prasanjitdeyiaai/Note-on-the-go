@@ -380,53 +380,6 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
         return super.onOptionsItemSelected(item);
     }
 
-    private void askNoteType() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                MainActivity.this);
-
-        // set title
-        alertDialogBuilder.setTitle("Add Note");
-
-        // set dialog message
-        alertDialogBuilder
-                .setCancelable(true)
-                .setItems(R.array.note_type, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // The 'which' argument contains the index position
-                        // of the selected item
-                        if(which == 0){
-                            // open note
-                            Intent iNotes = new Intent(getApplicationContext(), NotesActivity.class);
-                            iNotes.putExtra("note-type", NoteType.BLANK.toString());
-                            iNotes.putExtra("note-update", false);
-                            iNotes.putExtra("note-id", -1);
-                            iNotes.putExtra("note-title", "");
-                            iNotes.putExtra("note-timestamp", "");
-                            iNotes.putExtra("note-color", "");
-                            startActivity(iNotes);
-                        }else {
-                            // open checklist
-                            // Intent iChecklist = new Intent(getApplicationContext(), ChecklistActivity.class);
-                            // startActivity(iChecklist);
-                            Intent iNotes = new Intent(getApplicationContext(), NotesActivity.class);
-                            iNotes.putExtra("note-type", NoteType.TODO.toString());
-                            iNotes.putExtra("note-update", false);
-                            iNotes.putExtra("note-id", -1);
-                            iNotes.putExtra("note-title", "");
-                            iNotes.putExtra("note-timestamp", "");
-                            iNotes.putExtra("note-color", "");
-                            startActivity(iNotes);
-                        }
-                    }
-                });
-
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
-        alertDialog.show();
-    }
-
     public void addNote(){
         // open note
         Intent iNotes = new Intent(getApplicationContext(), NotesActivity.class);
