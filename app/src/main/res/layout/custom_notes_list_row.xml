@@ -87,7 +87,7 @@
                 android:layout_toRightOf="@+id/big_date"
                 android:drawableLeft="@drawable/ic_action_schedule"
                 android:drawablePadding="2dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-light"
                 android:text="Reminds once on Sep 12 09:00 pm"
                 android:textColor="@color/dark_holo_blue"

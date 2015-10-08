@@ -306,11 +306,28 @@ public class NotesFragment extends Fragment {
                 mNoteExtras.setText(Globals.getInstance().convertToReadableDateShort(note.getNoteCreatedTimeStamp()));
             }
             if(note.getIsReminderSet() == 1){
-                if(note.getReminderType().toLowerCase().equals("once")){
-                    mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
-                }else {
-                    mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " from " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("0")){
+                    if(note.getReminderType().toLowerCase().equals("once")){
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " today " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else {
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " from today " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }
                 }
+                else if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("1")){
+                    if(note.getReminderType().toLowerCase().equals("once")){
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " tomorrow " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else {
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " from tomorrow " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }
+                }
+                else {
+                    if(note.getReminderType().toLowerCase().equals("once")){
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                    }else {
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " from " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                    }
+                }
+
             }else {
                 mNoteExtrasReminder.setText(R.string.no_reminder);
             }

@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -109,11 +108,9 @@ public class ChecklistFragment extends Fragment {
                     } else if (actionId == EditorInfo.IME_ACTION_NEXT) {
                         // Capture soft enters in other singleLine EditTexts
                         addChecklistItem();
-                        Log.e("Checklist Fragment", "Pressed next");
                     } else {
                         // everything else should work here
                         addChecklistItem();
-                        Log.e("Checklist Fragment", "Single line anything other key like ADD in LGG2");
                         return false;
                     }  // Let system handle all other null KeyEvents
                 } else if (actionId == EditorInfo.IME_NULL) {
@@ -123,13 +120,10 @@ public class ChecklistFragment extends Fragment {
                     // a non-zero actionId and a null event like the previous cases.
                     if (event.getAction() == KeyEvent.ACTION_DOWN) {
                         // We capture the event when key is first pressed.
-                        Log.e("Checklist Fragment", "Pressed something else");
                     } else {
-                        Log.e("Checklist Fragment", "Pressed something else");
                         return true;
                     }   // We consume the event when the key is released.
                 } else {
-                    Log.e("Checklist Fragment", "Pressed something else");
                     return false;
                 }
                 // We let the system handle it when the listener
@@ -230,7 +224,6 @@ public class ChecklistFragment extends Fragment {
             // Add sport if it is checked i.e.) == TRUE!
             if (checked.valueAt(i)) {
                 selectedItems.add(String.valueOf(position));
-                Log.e("Save note", "Selected items " + adapter.getItem(position));
             }
         }
 
@@ -352,15 +345,31 @@ public class ChecklistFragment extends Fragment {
             }
 
             if (!note.getNoteLastModifiedTimeStamp().equals("")) {
-                mNoteExtras.setText(Globals.getInstance().convertToReadableDate(note.getNoteLastModifiedTimeStamp()));
+                mNoteExtras.setText(Globals.getInstance().convertToReadableDateShort(note.getNoteLastModifiedTimeStamp()));
             } else {
-                mNoteExtras.setText(Globals.getInstance().convertToReadableDate(note.getNoteCreatedTimeStamp()));
+                mNoteExtras.setText(Globals.getInstance().convertToReadableDateShort(note.getNoteCreatedTimeStamp()));
             }
             if (note.getIsReminderSet() == 1) {
-                if(note.getReminderType().toLowerCase().equals("once")){
+                if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("0")){
+                    if(note.getReminderType().toLowerCase().equals("once")){
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " today " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else {
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " from today " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }
+                }
+                else if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("1")){
+                    if(note.getReminderType().toLowerCase().equals("once")){
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " tomorrow " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else {
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " from tomorrow " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }
+                }
+                else {
+                    if(note.getReminderType().toLowerCase().equals("once")){
                         mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
-                }else {
-                    mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " from " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                    }else {
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " from " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                    }
                 }
             } else {
                 mNoteExtrasReminder.setText(R.string.no_reminder);
@@ -382,7 +391,6 @@ public class ChecklistFragment extends Fragment {
             // Add sport if it is checked i.e.) == TRUE!
             if (checked.valueAt(i)) {
                 selectedItems.add(String.valueOf(position));
-                Log.e("Update note", "Selected items " + adapter.getItem(position));
             }
         }
 

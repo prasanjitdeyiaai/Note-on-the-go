@@ -125,37 +125,29 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
         String color = note.getNoteColor();
         if (color.equals(String.valueOf(NoteColor.YELLOW))) {
             holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_yellow));
-            //holder.container.setBackground(context.getResources().getDrawable(R.drawable.shadow_yellow));
         } else if (color.equals(String.valueOf(NoteColor.BLUE))) {
             holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_blue));
-            //holder.container.setBackground(context.getResources().getDrawable(R.drawable.shadow_blue));
         } else if (color.equals(String.valueOf(NoteColor.GREEN))) {
             holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_green));
-            //holder.container.setBackground(context.getResources().getDrawable(R.drawable.shadow_green));
         } else if (color.equals(String.valueOf(NoteColor.WHITE))) {
             holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_white));
-            //holder.container.setBackground(context.getResources().getDrawable(R.drawable.shadow_white));
-            // holder.noteCreatedDate.setTextColor(context.getResources().getColor(R.color.note_text_color_dark));
-            // holder.noteReminder.setTextColor(context.getResources().getColor(R.color.note_text_color_dark));
         } else {
-            //holder.container.setBackground(context.getResources().getDrawable(R.drawable.custom_note_list_background_selector));
             holder.container.setBackgroundColor(context.getResources().getColor(R.color.note_red));
-            //holder.container.setBackground(context.getResources().getDrawable(R.drawable.shadow_red));
         }
 
         if (note.getIsReminderSet() == 1) {
             holder.noteReminder.setVisibility(View.VISIBLE);
             if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("0")){
                 if(note.getReminderType().toLowerCase().equals("once")){
-                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " today at " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " today " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                 }else {
-                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " from today at " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " from today " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                 }
             }else if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("1")){
                 if(note.getReminderType().toLowerCase().equals("once")){
-                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " tomorrow at " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " tomorrow " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                 }else {
-                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " from tomorrow at " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " from tomorrow " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                 }
             }else {
                 if(note.getReminderType().toLowerCase().equals("once")){
