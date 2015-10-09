@@ -76,6 +76,13 @@ public class Globals {
         return newDate;
     }
 
+    public String convertToReadableDateOnly(String oldDate){
+        String newDate;
+        String day = oldDate.substring(3,5);
+        newDate = day;
+        return newDate;
+    }
+
     public String convertMonthToString(int month){
 
         String monthInString = "";
@@ -141,7 +148,7 @@ public class Globals {
             if(date2.after(date1)){
                 diff = date2.getTime() - date1.getTime();
             }else {
-                diff = date1.getTime() - date2.getTime();
+                return "-1";
             }
 
             diffHours = diff / (60 * 60 * 1000);
