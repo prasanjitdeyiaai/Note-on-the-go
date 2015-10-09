@@ -75,10 +75,10 @@
 
     <array name="note_sort_options">
         <item>Last Created First</item>
-        <item>Edited First</item>
+        <item>Last modified First</item>
         <item>Starred First</item>
         <item>Notes First</item>
-        <item>Todo First</item>
+        <item>Todos First</item>
     </array>
 
     <string-array name="note_sort_values">

@@ -1,6 +1,7 @@
 package com.pd.noteonthego.fragments;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -172,7 +173,7 @@ public class NotesFragment extends Fragment {
         values.put(NoteContentProvider.COLUMN_NOTES_TODO_CHECKED_POSITIONS, "");
         values.put(NoteContentProvider.COLUMN_NOTES_CREATED_TIMESTAMP, dateTime);
 
-        values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, "");
+        values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, dateTime);
         values.put(NoteContentProvider.COLUMN_NOTES_COLOR, noteColor);
         values.put(NoteContentProvider.COLUMN_NOTES_TYPE, String.valueOf(NoteType.BLANK));
 
@@ -189,7 +190,8 @@ public class NotesFragment extends Fragment {
                 NoteContentProvider.CONTENT_URI, values);
 
         if (uri != null) {
-            // Toast.makeText(getActivity(), R.string.note_saved, Toast.LENGTH_SHORT).show();
+            // note saved successfully
+            this.noteID = (int) ContentUris.parseId(uri);
         }
 
         // close the activity
