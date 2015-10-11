@@ -353,20 +353,39 @@ public class ChecklistFragment extends Fragment {
             }
             if (note.getIsReminderSet() == 1) {
                 if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("0")){
+                    // TODAY
                     if(note.getReminderType().toLowerCase().equals("once")){
                         mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " today " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else if(note.getReminderType().toLowerCase().equals("daily")){
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else if(note.getReminderType().toLowerCase().equals("weekly")){
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on wednesdays " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                     }else {
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " from today " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                     }
-                }
-                else if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("1")){
+                }else if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("1")){
+                    // TOMORROW
                     if(note.getReminderType().toLowerCase().equals("once")){
                         mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " tomorrow " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else if(note.getReminderType().toLowerCase().equals("daily")){
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else if(note.getReminderType().toLowerCase().equals("weekly")){
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on wednesdays " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                     }else {
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " from tomorrow " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                     }
-                }
-                else {
+                }else if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("-1")){
+                    // YESTERDAY
+                    if(note.getReminderType().toLowerCase().equals("once")){
+                        // do nothing here as it is completed
+                    }else if(note.getReminderType().toLowerCase().equals("daily")){
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else if(note.getReminderType().toLowerCase().equals("weekly")){
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on wednesdays " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else {
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }
+                }else {
                     if(note.getReminderType().toLowerCase().equals("once")){
                         mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
                     }else {

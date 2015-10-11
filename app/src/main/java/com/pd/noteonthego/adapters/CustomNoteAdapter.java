@@ -74,6 +74,7 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
             holder.noteReminder = (TextView) convertView.findViewById(R.id.list_note_reminder);
             holder.noteStarred = (ImageView) convertView.findViewById(R.id.list_note_starred);
             holder.bigDate = (TextView) convertView.findViewById(R.id.big_date);
+            holder.separator = (View)convertView.findViewById(R.id.separator);
 
             convertView.setTag(holder);
         } else {
@@ -116,12 +117,12 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
         }
 
         // show last edit date time if edited
-        if (note.getNoteLastModifiedTimeStamp().equals("")) {
+        /*if (note.getNoteLastModifiedTimeStamp().equals("")) {
             holder.bigDate.setText(Globals.getInstance().convertToReadableDateExtraShort(note.getNoteCreatedTimeStamp()));
         } else {
             holder.bigDate.setText(Globals.getInstance().convertToReadableDateExtraShort(note.getNoteLastModifiedTimeStamp()));
-        }
-        // holder.bigDate.setText(Globals.getInstance().convertToReadableDateExtraShort(note.getNoteLastModifiedTimeStamp()));
+        }*/
+        holder.bigDate.setText(Globals.getInstance().convertToReadableDateExtraShort(note.getNoteLastModifiedTimeStamp()));
 
         String color = note.getNoteColor();
         if (color.equals(String.valueOf(NoteColor.YELLOW))) {
@@ -138,6 +139,7 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
 
         if (note.getIsReminderSet() == 1) {
             holder.noteReminder.setVisibility(View.VISIBLE);
+            holder.separator.setVisibility(View.VISIBLE);
             if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("0")){
                 // TODAY
                 if(note.getReminderType().toLowerCase().equals("once")){
@@ -181,6 +183,7 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
 
         } else {
             holder.noteReminder.setVisibility(View.GONE);
+            holder.separator.setVisibility(View.GONE);
         }
 
         // ADD STAR FOR NOTE
@@ -211,6 +214,7 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
         public RelativeLayout container;
         public TextView noteReminder;
         public ImageView noteStarred;
+        public View separator;
     }
 
     public void updateNoteAdapter(ArrayList<Note> noteArrayList) {

@@ -74,22 +74,32 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
                 android:lineSpacingExtra="0dp"
-                android:maxLines="4"
+                android:maxLines="5"
                 android:text="Some content here \nEven on second line"
                 android:textColor="@color/note_text_color_dark"
                 android:textSize="14sp" />
+
+            <View
+                android:id="@+id/separator"
+                android:layout_below="@+id/list_note_content"
+                android:layout_toRightOf="@+id/big_date"
+                android:layout_alignRight="@+id/list_note_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@color/switch_thumb_normal_material_dark"
+                android:layout_height="1px"/>
 
             <TextView
                 android:id="@+id/list_note_reminder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/list_note_content"
+                android:layout_below="@+id/separator"
                 android:layout_toRightOf="@+id/big_date"
                 android:drawableLeft="@drawable/ic_action_schedule"
                 android:drawablePadding="2dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:fontFamily="sans-serif-light"
-                android:text="Reminds once on Sep 12 09:00 pm"
+                android:text="once today 09:00 pm"
                 android:textColor="@color/dark_holo_blue"
                 android:textSize="10sp"
                 android:textStyle="normal"

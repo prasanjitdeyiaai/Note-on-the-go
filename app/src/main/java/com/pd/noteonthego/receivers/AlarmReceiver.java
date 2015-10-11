@@ -1,5 +1,6 @@
 package com.pd.noteonthego.receivers;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -39,9 +40,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             updateReminder(context, noteID);
             // show notification
             showNotification(context, noteID);
-            // play sound
-            // not implemented yet
-            playSound();
         }
     }
 
@@ -88,9 +86,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     }
 
-    private void playSound() {
-    }
-
     /**
      * display notification on status bar
      *
@@ -133,6 +128,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 );
         mBuilder.setContentIntent(resultPendingIntent);
         mBuilder.setAutoCancel(true);
+        // play default sound
+        mBuilder.setDefaults(Notification.DEFAULT_SOUND);
 
         // Sets an ID for the notification
         int mNotificationId = 001;
