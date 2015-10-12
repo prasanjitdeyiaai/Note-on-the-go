@@ -95,24 +95,47 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
             Type type = new TypeToken<ArrayList<String>>() {
             }.getType();
             ArrayList<String> checklistItemsArray = gson.fromJson(note.getNoteContent(), type);
+            ArrayList<String> checkedPositions = gson.fromJson(note.getNoteTodoCheckedPositions(), type);
 
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < checklistItemsArray.size(); i++) {
                 String s = checklistItemsArray.get(i);
-                if(s.length() > 20){
-                    stringBuilder.append("\u2022 " + s.substring(0, 21) + "... ");
+                if(checkedPositions != null) {
+                    if (checkedPositions.contains("" + i)) {
+                        if (s.length() > 20) {
+                            stringBuilder.append("\u2713 " + s.substring(0, 21) + "... ");
+                        } else {
+                            stringBuilder.append("\u2713 " + s);
+                        }
+                        if (i != checklistItemsArray.size() - 1) {
+                            stringBuilder.append("\n");
+                        }
+                    } else {
+                        if (s.length() > 20) {
+                            stringBuilder.append("\u25CF  " + s.substring(0, 21) + "... ");
+                        } else {
+                            stringBuilder.append("\u25CF  " + s);
+                        }
+                        if (i != checklistItemsArray.size() - 1) {
+                            stringBuilder.append("\n");
+                        }
+                    }
                 }else {
-                    stringBuilder.append("\u2022 " + s);
-                }
-                if(i != checklistItemsArray.size() - 1){
-                    stringBuilder.append("\n");
+                    if (s.length() > 20) {
+                        stringBuilder.append("\u25CF  " + s.substring(0, 21) + "... ");
+                    } else {
+                        stringBuilder.append("\u25CF  " + s);
+                    }
+                    if (i != checklistItemsArray.size() - 1) {
+                        stringBuilder.append("\n");
+                    }
                 }
             }
-            holder.noteTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.check, 0, 0, 0);
+            // holder.noteTitle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.check, 0, 0, 0);
             holder.noteContent.setText(stringBuilder);
         } else {
             // it's a note
-            holder.noteTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            // holder.noteTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             holder.noteContent.setText(note.getNoteContent());
         }
 
