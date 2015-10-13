@@ -73,7 +73,7 @@
                 android:background="@android:color/transparent"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
-                android:lineSpacingExtra="0dp"
+                android:lineSpacingExtra="2dp"
                 android:maxLines="5"
                 android:text="Some content here \nEven on second line"
                 android:textColor="@color/note_text_color_dark"
