@@ -16,21 +16,22 @@
         android:id="@+id/widget_twobytwo_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:fontFamily="sans-serif-light"
         android:textStyle="bold"
-        android:text="Title"
-        android:layout_centerInParent="true"
-        android:gravity="center_horizontal" />
+        android:text="Title" />
 
     <TextView
         android:id="@+id/widget_twobytwo_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:ellipsize="end"
+        android:lineSpacingExtra="2dp"
+        android:layout_marginTop="4dp"
         android:layout_below="@+id/widget_twobytwo_title"
         android:fontFamily="sans-serif-light"
-        android:text="Some content here"
-        android:textStyle="bold"
-        android:layout_centerInParent="true"
-        android:gravity="center_horizontal" />
+        android:text="Some content here" />
 
 </RelativeLayout>

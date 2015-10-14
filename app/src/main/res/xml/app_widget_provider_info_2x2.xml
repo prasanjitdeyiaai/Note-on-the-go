@@ -4,6 +4,6 @@
     android:minWidth="110dp"
     android:updatePeriodMillis="0"
     android:minHeight="96dp"
-    android:configure="com.pd.noteonthego.activities.OneByOneWidgetConfigureActivity"
+    android:configure="com.pd.noteonthego.activities.TwoByTwoWidgetConfigureActivity"
     android:initialLayout="@layout/twobytwo_widget">
 </appwidget-provider>

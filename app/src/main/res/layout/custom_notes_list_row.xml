@@ -31,7 +31,6 @@
                 android:background="@drawable/circle_textview"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center"
-                android:text="06\nSep"
                 android:textColor="@color/note_text_color_dark"
                 android:textSize="14sp"
                 android:textStyle="normal" />
@@ -46,7 +45,6 @@
                 android:textAllCaps="true"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="First note"
                 android:textColor="@color/dark_holo_blue"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -59,7 +57,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:src="@drawable/ic_toggle_star"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <!-- max lines important here -->
 
@@ -75,7 +73,6 @@
                 android:fontFamily="sans-serif-light"
                 android:lineSpacingExtra="2dp"
                 android:maxLines="5"
-                android:text="Some content here \nEven on second line"
                 android:textColor="@color/note_text_color_dark"
                 android:textSize="14sp" />
 
@@ -86,6 +83,7 @@
                 android:layout_alignRight="@+id/list_note_content"
                 android:layout_width="wrap_content"
                 android:layout_marginTop="12dp"
+                android:visibility="gone"
                 android:background="@color/switch_thumb_normal_material_dark"
                 android:layout_height="1px"/>
 
@@ -103,7 +101,7 @@
                 android:textColor="@color/dark_holo_blue"
                 android:textSize="10sp"
                 android:textStyle="normal"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

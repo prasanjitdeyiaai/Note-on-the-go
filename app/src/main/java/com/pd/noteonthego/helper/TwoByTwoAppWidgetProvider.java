@@ -30,8 +30,8 @@ public class TwoByTwoAppWidgetProvider  extends AppWidgetProvider {
 
             // Get the layout for the App Widget and attach an on-click listener
             // to the container (entire widget)
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.onebyone_widget);
-            views.setOnClickPendingIntent(R.id.widget_container, pendingIntent);
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.twobytwo_widget);
+            views.setOnClickPendingIntent(R.id.widget_twobytwo_container, pendingIntent);
 
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);

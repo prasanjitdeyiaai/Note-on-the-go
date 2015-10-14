@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/widget_configure_container_twobytwo"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/widget_configure_title_twobytwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:textStyle="bold"
+        android:ellipsize="end"
+        android:textAllCaps="true"
+        android:singleLine="true"
+        android:textColor="@color/dark_holo_blue" />
+
+    <TextView
+        android:id="@+id/widget_configure_content_twobytwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:lineSpacingExtra="2dp"
+        android:maxLines="5"
+        android:layout_below="@+id/widget_configure_title_twobytwo"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@color/note_text_color_dark" />
+
+</RelativeLayout>

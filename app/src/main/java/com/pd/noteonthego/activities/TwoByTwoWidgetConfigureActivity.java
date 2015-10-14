@@ -16,12 +16,16 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RemoteViews;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.pd.noteonthego.R;
-import com.pd.noteonthego.adapters.CustomWidgetAdapter;
+import com.pd.noteonthego.adapters.CustomTwoByTwoWidgetAdapter;
 import com.pd.noteonthego.helper.NoteColor;
 import com.pd.noteonthego.helper.NoteContentProvider;
+import com.pd.noteonthego.helper.NoteType;
 import com.pd.noteonthego.models.Note;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -32,15 +36,15 @@ import java.util.ArrayList;
 public class TwoByTwoWidgetConfigureActivity extends AppCompatActivity {
     int mAppWidgetId;
     private ListView noteListView;
-    private CustomWidgetAdapter adapter;
+    private CustomTwoByTwoWidgetAdapter adapter;
     private ArrayList<Note> availableNotes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_one_by_one_widget_configure);
+        setContentView(R.layout.activity_two_by_two_widget_configure);
 
-        noteListView = (ListView)findViewById(R.id.widget_list);
+        noteListView = (ListView)findViewById(R.id.widget_list_twobytwo);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -71,7 +75,7 @@ public class TwoByTwoWidgetConfigureActivity extends AppCompatActivity {
         Cursor c = getContentResolver().query(notes, null, null, null, null);
         availableNotes = NoteContentProvider.getNoteListFromCursor(c);
 
-        adapter = new CustomWidgetAdapter(getApplicationContext(), availableNotes);
+        adapter = new CustomTwoByTwoWidgetAdapter(getApplicationContext(), availableNotes);
         noteListView.setAdapter(adapter);
 
         noteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,22 +101,72 @@ public class TwoByTwoWidgetConfigureActivity extends AppCompatActivity {
                 // to the container (entire widget)
 
                 RemoteViews views = new RemoteViews(getApplicationContext().getPackageName(),
-                        R.layout.onebyone_widget);
-                views.setOnClickPendingIntent(R.id.widget_container, pendingIntent);
-                views.setTextViewText(R.id.widget_title, note.getNoteTitle());
-                views.setTextColor(R.id.widget_title, getResources().getColor(R.color.dark_holo_blue));
+                        R.layout.twobytwo_widget);
+                views.setOnClickPendingIntent(R.id.widget_twobytwo_container, pendingIntent);
+                views.setTextViewText(R.id.widget_twobytwo_title, note.getNoteTitle());
+
+                if (note.getNoteType().equals(NoteType.TODO.toString())) {
+                    // it's a check list
+                    Gson gson = new Gson();
+
+                    Type type = new TypeToken<ArrayList<String>>() {
+                    }.getType();
+                    ArrayList<String> checklistItemsArray = gson.fromJson(note.getNoteContent(), type);
+                    ArrayList<String> checkedPositions = gson.fromJson(note.getNoteTodoCheckedPositions(), type);
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (int i = 0; i < checklistItemsArray.size(); i++) {
+                        String s = checklistItemsArray.get(i);
+                        if(checkedPositions != null) {
+                            if (checkedPositions.contains("" + i)) {
+                                if (s.length() > 20) {
+                                    stringBuilder.append("\u2713 " + s.substring(0, 21) + "... ");
+                                } else {
+                                    stringBuilder.append("\u2713 " + s);
+                                }
+                                if (i != checklistItemsArray.size() - 1) {
+                                    stringBuilder.append("\n");
+                                }
+                            } else {
+                                if (s.length() > 20) {
+                                    stringBuilder.append("\u25CF  " + s.substring(0, 21) + "... ");
+                                } else {
+                                    stringBuilder.append("\u25CF  " + s);
+                                }
+                                if (i != checklistItemsArray.size() - 1) {
+                                    stringBuilder.append("\n");
+                                }
+                            }
+                        }else {
+                            if (s.length() > 20) {
+                                stringBuilder.append("\u25CF  " + s.substring(0, 21) + "... ");
+                            } else {
+                                stringBuilder.append("\u25CF  " + s);
+                            }
+                            if (i != checklistItemsArray.size() - 1) {
+                                stringBuilder.append("\n");
+                            }
+                        }
+                    }
+                    views.setTextViewText(R.id.widget_twobytwo_content, stringBuilder);
+                } else {
+                    // it's a note
+                    views.setTextViewText(R.id.widget_twobytwo_content, note.getNoteContent());
+                }
+
+                views.setTextColor(R.id.widget_twobytwo_title, getResources().getColor(R.color.dark_holo_blue));
 
                 String color = note.getNoteColor();
                 if (color.equals(String.valueOf(NoteColor.YELLOW))) {
-                    views.setInt(R.id.widget_container, "setBackgroundColor", getResources().getColor(R.color.note_yellow));
+                    views.setInt(R.id.widget_twobytwo_container, "setBackgroundColor", getResources().getColor(R.color.note_yellow));
                 } else if (color.equals(String.valueOf(NoteColor.BLUE))) {
-                    views.setInt(R.id.widget_container, "setBackgroundColor", getResources().getColor(R.color.note_blue));
+                    views.setInt(R.id.widget_twobytwo_container, "setBackgroundColor", getResources().getColor(R.color.note_blue));
                 } else if (color.equals(String.valueOf(NoteColor.GREEN))) {
-                    views.setInt(R.id.widget_container, "setBackgroundColor", getResources().getColor(R.color.note_green));
+                    views.setInt(R.id.widget_twobytwo_container, "setBackgroundColor", getResources().getColor(R.color.note_green));
                 } else if (color.equals(String.valueOf(NoteColor.WHITE))) {
-                    views.setInt(R.id.widget_container, "setBackgroundColor", getResources().getColor(R.color.note_white));
+                    views.setInt(R.id.widget_twobytwo_container, "setBackgroundColor", getResources().getColor(R.color.note_white));
                 } else {
-                    views.setInt(R.id.widget_container, "setBackgroundColor", getResources().getColor(R.color.note_red));
+                    views.setInt(R.id.widget_twobytwo_container, "setBackgroundColor", getResources().getColor(R.color.note_red));
                 }
 
                 appWidgetManager.updateAppWidget(mAppWidgetId, views);
