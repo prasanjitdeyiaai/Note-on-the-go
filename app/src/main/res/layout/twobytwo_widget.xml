@@ -19,8 +19,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:fontFamily="sans-serif-light"
-        android:textStyle="bold"
-        android:text="Title" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/widget_twobytwo_content"
@@ -31,7 +30,6 @@
         android:lineSpacingExtra="2dp"
         android:layout_marginTop="4dp"
         android:layout_below="@+id/widget_twobytwo_title"
-        android:fontFamily="sans-serif-light"
-        android:text="Some content here" />
+        android:fontFamily="sans-serif-light" />
 
 </RelativeLayout>
