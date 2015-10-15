@@ -103,18 +103,18 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
                 if(checkedPositions != null) {
                     if (checkedPositions.contains("" + i)) {
                         if (s.length() > 20) {
-                            stringBuilder.append("\u2713 " + s.substring(0, 21) + "... ");
+                            stringBuilder.append("- " + s.substring(0, 21) + "... ");
                         } else {
-                            stringBuilder.append("\u2713 " + s);
+                            stringBuilder.append("- " + s);
                         }
                         if (i != checklistItemsArray.size() - 1) {
                             stringBuilder.append("\n");
                         }
                     } else {
                         if (s.length() > 20) {
-                            stringBuilder.append("\u25CF  " + s.substring(0, 21) + "... ");
+                            stringBuilder.append("\u2022 " + s.substring(0, 21) + "... ");
                         } else {
-                            stringBuilder.append("\u25CF  " + s);
+                            stringBuilder.append("\u2022 " + s);
                         }
                         if (i != checklistItemsArray.size() - 1) {
                             stringBuilder.append("\n");
@@ -122,9 +122,9 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
                     }
                 }else {
                     if (s.length() > 20) {
-                        stringBuilder.append("\u25CF  " + s.substring(0, 21) + "... ");
+                        stringBuilder.append("\u2022 " + s.substring(0, 21) + "... ");
                     } else {
-                        stringBuilder.append("\u25CF  " + s);
+                        stringBuilder.append("\u2022 " + s);
                     }
                     if (i != checklistItemsArray.size() - 1) {
                         stringBuilder.append("\n");

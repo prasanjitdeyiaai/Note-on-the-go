@@ -120,18 +120,18 @@ public class TwoByTwoWidgetConfigureActivity extends AppCompatActivity {
                         if(checkedPositions != null) {
                             if (checkedPositions.contains("" + i)) {
                                 if (s.length() > 20) {
-                                    stringBuilder.append("\u2713 " + s.substring(0, 21) + "... ");
+                                    stringBuilder.append("- " + s.substring(0, 21) + "... ");
                                 } else {
-                                    stringBuilder.append("\u2713 " + s);
+                                    stringBuilder.append("- " + s);
                                 }
                                 if (i != checklistItemsArray.size() - 1) {
                                     stringBuilder.append("\n");
                                 }
                             } else {
                                 if (s.length() > 20) {
-                                    stringBuilder.append("\u25CF  " + s.substring(0, 21) + "... ");
+                                    stringBuilder.append("\u2022 " + s.substring(0, 21) + "... ");
                                 } else {
-                                    stringBuilder.append("\u25CF  " + s);
+                                    stringBuilder.append("\u2022 " + s);
                                 }
                                 if (i != checklistItemsArray.size() - 1) {
                                     stringBuilder.append("\n");
@@ -139,9 +139,9 @@ public class TwoByTwoWidgetConfigureActivity extends AppCompatActivity {
                             }
                         }else {
                             if (s.length() > 20) {
-                                stringBuilder.append("\u25CF  " + s.substring(0, 21) + "... ");
+                                stringBuilder.append("\u2022 " + s.substring(0, 21) + "... ");
                             } else {
-                                stringBuilder.append("\u25CF  " + s);
+                                stringBuilder.append("\u2022 " + s);
                             }
                             if (i != checklistItemsArray.size() - 1) {
                                 stringBuilder.append("\n");
@@ -155,6 +155,7 @@ public class TwoByTwoWidgetConfigureActivity extends AppCompatActivity {
                 }
 
                 views.setTextColor(R.id.widget_twobytwo_title, getResources().getColor(R.color.dark_holo_blue));
+                views.setTextColor(R.id.widget_twobytwo_content, getResources().getColor(R.color.note_text_color_dark));
 
                 String color = note.getNoteColor();
                 if (color.equals(String.valueOf(NoteColor.YELLOW))) {
