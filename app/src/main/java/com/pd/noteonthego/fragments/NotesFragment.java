@@ -1,6 +1,8 @@
 package com.pd.noteonthego.fragments;
 
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -9,25 +11,33 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.pd.noteonthego.R;
+import com.pd.noteonthego.activities.NotesActivity;
 import com.pd.noteonthego.activities.ReminderActivity;
 import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
 import com.pd.noteonthego.helper.Globals;
 import com.pd.noteonthego.helper.NoteColor;
 import com.pd.noteonthego.helper.NoteContentProvider;
+import com.pd.noteonthego.helper.NotePreferences;
 import com.pd.noteonthego.helper.NoteType;
 import com.pd.noteonthego.models.Note;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -200,7 +210,6 @@ public class NotesFragment extends Fragment {
     }
 
     public void updateNote(String noteColor, int noteID) {
-        //DBHelper dbHelper = new DBHelper(getActivity());
 
         editedNoteTitle = mNoteTitle.getText().toString();
         editedNoteContent = mNoteContent.getText().toString();
@@ -216,9 +225,6 @@ public class NotesFragment extends Fragment {
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
             String dateTime = simpleDateFormat.format(new Date());
-
-            // Note note = new Note(title, content, "", dateTime, noteColor, String.valueOf(NoteType.BLANK), "", "", "", 0, "", "");
-            // long rowsUpdated = dbHelper.updateNote(noteID, note);
 
             // Update note
             ContentValues values = new ContentValues();
@@ -238,10 +244,145 @@ public class NotesFragment extends Fragment {
 
             if (rowsUpdated > 0) {
                 // Toast.makeText(getActivity(), R.string.note_updated, Toast.LENGTH_SHORT).show();
+                updateWidgets(noteID);
             }
 
             // close the activity
             getActivity().finish();
+        }
+    }
+
+    private void updateWidgets(int noteID) {
+
+        int mAppWidgetID = -1;
+        String widgetType = "";
+
+        NotePreferences notePreferences = new NotePreferences(getActivity());
+        if(notePreferences.getWidgetIDForUpdate(String.valueOf(noteID)).equals("")){
+            // no widget to update
+            Log.e("NotesFragment", "No widget");
+        }else {
+            mAppWidgetID = Integer.parseInt(notePreferences.getWidgetIDForUpdate(String.valueOf(noteID)));
+            widgetType = notePreferences.getWidgetType(String.valueOf(noteID));
+            Log.e("NotesFragment", "Widget ID " + mAppWidgetID);
+        }
+
+        // Retrieve note records
+        Uri notes = Uri.parse(NoteContentProvider.URL);
+
+        String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(noteID)};
+        Cursor c = getActivity().getContentResolver().query(notes, null, whereClause, whereArgs, null);
+        Note note = NoteContentProvider.getNoteFromCursor(c);
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getActivity());
+
+        // Create an Intent to launch ExampleActivity
+        Intent intent = new Intent(getActivity(), NotesActivity.class);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetID);
+        intent.putExtra("note-type", note.getNoteType());
+        intent.putExtra("note-update", true);
+        intent.putExtra("note-id", note.getNoteID());
+        intent.putExtra("note-title", note.getNoteTitle());
+        intent.putExtra("note-timestamp", note.getNoteCreatedTimeStamp());
+        intent.putExtra("note-color", note.getNoteColor());
+        PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), mAppWidgetID, intent, 0);
+
+        // Get the layout for the App Widget and attach an on-click listener
+        // to the container (entire widget)
+
+        RemoteViews views = null;
+        if(widgetType.equals(getResources().getString(R.string.widget_onebyone))){
+            views = new RemoteViews(getActivity().getPackageName(),
+                    R.layout.onebyone_widget);
+            views.setOnClickPendingIntent(R.id.widget_container, pendingIntent);
+            views.setTextViewText(R.id.widget_title, note.getNoteTitle());
+            views.setTextColor(R.id.widget_title, getResources().getColor(R.color.dark_holo_blue));
+
+            String color = note.getNoteColor();
+            if (color.equals(String.valueOf(NoteColor.YELLOW))) {
+                views.setInt(R.id.widget_container, "setBackgroundColor", getResources().getColor(R.color.note_yellow));
+            } else if (color.equals(String.valueOf(NoteColor.BLUE))) {
+                views.setInt(R.id.widget_container, "setBackgroundColor", getResources().getColor(R.color.note_blue));
+            } else if (color.equals(String.valueOf(NoteColor.GREEN))) {
+                views.setInt(R.id.widget_container, "setBackgroundColor", getResources().getColor(R.color.note_green));
+            } else if (color.equals(String.valueOf(NoteColor.WHITE))) {
+                views.setInt(R.id.widget_container, "setBackgroundColor", getResources().getColor(R.color.note_white));
+            } else {
+                views.setInt(R.id.widget_container, "setBackgroundColor", getResources().getColor(R.color.note_red));
+            }
+            appWidgetManager.updateAppWidget(mAppWidgetID, views);
+        }else {
+            views = new RemoteViews(getActivity().getPackageName(),
+                    R.layout.twobytwo_widget);
+            views.setOnClickPendingIntent(R.id.widget_twobytwo_container, pendingIntent);
+            views.setTextViewText(R.id.widget_twobytwo_title, note.getNoteTitle());
+
+            if (note.getNoteType().equals(NoteType.TODO.toString())) {
+                // it's a check list
+                Gson gson = new Gson();
+
+                Type type = new TypeToken<ArrayList<String>>() {
+                }.getType();
+                ArrayList<String> checklistItemsArray = gson.fromJson(note.getNoteContent(), type);
+                ArrayList<String> checkedPositions = gson.fromJson(note.getNoteTodoCheckedPositions(), type);
+
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < checklistItemsArray.size(); i++) {
+                    String s = checklistItemsArray.get(i);
+                    if(checkedPositions != null) {
+                        if (checkedPositions.contains("" + i)) {
+                            if (s.length() > 20) {
+                                stringBuilder.append("- " + s.substring(0, 21) + "... ");
+                            } else {
+                                stringBuilder.append("- " + s);
+                            }
+                            if (i != checklistItemsArray.size() - 1) {
+                                stringBuilder.append("\n");
+                            }
+                        } else {
+                            if (s.length() > 20) {
+                                stringBuilder.append("\u2022 " + s.substring(0, 21) + "... ");
+                            } else {
+                                stringBuilder.append("\u2022 " + s);
+                            }
+                            if (i != checklistItemsArray.size() - 1) {
+                                stringBuilder.append("\n");
+                            }
+                        }
+                    }else {
+                        if (s.length() > 20) {
+                            stringBuilder.append("\u2022 " + s.substring(0, 21) + "... ");
+                        } else {
+                            stringBuilder.append("\u2022 " + s);
+                        }
+                        if (i != checklistItemsArray.size() - 1) {
+                            stringBuilder.append("\n");
+                        }
+                    }
+                }
+                views.setTextViewText(R.id.widget_twobytwo_content, stringBuilder);
+            } else {
+                // it's a note
+                views.setTextViewText(R.id.widget_twobytwo_content, note.getNoteContent());
+            }
+
+            views.setTextColor(R.id.widget_twobytwo_title, getResources().getColor(R.color.dark_holo_blue));
+            views.setTextColor(R.id.widget_twobytwo_content, getResources().getColor(R.color.note_text_color_dark));
+
+            String color = note.getNoteColor();
+            if (color.equals(String.valueOf(NoteColor.YELLOW))) {
+                views.setInt(R.id.widget_twobytwo_container, "setBackgroundColor", getResources().getColor(R.color.note_yellow));
+            } else if (color.equals(String.valueOf(NoteColor.BLUE))) {
+                views.setInt(R.id.widget_twobytwo_container, "setBackgroundColor", getResources().getColor(R.color.note_blue));
+            } else if (color.equals(String.valueOf(NoteColor.GREEN))) {
+                views.setInt(R.id.widget_twobytwo_container, "setBackgroundColor", getResources().getColor(R.color.note_green));
+            } else if (color.equals(String.valueOf(NoteColor.WHITE))) {
+                views.setInt(R.id.widget_twobytwo_container, "setBackgroundColor", getResources().getColor(R.color.note_white));
+            } else {
+                views.setInt(R.id.widget_twobytwo_container, "setBackgroundColor", getResources().getColor(R.color.note_red));
+            }
+            appWidgetManager.updateAppWidget(mAppWidgetID, views);
         }
     }
 

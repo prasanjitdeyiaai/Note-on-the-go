@@ -20,6 +20,7 @@ import com.pd.noteonthego.R;
 import com.pd.noteonthego.adapters.CustomWidgetAdapter;
 import com.pd.noteonthego.helper.NoteColor;
 import com.pd.noteonthego.helper.NoteContentProvider;
+import com.pd.noteonthego.helper.NotePreferences;
 import com.pd.noteonthego.models.Note;
 
 import java.util.ArrayList;
@@ -120,6 +121,11 @@ public class OneByOneWidgetConfigureActivity extends AppCompatActivity {
                 Intent resultValue = new Intent();
                 resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
                 setResult(RESULT_OK, resultValue);
+
+                // save the note id and widget id in shared preferences
+                NotePreferences preferences = new NotePreferences(getApplicationContext());
+                preferences.setWidgetType(String.valueOf(note.getNoteID()), getResources().getString(R.string.widget_onebyone));
+                preferences.setWidgetIDForUpdate(String.valueOf(note.getNoteID()), String.valueOf(mAppWidgetId));
                 finish();
             }
         });

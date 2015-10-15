@@ -38,4 +38,45 @@ public class NotePreferences {
         return mSharedPrefs.getString(key,
                 "");
     }
+
+    /**
+     * save the widget id for updating
+     * @param key
+     * @param value
+     */
+    public void setWidgetIDForUpdate(String key, String value){
+        mSharedPrefs.edit().putString(key, value)
+                .apply();
+    }
+
+    /**
+     *
+     * @param key
+     * @return the widget id
+     */
+    public String getWidgetIDForUpdate(String key){
+        return mSharedPrefs.getString(key,
+                "");
+    }
+
+    /**
+     * save the widget type
+     * @param key
+     * @param value
+     */
+    public void setWidgetType(String key, String value){
+        mSharedPrefs.edit().putString(key, value)
+                .apply();
+    }
+
+    /**
+     *
+     * @param key
+     * @param value
+     * @return the widget type
+     */
+    public String getWidgetType(String key){
+        return mSharedPrefs.getString(key,
+                "");
+    }
 }
