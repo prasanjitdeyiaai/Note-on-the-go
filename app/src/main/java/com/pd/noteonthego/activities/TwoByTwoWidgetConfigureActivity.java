@@ -179,8 +179,22 @@ public class TwoByTwoWidgetConfigureActivity extends AppCompatActivity {
 
                 // save the note id and widget id in shared preferences
                 NotePreferences preferences = new NotePreferences(getApplicationContext());
-                preferences.setWidgetType(String.valueOf(note.getNoteID()), getResources().getString(R.string.widget_twobytwo));
-                preferences.setWidgetIDForUpdate(String.valueOf(note.getNoteID()), String.valueOf(mAppWidgetId));
+
+                String valueFromPref = preferences.getWidgetIDForUpdate(String.valueOf(note.getNoteID()));
+
+                ArrayList<String> widgetIDsAlreadyPresent = new ArrayList<String>();
+                if(valueFromPref.equals("")){
+                    // no widget saved yet
+                }else {
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<ArrayList<String>>() {}.getType();
+                    widgetIDsAlreadyPresent = gson.fromJson(valueFromPref, type);
+                }
+                // add the current one
+                widgetIDsAlreadyPresent.add(String.valueOf(mAppWidgetId));
+
+                preferences.setWidgetType(String.valueOf(mAppWidgetId), getResources().getString(R.string.widget_twobytwo));
+                preferences.setWidgetIDForUpdate(String.valueOf(note.getNoteID()), widgetIDsAlreadyPresent);
                 finish();
             }
         });

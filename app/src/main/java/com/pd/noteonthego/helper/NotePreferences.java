@@ -3,7 +3,10 @@ package com.pd.noteonthego.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
 import com.pd.noteonthego.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by pradey on 9/1/2015.
@@ -12,6 +15,7 @@ public class NotePreferences {
 
     private final Context mContext;
     private final SharedPreferences mSharedPrefs;
+    private Gson gson = null;
 
     public NotePreferences(Context context) {
         mContext = context;
@@ -44,8 +48,10 @@ public class NotePreferences {
      * @param key
      * @param value
      */
-    public void setWidgetIDForUpdate(String key, String value){
-        mSharedPrefs.edit().putString(key, value)
+    public void setWidgetIDForUpdate(String key, ArrayList<String> value){
+        gson = new Gson();
+        String valueToPut = gson.toJson(value);
+        mSharedPrefs.edit().putString(key, valueToPut)
                 .apply();
     }
 
@@ -72,7 +78,6 @@ public class NotePreferences {
     /**
      *
      * @param key
-     * @param value
      * @return the widget type
      */
     public String getWidgetType(String key){

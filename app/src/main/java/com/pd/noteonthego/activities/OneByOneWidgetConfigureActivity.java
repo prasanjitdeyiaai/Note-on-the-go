@@ -16,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RemoteViews;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.adapters.CustomWidgetAdapter;
 import com.pd.noteonthego.helper.NoteColor;
@@ -23,6 +25,7 @@ import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.helper.NotePreferences;
 import com.pd.noteonthego.models.Note;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -124,8 +127,22 @@ public class OneByOneWidgetConfigureActivity extends AppCompatActivity {
 
                 // save the note id and widget id in shared preferences
                 NotePreferences preferences = new NotePreferences(getApplicationContext());
-                preferences.setWidgetType(String.valueOf(note.getNoteID()), getResources().getString(R.string.widget_onebyone));
-                preferences.setWidgetIDForUpdate(String.valueOf(note.getNoteID()), String.valueOf(mAppWidgetId));
+
+                String valueFromPref = preferences.getWidgetIDForUpdate(String.valueOf(note.getNoteID()));
+
+                ArrayList<String> widgetIDsAlreadyPresent = new ArrayList<String>();
+                if(valueFromPref.equals("")){
+                    // no widget saved yet
+                }else {
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<ArrayList<String>>() {}.getType();
+                    widgetIDsAlreadyPresent = gson.fromJson(valueFromPref, type);
+                }
+                // add the current one
+                widgetIDsAlreadyPresent.add(String.valueOf(mAppWidgetId));
+
+                preferences.setWidgetType(String.valueOf(mAppWidgetId), getResources().getString(R.string.widget_onebyone));
+                preferences.setWidgetIDForUpdate(String.valueOf(note.getNoteID()), widgetIDsAlreadyPresent);
                 finish();
             }
         });

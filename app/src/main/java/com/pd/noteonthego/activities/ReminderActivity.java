@@ -119,12 +119,45 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
             Note note = NoteContentProvider.getNoteFromCursor(c);
 
             if(note.getIsReminderSet() == 1){
-                if(note.getReminderType().toLowerCase().equals("once")){
-                    mReminderExtras.setText( getResources().getString(R.string.reminder_set) + ": " + note.getReminderType().toLowerCase() + " on " +
-                            Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("0")){
+                    // TODAY
+                    if(note.getReminderType().toLowerCase().equals("once")){
+                        mReminderExtras.setText(note.getReminderType().toLowerCase() + " today " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else if(note.getReminderType().toLowerCase().equals("daily")){
+                        mReminderExtras.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else if(note.getReminderType().toLowerCase().equals("weekly")){
+                        mReminderExtras.setText(note.getReminderType().toLowerCase() + " on wednesdays " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else {
+                        mReminderExtras.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }
+                }else if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("1")){
+                    // TOMORROW
+                    if(note.getReminderType().toLowerCase().equals("once")){
+                        mReminderExtras.setText(note.getReminderType().toLowerCase() + " tomorrow " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else if(note.getReminderType().toLowerCase().equals("daily")){
+                        mReminderExtras.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else if(note.getReminderType().toLowerCase().equals("weekly")){
+                        mReminderExtras.setText(note.getReminderType().toLowerCase() + " on wednesdays " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else {
+                        mReminderExtras.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }
+                }else if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("-1")){
+                    // YESTERDAY
+                    if(note.getReminderType().toLowerCase().equals("once")){
+                        // do nothing here as it is completed
+                    }else if(note.getReminderType().toLowerCase().equals("daily")){
+                        mReminderExtras.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else if(note.getReminderType().toLowerCase().equals("weekly")){
+                        mReminderExtras.setText(note.getReminderType().toLowerCase() + " on wednesdays " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }else {
+                        mReminderExtras.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    }
                 }else {
-                    mReminderExtras.setText( getResources().getString(R.string.reminder_set) + ": " + note.getReminderType().toLowerCase() + " from " +
-                            Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                    if(note.getReminderType().toLowerCase().equals("once")){
+                        mReminderExtras.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                    }else {
+                        mReminderExtras.setText(note.getReminderType().toLowerCase() + " from " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                    }
                 }
 
                 mBtnDismiss.setVisibility(View.VISIBLE);
