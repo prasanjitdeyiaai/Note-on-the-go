@@ -18,11 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.dialogs.DateDialogFragment;
@@ -41,18 +39,14 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
 
     private Spinner mReminderType;
     private String event = "";
-    private TextView mReminderDate, mReminderTime;
+    private TextView mReminderDate, mReminderTime, mBtnSetReminder, mBtnDismiss, mReminderExtras;
     int month, day, year, hour, minute;
-    private Button mBtnSetReminder;
 
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
 
     private int noteID = -1;
     private int requestCodeForAlarm = 0;
-
-    private TextView mReminderExtras;
-    private Button mBtnDismiss;
 
     private boolean isDateSelected = false, isTimeSelected = false, isPreviousReminderSet = false;
 
@@ -84,10 +78,10 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         mReminderType = (Spinner) findViewById(R.id.spinner_reminder_type);
         mReminderDate = (TextView) findViewById(R.id.set_reminder_date);
         mReminderTime = (TextView) findViewById(R.id.set_reminder_time);
-        mBtnSetReminder = (Button) findViewById(R.id.btn_reminder_set);
+        mBtnSetReminder = (TextView) findViewById(R.id.btn_reminder_set);
 
         mReminderExtras = (TextView) findViewById(R.id.reminder_already_set);
-        mBtnDismiss = (Button) findViewById(R.id.reminder_dismiss);
+        mBtnDismiss = (TextView) findViewById(R.id.reminder_dismiss);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -119,6 +113,8 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
             Note note = NoteContentProvider.getNoteFromCursor(c);
 
             if(note.getIsReminderSet() == 1){
+                mReminderDate.setText(Globals.getInstance().convertToReadableDateTimeYear(note.getReminderDateTime()));
+                mReminderTime.setText(Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                 if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("0")){
                     // TODAY
                     if(note.getReminderType().toLowerCase().equals("once")){
@@ -163,6 +159,8 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
                 mBtnDismiss.setVisibility(View.VISIBLE);
                 isPreviousReminderSet = true;
             }else {
+                mReminderDate.setText("Date not selected");
+                mReminderTime.setText("Time not selected");
                 mReminderExtras.setText(R.string.no_reminder);
                 mBtnDismiss.setVisibility(View.GONE);
             }
@@ -186,6 +184,9 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
 
         mReminderExtras.setText(R.string.no_reminder);
         mBtnDismiss.setVisibility(View.GONE);
+
+        mReminderDate.setText("Date not selected");
+        mReminderTime.setText("Time not selected");
 
         // update database
         updateNoteWithReminder();

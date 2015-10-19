@@ -53,6 +53,21 @@ public class Globals {
         return newDate;
     }
 
+    public String convertToReadableDateTimeYear(String oldDate){
+        String newDate;
+        String year = oldDate.substring(8, 10);
+        String month = oldDate.substring(0, 2);
+        if(month.equals("08")){
+            month = "100";
+        }
+        if(month.equals("09")){
+            month = "101";
+        }
+        String day = oldDate.substring(3,5);
+        newDate = day + " " + convertMonthToString(Integer.parseInt(month)) + " " + year;
+        return newDate;
+    }
+
     public String convertToReadableDateExtraShort(String oldDate){
         String newDate;
         String month = oldDate.substring(0, 2);
