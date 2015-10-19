@@ -48,7 +48,7 @@ public class NotePreferences {
      * @param key
      * @param value
      */
-    public void setWidgetIDForUpdate(String key, ArrayList<String> value){
+    public void setWidgetIDForUpdate(String key, ArrayList<Integer> value){
         gson = new Gson();
         String valueToPut = gson.toJson(value);
         mSharedPrefs.edit().putString(key, valueToPut)

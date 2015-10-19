@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:singleLine="true"
+        android:text="@string/note_title"
         android:fontFamily="sans-serif-light"
         android:textStyle="bold" />
 
