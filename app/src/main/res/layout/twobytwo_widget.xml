@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:ellipsize="end"
-        android:lineSpacingExtra="2dp"
+        android:lineSpacingExtra="5dp"
         android:layout_marginTop="4dp"
         android:layout_below="@+id/widget_twobytwo_title"
         android:fontFamily="sans-serif-light" />

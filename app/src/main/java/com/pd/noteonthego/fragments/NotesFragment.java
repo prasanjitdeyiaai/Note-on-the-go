@@ -256,7 +256,7 @@ public class NotesFragment extends Fragment {
 
         Gson gson = new Gson();
         String mAppWidgetIDs = "";
-        ArrayList<String> mAppWidgetIDList;
+        ArrayList<Integer> mAppWidgetIDList;
 
         NotePreferences notePreferences = new NotePreferences(getActivity());
         if(notePreferences.getWidgetIDForUpdate(String.valueOf(noteID)).equals("")){
@@ -264,7 +264,7 @@ public class NotesFragment extends Fragment {
             Log.e("NotesFragment", "No widget");
         }else {
             mAppWidgetIDs = notePreferences.getWidgetIDForUpdate(String.valueOf(noteID));
-            Type type = new TypeToken<ArrayList<String>>() {}.getType();
+            Type type = new TypeToken<ArrayList<Integer>>() {}.getType();
             mAppWidgetIDList = gson.fromJson(mAppWidgetIDs, type);
 
             // Retrieve note records
@@ -276,10 +276,10 @@ public class NotesFragment extends Fragment {
             Note note = NoteContentProvider.getNoteFromCursor(c);
 
             for(int i=0; i<mAppWidgetIDList.size(); i++){
-                if(notePreferences.getWidgetType(mAppWidgetIDList.get(i)).equals(getResources().getString(R.string.widget_onebyone))){
-                    updateOneByOneWidget(Integer.parseInt(mAppWidgetIDList.get(i)), note);
+                if(notePreferences.getWidgetType(String.valueOf(mAppWidgetIDList.get(i))).equals(getResources().getString(R.string.widget_onebyone))){
+                    updateOneByOneWidget(mAppWidgetIDList.get(i), note);
                 }else {
-                    updateTwoByTwoWidget(Integer.parseInt(mAppWidgetIDList.get(i)), note);
+                    updateTwoByTwoWidget(mAppWidgetIDList.get(i), note);
                 }
             }
         }

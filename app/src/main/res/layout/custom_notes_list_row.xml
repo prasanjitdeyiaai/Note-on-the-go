@@ -71,7 +71,7 @@
                 android:background="@android:color/transparent"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
-                android:lineSpacingExtra="2dp"
+                android:lineSpacingExtra="4dp"
                 android:maxLines="5"
                 android:textColor="@color/note_text_color_dark"
                 android:textSize="14sp" />
@@ -99,7 +99,7 @@
                 android:fontFamily="sans-serif-light"
                 android:text="once today 09:00 pm"
                 android:textColor="@color/dark_holo_blue"
-                android:textSize="10sp"
+                android:textSize="11sp"
                 android:textStyle="normal"
                 android:visibility="gone" />
 

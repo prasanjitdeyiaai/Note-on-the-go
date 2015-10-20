@@ -44,13 +44,14 @@
 
     <TextView
         android:id="@+id/reminder_date"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/reminder_dismiss"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
+        android:textColor="@color/note_text_color_dark"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:paddingRight="16dp"
@@ -63,16 +64,18 @@
         android:id="@+id/set_reminder_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date not selected"
+        android:text="Nothing selected"
+        android:clickable="false"
         android:layout_alignBaseline="@+id/reminder_date"
         android:layout_alignParentRight="true"
+        android:fontFamily="sans-serif-light"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
         />
 
     <TextView
         android:id="@+id/reminder_time"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
@@ -81,6 +84,7 @@
         android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif-light"
         android:onClick="setTime"
+        android:textColor="@color/note_text_color_dark"
         android:text="@string/reminder_time"
         android:textSize="12sp" />
 
@@ -88,9 +92,11 @@
         android:id="@+id/set_reminder_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time not selected"
+        android:text="Nothing selected"
+        android:clickable="false"
         android:layout_alignBaseline="@+id/reminder_time"
         android:layout_alignParentRight="true"
+        android:fontFamily="sans-serif-light"
         android:layout_marginBottom="16dp" />
 
     <Spinner
