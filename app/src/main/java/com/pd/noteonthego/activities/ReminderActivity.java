@@ -159,8 +159,8 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
                 mBtnDismiss.setVisibility(View.VISIBLE);
                 isPreviousReminderSet = true;
             }else {
-                mReminderDate.setText("Date not selected");
-                mReminderTime.setText("Time not selected");
+                mReminderDate.setText("Nothing selected");
+                mReminderTime.setText("Nothing selected");
                 mReminderExtras.setText(R.string.no_reminder);
                 mBtnDismiss.setVisibility(View.GONE);
             }
