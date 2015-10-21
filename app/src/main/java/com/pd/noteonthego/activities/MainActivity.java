@@ -250,6 +250,12 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
                                             availableNotes.addAll(getTempSortedNotes(sortOrderValue, c));
 
                                             noteAdapter.updateNoteAdapter(availableNotes);
+
+                                            if(availableNotes.size() < 1){
+                                                mNoNotes.setVisibility(View.VISIBLE);
+                                            }else {
+                                                mNoNotes.setVisibility(View.GONE);
+                                            }
                                         }
                                     }
                                 } catch (ArrayIndexOutOfBoundsException ai) {

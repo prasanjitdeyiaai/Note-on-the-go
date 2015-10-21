@@ -1,5 +1,6 @@
 package com.pd.noteonthego.receivers;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,8 +15,12 @@ import android.support.v4.app.NotificationCompat;
 
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.activities.NotesActivity;
+import com.pd.noteonthego.helper.Globals;
 import com.pd.noteonthego.helper.NoteContentProvider;
+import com.pd.noteonthego.helper.NotePreferences;
 import com.pd.noteonthego.models.Note;
+
+import java.util.Calendar;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -34,12 +39,26 @@ public class AlarmReceiver extends BroadcastReceiver {
             noteID = extras.getInt("reminder-identification");
         }
 
+        // Retrieve note records
+        Uri notes = Uri.parse(NoteContentProvider.URL);
+
+        String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(noteID)};
+        Cursor c = context.getContentResolver().query(notes, null, whereClause, whereArgs, null);
+        Note note = NoteContentProvider.getNoteFromCursor(c);
+
         // CHECK IF THE NOTE IS NOT DELETED
         if(checkForExistingNote(context, noteID)) {
             // update the reminder based on event type
             updateReminder(context, noteID);
             // show notification
-            showNotification(context, noteID);
+
+            String eventType = note.getReminderType();
+            if(eventType.equals("Monthly")){
+                // no need to show notification
+            }else {
+                showNotification(context, noteID);
+            }
         }
     }
 
@@ -69,21 +88,51 @@ public class AlarmReceiver extends BroadcastReceiver {
                     isReminderCompleted = false;
                 }else if(eventType.equals("Monthly")){
                     isReminderCompleted = false;
+                    checkForTodayAlarmsAndBehaveAppropriately(context, note);
                 }
 
                 ContentValues values = new ContentValues();
 
                 if(isReminderCompleted){
                     values.put(NoteContentProvider.COLUMN_NOTES_IS_REMINDER_SET, 0);
-                }else {
-                    values.put(NoteContentProvider.COLUMN_NOTES_IS_REMINDER_SET, 1);
-                }
 
-                context.getContentResolver().update(
-                        NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
+                    context.getContentResolver().update(
+                            NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
+                }
+                /*else {
+                    values.put(NoteContentProvider.COLUMN_NOTES_IS_REMINDER_SET, 1);
+                }*/
             }
         }.start();
 
+    }
+
+    private void checkForTodayAlarmsAndBehaveAppropriately(Context context, Note note) {
+        int dateDiff = Integer.parseInt(Globals.getInstance().getDateDifference(note.getReminderDateTime()));
+        if(dateDiff == 0){
+            // show alarm
+            showNotification(context, note.getNoteID());
+        }else {
+            //reschedule me to check again tomorrow
+
+            NotePreferences preferences = new NotePreferences(context);
+            String requestCode = preferences.getRequestCodeForReminders(String.valueOf(note.getNoteID()));
+
+            Intent intent = new Intent(context, AlarmReceiver.class);
+            PendingIntent sender = PendingIntent.getBroadcast(context, Integer.parseInt(requestCode), intent, 0);
+            AlarmManager alarms = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+
+            // And cancel the alarm.
+            AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+            am.cancel(sender);
+
+            // schedule alarm for today + 1 day
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, 1);
+
+            // schedule the alarm
+            alarms.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+        }
     }
 
     /**

@@ -300,7 +300,6 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
             preferences.setRequestCodeForReminders(String.valueOf(noteID), String.valueOf(requestCodeForAlarm));
         }
 
-        // Set the alarm to start at 8:30 a.m.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, hour);
@@ -312,11 +311,21 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         if(getReminderTypeInLong(event) == 0){
             // one time alarm
             alarmMgr.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
-        }else{
-            // 10 MIN INTERVAL FOR TESTING
+        } else if(getReminderTypeInLong(event) == 1){
+            // daily alarm
             alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, alarmIntent);
+        } else if(getReminderTypeInLong(event) == 7){
+            // weekly alarm
+            alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY * 7, alarmIntent);
+        } else{
+            // monthly alarm
+            /*alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                     // 10 * 60 * 1000, alarmIntent);
-                    getReminderTypeInLong(event), alarmIntent);
+                    AlarmManager.INTERVAL_DAY * 30, alarmIntent);*/
+
+            alarmMgr.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
         }
 
         // update the note with reminder
@@ -380,7 +389,11 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         if(hour < 12){
             mReminderTime.setText(hour + " : " + minute + " am");
         }else {
-            mReminderTime.setText((hour - 12) + " : " + minute + " pm");
+            int hr = hour - 12;
+            if(hr == 0){
+                hr = 12;
+            }
+            mReminderTime.setText( hr + " : " + minute + " pm");
         }
         isTimeSelected = true;
         if(isDateSelected){
@@ -402,11 +415,14 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
 
     public long getReminderTypeInLong(String event) {
         if (event.equals("Daily")) {
-            return 1000 * 60 * 60 * 24;
+            // return 1000 * 60 * 60 * 24;
+            return 1;
         } else if (event.equals("Weekly")) {
-            return 1000 * 60 * 60 * 24 * 7;
+            // return 1000 * 60 * 60 * 24 * 7;
+            return 7;
         } else if (event.equals("Monthly")) {
-            return 1000 * 60 * 60 * 24 * 30;
+            // return 1000 * 60 * 60 * 24 * 30;
+            return 30;
         } else {
             // for one time event return 0;
             return 0;
