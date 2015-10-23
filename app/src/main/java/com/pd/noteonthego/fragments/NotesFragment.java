@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -256,7 +257,7 @@ public class NotesFragment extends Fragment {
 
         Gson gson = new Gson();
         String mAppWidgetIDs = "";
-        ArrayList<Integer> mAppWidgetIDList;
+        ArrayList<Integer> mAppWidgetIDList = new ArrayList<Integer>();
 
         NotePreferences notePreferences = new NotePreferences(getActivity());
         if(notePreferences.getWidgetIDForUpdate(String.valueOf(noteID)).equals("")){
@@ -264,8 +265,16 @@ public class NotesFragment extends Fragment {
             Log.e("NotesFragment", "No widget");
         }else {
             mAppWidgetIDs = notePreferences.getWidgetIDForUpdate(String.valueOf(noteID));
-            Type type = new TypeToken<ArrayList<Integer>>() {}.getType();
-            mAppWidgetIDList = gson.fromJson(mAppWidgetIDs, type);
+            Log.e("Notes Frag string ", mAppWidgetIDs);
+
+            StringTokenizer st = new StringTokenizer(mAppWidgetIDs, ",");
+
+            while(st.hasMoreTokens()) {
+                mAppWidgetIDList.add(Integer.parseInt(st.nextToken()));
+            }
+
+            /*Type type = new TypeToken<ArrayList<Integer>>() {}.getType();
+            mAppWidgetIDList = gson.fromJson(mAppWidgetIDs, type);*/
 
             // Retrieve note records
             Uri notes = Uri.parse(NoteContentProvider.URL);

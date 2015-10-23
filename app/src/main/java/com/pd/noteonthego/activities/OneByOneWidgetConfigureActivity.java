@@ -16,8 +16,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RemoteViews;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.adapters.CustomWidgetAdapter;
 import com.pd.noteonthego.helper.NoteColor;
@@ -25,8 +23,8 @@ import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.helper.NotePreferences;
 import com.pd.noteonthego.models.Note;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 /**
  * whenever configure activity is created
@@ -134,9 +132,16 @@ public class OneByOneWidgetConfigureActivity extends AppCompatActivity {
                 if(valueFromPref.equals("")){
                     // no widget saved yet
                 }else {
-                    Gson gson = new Gson();
+                    StringTokenizer st = new StringTokenizer(valueFromPref, ",");
+
+                    while(st.hasMoreTokens()) {
+                        widgetIDsAlreadyPresent.add(Integer.parseInt(st.nextToken()));
+                    }
+
+                    /*Gson gson = new Gson();
                     Type type = new TypeToken<ArrayList<Integer>>() {}.getType();
-                    widgetIDsAlreadyPresent = gson.fromJson(valueFromPref, type);
+                    widgetIDsAlreadyPresent = gson.fromJson(valueFromPref, type);*/
+
                 }
                 // add the current one
                 widgetIDsAlreadyPresent.add(mAppWidgetId);

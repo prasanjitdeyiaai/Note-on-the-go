@@ -49,9 +49,16 @@ public class NotePreferences {
      * @param value
      */
     public void setWidgetIDForUpdate(String key, ArrayList<Integer> value){
-        gson = new Gson();
-        String valueToPut = gson.toJson(value);
-        mSharedPrefs.edit().putString(key, valueToPut)
+        /*gson = new Gson();
+        String valueToPut = gson.toJson(value);*/
+
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < value.size(); i++) {
+            str.append(String.valueOf(value.get(i))).append(",");
+        }
+        String finalStr = str.substring(0, str.length() -1);
+
+        mSharedPrefs.edit().putString(key, finalStr)
                 .apply();
     }
 

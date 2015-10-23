@@ -28,6 +28,7 @@ import com.pd.noteonthego.models.Note;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 /**
  * whenever configure activity is created
@@ -186,9 +187,16 @@ public class TwoByTwoWidgetConfigureActivity extends AppCompatActivity {
                 if(valueFromPref.equals("")){
                     // no widget saved yet
                 }else {
-                    Gson gson = new Gson();
+                    StringTokenizer st = new StringTokenizer(valueFromPref, ",");
+
+                    while(st.hasMoreTokens()) {
+                        widgetIDsAlreadyPresent.add(Integer.parseInt(st.nextToken()));
+                    }
+
+                    /*Gson gson = new Gson();
                     Type type = new TypeToken<ArrayList<Integer>>() {}.getType();
-                    widgetIDsAlreadyPresent = gson.fromJson(valueFromPref, type);
+                    widgetIDsAlreadyPresent = gson.fromJson(valueFromPref, type);*/
+
                 }
                 // add the current one
                 widgetIDsAlreadyPresent.add(mAppWidgetId);

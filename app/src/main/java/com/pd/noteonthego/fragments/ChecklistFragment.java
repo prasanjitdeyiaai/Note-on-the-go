@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -488,7 +489,7 @@ public class ChecklistFragment extends Fragment {
 
         Gson gson = new Gson();
         String mAppWidgetIDs = "";
-        ArrayList<Integer> mAppWidgetIDList;
+        ArrayList<Integer> mAppWidgetIDList = new ArrayList<Integer>();
 
         NotePreferences notePreferences = new NotePreferences(getActivity());
         if(notePreferences.getWidgetIDForUpdate(String.valueOf(noteID)).equals("")){
@@ -496,8 +497,15 @@ public class ChecklistFragment extends Fragment {
             Log.e("ChecklistFragment", "No widget");
         }else {
             mAppWidgetIDs = notePreferences.getWidgetIDForUpdate(String.valueOf(noteID));
-            Type type = new TypeToken<ArrayList<Integer>>() {}.getType();
-            mAppWidgetIDList = gson.fromJson(mAppWidgetIDs, type);
+
+            StringTokenizer st = new StringTokenizer(mAppWidgetIDs, ",");
+
+            while(st.hasMoreTokens()) {
+                mAppWidgetIDList.add(Integer.parseInt(st.nextToken()));
+            }
+
+            /*Type type = new TypeToken<ArrayList<Integer>>() {}.getType();
+            mAppWidgetIDList = gson.fromJson(mAppWidgetIDs, type);*/
 
             // Retrieve note records
             Uri notes = Uri.parse(NoteContentProvider.URL);
