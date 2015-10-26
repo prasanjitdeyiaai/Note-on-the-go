@@ -17,7 +17,7 @@
         android:orderInCategory="99"
         android:title="@string/action_settings"
         android:icon="@drawable/ic_action_action_settings"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_note"

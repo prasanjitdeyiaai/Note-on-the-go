@@ -366,7 +366,7 @@ public class ChecklistFragment extends Fragment {
                     }else if(note.getReminderType().toLowerCase().equals("daily")){
                         mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                     }else if(note.getReminderType().toLowerCase().equals("weekly")){
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on wednesdays " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().getWeekday(note) + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                     }else {
                         mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                     }
@@ -377,7 +377,7 @@ public class ChecklistFragment extends Fragment {
                     }else if(note.getReminderType().toLowerCase().equals("daily")){
                         mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                     }else if(note.getReminderType().toLowerCase().equals("weekly")){
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on wednesdays " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().getWeekday(note) + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                     }else {
                         mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                     }
@@ -388,7 +388,7 @@ public class ChecklistFragment extends Fragment {
                     }else if(note.getReminderType().toLowerCase().equals("daily")){
                         mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                     }else if(note.getReminderType().toLowerCase().equals("weekly")){
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on wednesdays " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().getWeekday(note) + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                     }else {
                         mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                     }

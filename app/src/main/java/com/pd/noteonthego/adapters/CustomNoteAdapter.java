@@ -170,9 +170,9 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
                 }else if(note.getReminderType().toLowerCase().equals("daily")){
                     holder.noteReminder.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                 }else if(note.getReminderType().toLowerCase().equals("weekly")){
-                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " on wednesdays " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().getWeekday(note) + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                 }else {
-                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " at " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                 }
             }else if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("1")){
                 // TOMORROW
@@ -181,9 +181,9 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
                 }else if(note.getReminderType().toLowerCase().equals("daily")){
                     holder.noteReminder.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                 }else if(note.getReminderType().toLowerCase().equals("weekly")){
-                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " on wednesdays " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().getWeekday(note) + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                 }else {
-                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " at " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                 }
             }else if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("-1")){
                 // YESTERDAY
@@ -192,9 +192,9 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
                 }else if(note.getReminderType().toLowerCase().equals("daily")){
                     holder.noteReminder.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                 }else if(note.getReminderType().toLowerCase().equals("weekly")){
-                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " on wednesdays " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().getWeekday(note) + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                 }else {
-                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                    holder.noteReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " at " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                 }
             }else {
                 if(note.getReminderType().toLowerCase().equals("once")){

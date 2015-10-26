@@ -20,7 +20,10 @@ import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.helper.NotePreferences;
 import com.pd.noteonthego.models.Note;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -112,7 +115,13 @@ public class AlarmReceiver extends BroadcastReceiver {
         if(dateDiff == 0){
             // show alarm
             showNotification(context, note.getNoteID());
-        }else {
+            updateMonthlyReminder(context, note);
+
+        } else if(dateDiff == -1){
+            // show alarm
+            showNotification(context, note.getNoteID());
+            updateMonthlyReminder(context, note);
+        } else {
             //reschedule me to check again tomorrow
 
             NotePreferences preferences = new NotePreferences(context);
@@ -133,6 +142,35 @@ public class AlarmReceiver extends BroadcastReceiver {
             // schedule the alarm
             alarms.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
         }
+    }
+
+    /**
+     * add 1 month to reminder and update the database
+     * @param context
+     * @param note
+     */
+    private void updateMonthlyReminder(Context context, Note note) {
+        String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(note.getNoteID())};
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
+        String newDateTime = "";
+        Calendar c = Calendar.getInstance();
+
+        try {
+            // add 1 month
+            c.setTime(simpleDateFormat.parse(note.getReminderDateTime()));
+            c.add(Calendar.MONTH, 1);
+        }catch (ParseException pe){
+            pe.printStackTrace();
+        }
+        newDateTime = simpleDateFormat.format(c.getTime());
+
+        ContentValues values = new ContentValues();
+        values.put(NoteContentProvider.COLUMN_NOTES_REMINDER_DATETIME, newDateTime);
+
+        context.getContentResolver().update(
+                NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
     }
 
     /**

@@ -1,5 +1,7 @@
 package com.pd.noteonthego.helper;
 
+import com.pd.noteonthego.models.Note;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -180,5 +182,19 @@ public class Globals {
         }else {
             return "" + diffDays;
         }
+    }
+
+    public String getWeekday(Note note){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
+        Date tempDate;
+        String weekDay = "";
+        try {
+            tempDate = simpleDateFormat.parse(note.getReminderDateTime());
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE", Locale.getDefault());
+            weekDay = sdf.format(tempDate);
+        }catch (ParseException pe){
+            pe.printStackTrace();
+        }
+        return weekDay + " ";
     }
 }
