@@ -21,12 +21,23 @@
             android:layout_height="wrap_content"
             android:padding="12dp">
 
+            <CheckBox
+                android:id="@+id/chk_multiple_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:visibility="gone"
+                android:layout_centerVertical="true"/>
+
             <TextView
                 android:id="@+id/big_date"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@+id/chk_multiple_delete"
                 android:layout_marginRight="12dp"
                 android:background="@drawable/circle_textview"
                 android:fontFamily="sans-serif-light"

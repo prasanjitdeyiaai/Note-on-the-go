@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
     private ListView noteListView;
     private CustomNoteAdapter noteAdapter;
     private ArrayList<Note> availableNotes, tempSortedNotes;
-    private TextView mNoNotes;
-    // private EditText mEdtSearch;
+    private TextView mNoNotes, btnMultiDelete;
+    private boolean isMultiDeleteClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
 
         noteListView = (ListView) findViewById(R.id.note_list);
         mNoNotes = (TextView)findViewById(R.id.no_notes);
+        btnMultiDelete = (TextView) findViewById(R.id.btn_multiple_delete);
 
         // get the saved sort order here and in on resume
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -379,6 +380,16 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
             case R.id.action_about:
                 startActivity(new Intent(getApplicationContext(), AboutActivity.class));
                 break;
+            case R.id.action_delete_multiple_notes:
+                if(isMultiDeleteClicked){
+                    isMultiDeleteClicked = false;
+                    btnMultiDelete.setVisibility(View.GONE);
+                }else {
+                    isMultiDeleteClicked = true;
+                    btnMultiDelete.setVisibility(View.VISIBLE);
+                }
+                noteAdapter.deleteMultipleNotes();
+                break;
             default:
                 break;
         }
@@ -501,5 +512,87 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
 
+    }
+
+    /**
+     * delete the selected notes
+     * @param v
+     */
+    public void deleteMultiple(View v){
+        for(int noteID: noteAdapter.getMultiDeleteList()){
+            deleteSingleNote(noteID);
+        }
+        if(isMultiDeleteClicked){
+            isMultiDeleteClicked = false;
+            btnMultiDelete.setVisibility(View.GONE);
+        }else {
+            isMultiDeleteClicked = true;
+            btnMultiDelete.setVisibility(View.VISIBLE);
+        }
+        noteAdapter.deleteMultipleNotes();
+        noteAdapter.resetCheckBoxes();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();
+        /*
+            if multi delete was selected
+            then first remove multi select option
+            then leave the activity
+            else work as usual
+         */
+        if(isMultiDeleteClicked){
+            isMultiDeleteClicked = false;
+            btnMultiDelete.setVisibility(View.GONE);
+            noteAdapter.deleteMultipleNotes();
+        }else {
+            super.onBackPressed();
+        }
+
+    }
+
+    /**
+     * delete single note
+     * @param noteID
+     */
+    private void deleteSingleNote(int noteID){
+        // Retrieve note records
+        Uri notes = Uri.parse(NoteContentProvider.URL);
+
+        try {
+
+            String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
+            String[] whereArgs = new String[]{String.valueOf(noteID)};
+            int count = getContentResolver().delete(notes, whereClause, whereArgs);
+
+            if (count > 0) {
+
+                if (noteAdapter != null) {
+
+                    // get the saved sort order
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    String sortOrderValue = sharedPref.getString(SettingsActivity.KEY_SORT_ORDER, "0");
+
+                    Cursor c = getContentResolver().query(notes, null, null, null, getSortOrder(sortOrderValue));
+
+                    availableNotes = new ArrayList<Note>();
+                    availableNotes.clear();
+                    availableNotes.addAll(getTempSortedNotes(sortOrderValue, c));
+
+                    noteAdapter.updateNoteAdapter(availableNotes);
+
+                    if(availableNotes.size() < 1){
+                        mNoNotes.setVisibility(View.VISIBLE);
+                    }else {
+                        mNoNotes.setVisibility(View.GONE);
+                    }
+                }
+            }
+        } catch (ArrayIndexOutOfBoundsException ai) {
+            ai.printStackTrace();
+        } finally {
+
+        }
     }
 }

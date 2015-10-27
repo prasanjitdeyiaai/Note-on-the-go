@@ -6,12 +6,31 @@
     android:background="@color/whitedarker"
     tools:context="com.pd.noteonthego.fragments.NotesFragment">
 
+    <TextView
+        android:id="@+id/btn_multiple_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DELETE SELECTED"
+        android:onClick="deleteMultiple"
+        android:fontFamily="sans-serif-light"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:padding="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/rectangle_button"
+        android:visibility="gone" />
+
     <ListView
         android:id="@+id/note_list"
         android:divider="@color/whitedarker"
         android:dividerHeight="2dp"
         android:layout_margin="5dp"
         android:layout_width="match_parent"
+        android:layout_above="@+id/btn_multiple_delete"
         android:layout_height="match_parent"></ListView>
 
     <TextView

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -33,6 +34,8 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
     ArrayList<Note> notes, filteredNotes;
     private LayoutInflater mInflater;
     private ItemFilter mFilter = new ItemFilter();
+    private boolean isMultiDeleteChecked = false, isResetClicked = false;
+    private ArrayList<Integer> multiDeleteList = new ArrayList<Integer>();
 
     public CustomNoteAdapter() {
 
@@ -61,8 +64,8 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final ViewHolder holder;
 
         if (convertView == null) {
             holder = new ViewHolder();
@@ -75,6 +78,7 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
             holder.noteStarred = (ImageView) convertView.findViewById(R.id.list_note_starred);
             holder.bigDate = (TextView) convertView.findViewById(R.id.big_date);
             holder.separator = (View)convertView.findViewById(R.id.separator);
+            holder.chkMultipleDelete = (CheckBox)convertView.findViewById(R.id.chk_multiple_delete);
 
             convertView.setTag(holder);
         } else {
@@ -87,6 +91,29 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
         }else{
             holder.noteTitle.setText(note.getNoteTitle());
         }
+
+        // make visible is multi delete selected
+        if(isMultiDeleteChecked){
+            holder.chkMultipleDelete.setVisibility(View.VISIBLE);
+            if(isResetClicked){
+                // reset check box after multi delete
+                holder.chkMultipleDelete.setChecked(false);
+            }
+        }else {
+            holder.chkMultipleDelete.setVisibility(View.GONE);
+        }
+
+        holder.chkMultipleDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final boolean isChecked = holder.chkMultipleDelete.isChecked();
+                if(isChecked){
+                    Note n = filteredNotes.get(position);
+                    // add the checked positions
+                    multiDeleteList.add(n.getNoteID());
+                }
+            }
+        });
 
         if (note.getNoteType().equals(NoteType.TODO.toString())) {
             // it's a check list
@@ -238,11 +265,47 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
         public TextView noteReminder;
         public ImageView noteStarred;
         public View separator;
+        public CheckBox chkMultipleDelete;
     }
 
+    /**
+     * update the adapter
+     * @param noteArrayList
+     */
     public void updateNoteAdapter(ArrayList<Note> noteArrayList) {
         this.filteredNotes = noteArrayList;
         notifyDataSetChanged();
+    }
+
+    /**
+     * tell that the multiple delete option is selected
+     * update the adapter accordingly
+     */
+    public void deleteMultipleNotes() {
+        if(isMultiDeleteChecked){
+            isMultiDeleteChecked = false;
+        }else {
+            isMultiDeleteChecked = true;
+        }
+        notifyDataSetChanged();
+    }
+
+    /**
+     * get the positions selected for multi delete
+     * @return
+     */
+    public ArrayList<Integer> getMultiDeleteList(){
+        // Collections.reverse(multiDeleteList);
+        return multiDeleteList;
+    }
+
+    /**
+     * tell that the multiple delete option was selected
+     * need to reset the check boxes
+     * update the adapter accordingly
+     */
+    public void resetCheckBoxes(){
+        isResetClicked = true;
     }
 
     private class ItemFilter extends Filter {

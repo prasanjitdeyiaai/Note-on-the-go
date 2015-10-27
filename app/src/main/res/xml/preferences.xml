@@ -12,5 +12,5 @@
         android:key="pref_sort_order"
         android:entries="@array/note_sort_options"
         android:entryValues="@array/note_sort_values"
-        android:defaultValue="1" />
+        android:defaultValue="2" />
 </PreferenceScreen>
