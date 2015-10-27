@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
         noteListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                alertUserForDeletion(position);
+                // alertUserForDeletion(position);
                 return true;
             }
         });

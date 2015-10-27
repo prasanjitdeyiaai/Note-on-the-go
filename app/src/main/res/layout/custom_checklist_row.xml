@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/ic_action_drag_handler"/>
+        android:src="@drawable/ic_action_reorder"/>
 
     <ImageView
         android:id="@+id/SelectImageView"
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_toggle_check_box_outline_blank"
         android:layout_toRightOf="@+id/drag_handle"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="20dp"
         android:layout_centerVertical="true" />
 
     <ImageView
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/clear_item"
         android:layout_centerVertical="true"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="20dp"
         android:src="@drawable/ic_editor_mode_edit"/>
 
     <TextView
