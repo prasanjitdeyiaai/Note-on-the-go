@@ -519,9 +519,15 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
      * @param v
      */
     public void deleteMultiple(View v){
+        int count = 0;
         for(int noteID: noteAdapter.getMultiDeleteList()){
-            deleteSingleNote(noteID);
+            count = count + deleteSingleNote(noteID);
         }
+
+        if(count > 0){
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.note_deleted), Toast.LENGTH_SHORT).show();
+        }
+
         if(isMultiDeleteClicked){
             isMultiDeleteClicked = false;
             btnMultiDelete.setVisibility(View.GONE);
@@ -556,15 +562,15 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
      * delete single note
      * @param noteID
      */
-    private void deleteSingleNote(int noteID){
+    private int deleteSingleNote(int noteID){
         // Retrieve note records
         Uri notes = Uri.parse(NoteContentProvider.URL);
-
+        int count = 0;
         try {
 
             String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
             String[] whereArgs = new String[]{String.valueOf(noteID)};
-            int count = getContentResolver().delete(notes, whereClause, whereArgs);
+            count = getContentResolver().delete(notes, whereClause, whereArgs);
 
             if (count > 0) {
 
@@ -594,5 +600,6 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
         } finally {
 
         }
+        return count;
     }
 }

@@ -102,7 +102,7 @@ public class CustomChecklistAdapter extends BaseAdapter {
     private void openForEditingListItem(final int position) {
         final AlertDialog.Builder alert = new AlertDialog.Builder(context);
         final EditText input = new EditText(context);
-        input.setTextSize(14);
+        input.setTextSize(18);
         input.setText(items.get(position));
         // NOT WORKING
         input.setSelection(items.get(position).length());

@@ -76,7 +76,7 @@
                 android:minHeight="144dp"
                 android:paddingLeft="8dp"
                 android:textColor="@color/note_text_color_dark"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
         </RelativeLayout>
 </ScrollView>
