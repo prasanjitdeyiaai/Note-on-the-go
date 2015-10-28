@@ -63,7 +63,7 @@ public class HomeActivity extends Activity {
             values.put(NoteContentProvider.COLUMN_NOTES_TODO_CHECKED_POSITIONS, "");
             values.put(NoteContentProvider.COLUMN_NOTES_CREATED_TIMESTAMP, currentDateAndTime);
 
-            values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, "");
+            values.put(NoteContentProvider.COLUMN_NOTES_lAST_MODIFIED_TIMESTAMP, currentDateAndTime);
             values.put(NoteContentProvider.COLUMN_NOTES_COLOR, String.valueOf(NoteColor.WHITE));
             values.put(NoteContentProvider.COLUMN_NOTES_TYPE, String.valueOf(NoteType.BLANK));
 
@@ -83,10 +83,6 @@ public class HomeActivity extends Activity {
             if (uri != null) {
                 Toast.makeText(getApplicationContext(), R.string.note_saved, Toast.LENGTH_SHORT).show();
             }
-
-            /*if (checkForExternalDirectory()) {
-                new NoteSaveOnFileTask().execute(getApplicationContext(), noteToSave);
-            }*/
         }
     }
 

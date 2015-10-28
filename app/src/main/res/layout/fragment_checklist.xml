@@ -38,7 +38,7 @@
         android:layout_marginTop="20dp"
         android:background="@android:color/transparent"
         android:hint="@string/note_title"
-        android:maxLength="25"
+        android:maxLength="30"
         android:paddingLeft="8dp"
         android:layout_below="@+id/checklist_extras_reminder"
         android:inputType="textCapSentences"

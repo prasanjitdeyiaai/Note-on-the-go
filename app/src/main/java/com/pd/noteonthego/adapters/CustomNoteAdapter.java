@@ -86,8 +86,8 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
         }
 
         Note note = filteredNotes.get(position);
-        if(note.getNoteTitle().length() > 20) {
-            holder.noteTitle.setText(note.getNoteTitle().substring(0, 21));
+        if(note.getNoteTitle().length() > 30) {
+            holder.noteTitle.setText(note.getNoteTitle().substring(0, 31));
         }else{
             holder.noteTitle.setText(note.getNoteTitle());
         }
@@ -129,17 +129,17 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
                 String s = checklistItemsArray.get(i);
                 if(checkedPositions != null) {
                     if (checkedPositions.contains("" + i)) {
-                        if (s.length() > 20) {
-                            stringBuilder.append("- " + s.substring(0, 21) + "... ");
+                        if (s.length() > 30) {
+                            stringBuilder.append("\u2012 " + s.substring(0, 31) + "... ");
                         } else {
-                            stringBuilder.append("- " + s);
+                            stringBuilder.append("\u2012 " + s);
                         }
                         if (i != checklistItemsArray.size() - 1) {
                             stringBuilder.append("\n");
                         }
                     } else {
-                        if (s.length() > 20) {
-                            stringBuilder.append("\u2022 " + s.substring(0, 21) + "... ");
+                        if (s.length() > 30) {
+                            stringBuilder.append("\u2022 " + s.substring(0, 31) + "... ");
                         } else {
                             stringBuilder.append("\u2022 " + s);
                         }
@@ -148,8 +148,8 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
                         }
                     }
                 }else {
-                    if (s.length() > 20) {
-                        stringBuilder.append("\u2022 " + s.substring(0, 21) + "... ");
+                    if (s.length() > 30) {
+                        stringBuilder.append("\u2022 " + s.substring(0, 31) + "... ");
                     } else {
                         stringBuilder.append("\u2022 " + s);
                     }

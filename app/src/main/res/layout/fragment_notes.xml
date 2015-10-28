@@ -45,7 +45,7 @@
                 android:layout_below="@+id/note_extras_reminder"
                 android:background="@android:color/transparent"
                 android:hint="@string/note_title"
-                android:maxLength="25"
+                android:maxLength="30"
                 android:inputType="textCapSentences"
                 android:paddingLeft="8dp"
                 android:singleLine="true"

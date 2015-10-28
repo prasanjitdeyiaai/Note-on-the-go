@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Note-On-The-Go</string>
+    <string name="app_name">Note - OnTheGo</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -15,7 +15,7 @@
     <string name="action_change_color">Change Color</string>
     <string name="action_share_note">Share</string>
     <string name="title_activity_reader">ReaderActivity</string>
-    <string name="title_activity_main">Note On The Go</string>
+    <string name="title_activity_main">Note - OnTheGo</string>
 
     <string name="title_section1">Notes</string>
     <string name="title_section2">Settings</string>

@@ -98,13 +98,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                 if(isReminderCompleted){
                     values.put(NoteContentProvider.COLUMN_NOTES_IS_REMINDER_SET, 0);
-
-                    context.getContentResolver().update(
-                            NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
-                }
-                /*else {
+                }else {
                     values.put(NoteContentProvider.COLUMN_NOTES_IS_REMINDER_SET, 1);
-                }*/
+                }
+                context.getContentResolver().update(
+                        NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
             }
         }.start();
 
