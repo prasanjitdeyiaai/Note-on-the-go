@@ -17,7 +17,6 @@
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:paddingRight="16dp"
-        android:fontFamily="sans-serif-light"
         android:text="@string/no_reminder"
         android:textColor="@color/note_text_color_dark" />
 
@@ -57,7 +56,6 @@
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:paddingRight="16dp"
-        android:fontFamily="sans-serif-light"
         android:onClick="setDate"
         android:text="@string/reminder_date"
         android:textSize="12sp" />
@@ -72,9 +70,7 @@
         android:gravity="center"
         android:paddingBottom="16dp"
         android:paddingRight="16dp"
-        android:layout_below="@+id/reminder_date"
-        android:fontFamily="sans-serif-light"
-        />
+        android:layout_below="@+id/reminder_date" />
 
     <TextView
         android:id="@+id/reminder_time"
@@ -85,7 +81,6 @@
         android:paddingRight="16dp"
         android:gravity="center"
         android:layout_below="@+id/set_reminder_date"
-        android:fontFamily="sans-serif-light"
         android:onClick="setTime"
         android:textColor="@color/note_text_color_dark"
         android:text="@string/reminder_time"
@@ -101,8 +96,7 @@
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:paddingRight="16dp"
-        android:layout_below="@+id/reminder_time"
-        android:fontFamily="sans-serif-light" />
+        android:layout_below="@+id/reminder_time" />
 
     <View
         android:id="@+id/separator2"

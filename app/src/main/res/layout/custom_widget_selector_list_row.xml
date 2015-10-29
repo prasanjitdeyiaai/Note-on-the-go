@@ -9,7 +9,6 @@
         android:id="@+id/widget_configure_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
         android:textStyle="bold"
         android:textColor="@color/dark_holo_blue"
         android:text="Note Title"/>

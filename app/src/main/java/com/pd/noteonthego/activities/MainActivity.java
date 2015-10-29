@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
     private ListView noteListView;
     private CustomNoteAdapter noteAdapter;
     private ArrayList<Note> availableNotes, tempSortedNotes;
-    private TextView mNoNotes, btnMultiDelete;
+    private TextView mNoNotes, mAddNote, mAddChecklist, btnMultiDelete;
     private boolean isMultiDeleteClicked = false;
 
     @Override
@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
 
         noteListView = (ListView) findViewById(R.id.note_list);
         mNoNotes = (TextView)findViewById(R.id.no_notes);
+        mAddNote = (TextView)findViewById(R.id.add_note);
+        mAddChecklist = (TextView)findViewById(R.id.add_checklist);
         btnMultiDelete = (TextView) findViewById(R.id.btn_multiple_delete);
 
         // get the saved sort order here and in on resume
@@ -254,8 +256,12 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
 
                                             if(availableNotes.size() < 1){
                                                 mNoNotes.setVisibility(View.VISIBLE);
+                                                mAddNote.setVisibility(View.VISIBLE);
+                                                mAddChecklist.setVisibility(View.VISIBLE);
                                             }else {
                                                 mNoNotes.setVisibility(View.GONE);
+                                                mAddNote.setVisibility(View.GONE);
+                                                mAddChecklist.setVisibility(View.GONE);
                                             }
                                         }
                                     }
@@ -319,8 +325,12 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
         }
         if(availableNotes.size() < 1){
             mNoNotes.setVisibility(View.VISIBLE);
+            mAddNote.setVisibility(View.VISIBLE);
+            mAddChecklist.setVisibility(View.VISIBLE);
         }else {
             mNoNotes.setVisibility(View.GONE);
+            mAddNote.setVisibility(View.GONE);
+            mAddChecklist.setVisibility(View.GONE);
         }
     }
 
@@ -594,8 +604,12 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
 
                     if(availableNotes.size() < 1){
                         mNoNotes.setVisibility(View.VISIBLE);
+                        mAddNote.setVisibility(View.VISIBLE);
+                        mAddChecklist.setVisibility(View.VISIBLE);
                     }else {
                         mNoNotes.setVisibility(View.GONE);
+                        mAddNote.setVisibility(View.GONE);
+                        mAddChecklist.setVisibility(View.GONE);
                     }
                 }
             }

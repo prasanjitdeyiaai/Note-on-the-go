@@ -30,13 +30,13 @@
         android:id="@+id/action_note"
         android:orderInCategory="97"
         android:title="@string/action_add_note"
-        android:icon="@drawable/ic_action_note"
+        android:icon="@drawable/ic_action_action_assignment"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_checklist"
         android:orderInCategory="98"
         android:title="@string/action_add_checklist"
-        android:icon="@drawable/ic_action_assignment_turned_in"
+        android:icon="@drawable/ic_action_action_assignment_turned_in"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_about"

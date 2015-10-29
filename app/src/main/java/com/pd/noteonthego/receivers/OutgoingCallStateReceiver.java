@@ -50,7 +50,7 @@ public class OutgoingCallStateReceiver extends BroadcastReceiver {
     private void createNotificationForNote(Context context) {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_action_assignment)
+                        .setSmallIcon(R.drawable.ic_stat_action_assignment)
                         .setContentTitle(context.getResources().getString(R.string.app_name))
                         .setContentText(context.getResources().getString(R.string.add_note));
 

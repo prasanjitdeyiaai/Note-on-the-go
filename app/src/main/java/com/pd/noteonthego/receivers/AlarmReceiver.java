@@ -188,7 +188,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_action_assignment)
+                        .setSmallIcon(R.drawable.ic_stat_action_assignment)
                         .setContentTitle(note.getNoteTitle())
                                 // show note title
                         .setContentText(note.getNoteContent());

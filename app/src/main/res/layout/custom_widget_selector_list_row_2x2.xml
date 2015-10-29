@@ -9,7 +9,6 @@
         android:id="@+id/widget_configure_title_twobytwo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
         android:textStyle="bold"
         android:ellipsize="end"
         android:textAllCaps="true"
@@ -25,7 +24,6 @@
         android:lineSpacingExtra="2dp"
         android:maxLines="5"
         android:layout_below="@+id/widget_configure_title_twobytwo"
-        android:fontFamily="sans-serif-light"
         android:textColor="@color/note_text_color_dark" />
 
 </RelativeLayout>

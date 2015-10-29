@@ -17,7 +17,6 @@
                 android:drawableLeft="@drawable/ic_action_schedule"
                 android:drawablePadding="4dp"
                 android:layout_marginTop="8dp"
-                android:fontFamily="sans-serif-light"
                 android:text="@string/no_reminder"
                 android:textSize="12sp"
                 android:paddingLeft="8dp"
@@ -26,7 +25,6 @@
             <TextView
                 android:id="@+id/note_extras"
                 android:layout_width="wrap_content"
-                android:fontFamily="sans-serif-light"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="8dp"
                 android:drawableLeft="@drawable/ic_content_create"
@@ -69,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/note_title"
                 android:background="@android:color/transparent"
-                android:fontFamily="sans-serif-light"
                 android:gravity="start"
                 android:hint="@string/add_note"
                 android:lineSpacingExtra="8dp"
