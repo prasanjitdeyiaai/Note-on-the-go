@@ -2,6 +2,7 @@
 <com.pd.noteonthego.helper.OneLineCheckableListItem xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="8dp"
     android:orientation="vertical">
 
     <ImageView
@@ -9,7 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:padding="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingRight="16dp"
+        android:paddingLeft="8dp"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_action_reorder"/>
 
@@ -19,7 +23,10 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_toggle_check_box_outline_blank"
         android:layout_toRightOf="@+id/drag_handle"
-        android:padding="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingRight="16dp"
+        android:paddingLeft="8dp"
         android:layout_centerVertical="true" />
 
     <ImageView
@@ -27,7 +34,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:padding="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="16dp"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_content_clear"/>
 
