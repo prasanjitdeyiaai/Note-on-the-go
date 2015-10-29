@@ -129,30 +129,30 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
                 String s = checklistItemsArray.get(i);
                 if(checkedPositions != null) {
                     if (checkedPositions.contains("" + i)) {
-                        if (s.length() > 30) {
+                        /*if (s.length() > 30) {
                             stringBuilder.append("\u2012 " + s.substring(0, 31) + "... ");
-                        } else {
+                        } else {*/
                             stringBuilder.append("\u2012 " + s);
-                        }
+                        //}
                         if (i != checklistItemsArray.size() - 1) {
                             stringBuilder.append("\n");
                         }
                     } else {
-                        if (s.length() > 30) {
+                        /*if (s.length() > 30) {
                             stringBuilder.append("\u2022 " + s.substring(0, 31) + "... ");
-                        } else {
+                        } else {*/
                             stringBuilder.append("\u2022 " + s);
-                        }
+                        //}
                         if (i != checklistItemsArray.size() - 1) {
                             stringBuilder.append("\n");
                         }
                     }
                 }else {
-                    if (s.length() > 30) {
+                    /*if (s.length() > 30) {
                         stringBuilder.append("\u2022 " + s.substring(0, 31) + "... ");
-                    } else {
+                    } else {*/
                         stringBuilder.append("\u2022 " + s);
-                    }
+                    //}
                     if (i != checklistItemsArray.size() - 1) {
                         stringBuilder.append("\n");
                     }

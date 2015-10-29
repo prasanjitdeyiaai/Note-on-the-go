@@ -9,13 +9,13 @@
             android:id="@+id/note_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="12dp">
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/note_extras_reminder"
                 android:layout_width="wrap_content"
                 android:drawableLeft="@drawable/ic_action_schedule"
-                android:drawablePadding="2dp"
+                android:drawablePadding="4dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-light"
                 android:text="@string/no_reminder"
@@ -30,7 +30,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="8dp"
                 android:drawableLeft="@drawable/ic_content_create"
-                android:drawablePadding="2dp"
+                android:drawablePadding="4dp"
                 android:layout_alignBaseline="@+id/list_note_title"
                 android:textSize="12sp"
                 android:layout_height="wrap_content" />

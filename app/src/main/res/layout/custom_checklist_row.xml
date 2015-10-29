@@ -2,17 +2,14 @@
 <com.pd.noteonthego.helper.OneLineCheckableListItem xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="4dp"
-    android:paddingRight="4dp"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp">
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/drag_handle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:padding="16dp"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_action_reorder"/>
 
@@ -22,7 +19,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_toggle_check_box_outline_blank"
         android:layout_toRightOf="@+id/drag_handle"
-        android:layout_marginLeft="16dp"
+        android:padding="16dp"
         android:layout_centerVertical="true" />
 
     <ImageView
@@ -30,6 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:padding="16dp"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_content_clear"/>
 
@@ -40,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/clear_item"
         android:layout_centerVertical="true"
-        android:layout_marginRight="20dp"
+        android:padding="16dp"
         android:src="@drawable/ic_editor_mode_edit"/>
 
     <TextView
@@ -52,8 +50,6 @@
         android:ellipsize="end"
         android:maxLines="3"
         android:fontFamily="sans-serif-light"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
         android:lineSpacingExtra="6dp"
         android:layout_toRightOf="@+id/SelectImageView"
         android:background="@android:color/transparent"

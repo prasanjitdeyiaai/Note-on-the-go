@@ -519,6 +519,10 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
      * @param v
      */
     public void deleteMultiple(View v){
+        alertForMultipleDeletion();
+    }
+
+    public void deleteSelectedNotes(){
         int count = 0;
         for(int noteID: noteAdapter.getMultiDeleteList()){
             count = count + deleteSingleNote(noteID);
@@ -601,5 +605,39 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
 
         }
         return count;
+    }
+
+    private void alertForMultipleDeletion() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                MainActivity.this);
+
+        // set title
+        alertDialogBuilder.setTitle("Alert!");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage(getString(R.string.alert_multi_delete_note))
+                .setCancelable(false)
+                .setPositiveButton(getResources().getString(R.string.note_confirm_btn), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                deleteSelectedNotes();
+                            }
+                        }
+
+                )
+                .setNegativeButton(getResources().getString(R.string.note_cancel_btn), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // if this button is clicked, just close
+                                // the dialog box and do nothing
+                                dialog.cancel();
+                            }
+                        }
+                );
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
     }
 }
