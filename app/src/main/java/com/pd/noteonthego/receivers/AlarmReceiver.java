@@ -13,15 +13,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.pd.noteonthego.R;
 import com.pd.noteonthego.activities.NotesActivity;
 import com.pd.noteonthego.helper.Globals;
 import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.helper.NotePreferences;
+import com.pd.noteonthego.helper.NoteType;
 import com.pd.noteonthego.models.Note;
 
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -190,8 +195,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_stat_action_assignment)
                         .setContentTitle(note.getNoteTitle())
-                                // show note title
-                        .setContentText(note.getNoteContent());
+                        .setContentText(getNoteContent(note));
 
 
         Intent resultIntent = new Intent(context, NotesActivity.class);
@@ -240,6 +244,50 @@ public class AlarmReceiver extends BroadcastReceiver {
             return false;
         }else {
             return true;
+        }
+    }
+
+    /**
+     *
+     * @param note
+     * @return note either a todo or a note
+     */
+    private String getNoteContent(Note note){
+        if (note.getNoteType().equals(NoteType.TODO.toString())) {
+            // it's a check list
+            Gson gson = new Gson();
+
+            Type type = new TypeToken<ArrayList<String>>() {
+            }.getType();
+            ArrayList<String> checklistItemsArray = gson.fromJson(note.getNoteContent(), type);
+            ArrayList<String> checkedPositions = gson.fromJson(note.getNoteTodoCheckedPositions(), type);
+
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < checklistItemsArray.size(); i++) {
+                String s = checklistItemsArray.get(i);
+                if(checkedPositions != null) {
+                    if (checkedPositions.contains("" + i)) {
+                        stringBuilder.append("\u2012 " + s);
+                        if (i != checklistItemsArray.size() - 1) {
+                            stringBuilder.append("\n");
+                        }
+                    } else {
+                        stringBuilder.append("\u2022 " + s);
+                        if (i != checklistItemsArray.size() - 1) {
+                            stringBuilder.append("\n");
+                        }
+                    }
+                }else {
+                    stringBuilder.append("\u2022 " + s);
+                    if (i != checklistItemsArray.size() - 1) {
+                        stringBuilder.append("\n");
+                    }
+                }
+            }
+            return stringBuilder.toString();
+        } else {
+            // it's a note
+            return note.getNoteContent();
         }
     }
 }
