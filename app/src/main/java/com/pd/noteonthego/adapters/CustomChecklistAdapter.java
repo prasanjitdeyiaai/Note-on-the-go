@@ -20,16 +20,18 @@ import java.util.ArrayList;
 /**
  * Created by Prasanjit on 8/22/2015.
  */
-public class CustomChecklistAdapter extends BaseAdapter {
+public class CustomChecklistAdapter extends BaseAdapter{
     Context context = null;
     private LayoutInflater mInflater;
     private ArrayList<String> items;
     private ArrayList<Integer> selectedItems;
+    private ClearItemListener callback;
 
     public CustomChecklistAdapter(Context context, ArrayList<String> items) {
         this.context = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.items = items;
+        this.callback = (ClearItemListener) context;
     }
 
     @Override
@@ -72,6 +74,7 @@ public class CustomChecklistAdapter extends BaseAdapter {
             public void onClick(View v) {
                 items.remove(position);
                 updateNoteAdapter(items);
+                callback.updateCheckedStatus(position);
             }
         });
 
@@ -141,4 +144,8 @@ public class CustomChecklistAdapter extends BaseAdapter {
     public ArrayList<Integer> getSelectedItems(){
         return selectedItems;
     };
+
+    public interface ClearItemListener{
+        public void updateCheckedStatus(int position);
+    }
 }

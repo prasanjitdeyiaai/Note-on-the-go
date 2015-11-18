@@ -55,7 +55,7 @@ import java.util.StringTokenizer;
  * {@link ChecklistFragment.OnChecklistFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class ChecklistFragment extends Fragment {
+public class ChecklistFragment extends Fragment{
 
     private OnChecklistFragmentInteractionListener mListener;
     private DragSortListView mChecklist;
@@ -667,6 +667,10 @@ public class ChecklistFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void uncheckDeletedItem(int position) {
+        mChecklist.setItemChecked(position, false);
     }
 
     /**

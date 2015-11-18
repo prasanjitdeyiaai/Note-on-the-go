@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.pd.noteonthego.R;
+import com.pd.noteonthego.adapters.CustomChecklistAdapter;
 import com.pd.noteonthego.dialogs.NoteColorDialogFragment;
 import com.pd.noteonthego.fragments.ChecklistFragment;
 import com.pd.noteonthego.fragments.NotesFragment;
@@ -21,7 +22,7 @@ import com.pd.noteonthego.helper.NoteColor;
 import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.helper.NoteType;
 
-public class NotesActivity extends AppCompatActivity implements NotesFragment.OnFragmentInteractionListener, NoteColorDialogFragment.NoticeDialogListener, ChecklistFragment.OnChecklistFragmentInteractionListener {
+public class NotesActivity extends AppCompatActivity implements NotesFragment.OnFragmentInteractionListener, NoteColorDialogFragment.NoticeDialogListener, ChecklistFragment.OnChecklistFragmentInteractionListener, CustomChecklistAdapter.ClearItemListener{
 
     private String userSelectedNoteColor = String.valueOf(NoteColor.WHITE);
     private String noteTitleForEdit, noteTimestampForEdit;
@@ -449,6 +450,16 @@ public class NotesActivity extends AppCompatActivity implements NotesFragment.On
         if (checklistFragment != null) {
             if (isNoteEditedForUpdate)
                 checklistFragment.openNoteForViewing(noteID);
+        }
+    }
+
+    @Override
+    public void updateCheckedStatus(int position) {
+        ChecklistFragment checklistFragment = (ChecklistFragment)
+                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+        if (checklistFragment != null) {
+            checklistFragment.uncheckDeletedItem(position);
         }
     }
 }
