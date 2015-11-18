@@ -113,8 +113,8 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
             Note note = NoteContentProvider.getNoteFromCursor(c);
 
             if(note.getIsReminderSet() == 1){
-                mReminderDate.setText(Globals.getInstance().convertToReadableDateTimeYear(note.getReminderDateTime()));
-                mReminderTime.setText(Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                // mReminderDate.setText(Globals.getInstance().convertToReadableDateTimeYear(note.getReminderDateTime()));
+                // mReminderTime.setText(Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
                 if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("0")){
                     // TODAY
                     if(note.getReminderType().toLowerCase().equals("once")){
@@ -159,11 +159,13 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
                 mBtnDismiss.setVisibility(View.VISIBLE);
                 isPreviousReminderSet = true;
             }else {
-                mReminderDate.setText("Nothing selected");
-                mReminderTime.setText("Nothing selected");
+                // mReminderDate.setText("Nothing selected");
+                // mReminderTime.setText("Nothing selected");
                 mReminderExtras.setText(R.string.no_reminder);
                 mBtnDismiss.setVisibility(View.GONE);
             }
+            mReminderDate.setText("Nothing selected");
+            mReminderTime.setText("Nothing selected");
         }
     }
 
@@ -357,7 +359,7 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
                 NoteContentProvider.CONTENT_URI, values, whereClause, whereArgs);
 
         if (rowsUpdated > 0) {
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.reminder_set) + " on " + Globals.getInstance().convertToReadableDateShort(datetime), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.reminder_set), Toast.LENGTH_SHORT).show();
         }
     }
 

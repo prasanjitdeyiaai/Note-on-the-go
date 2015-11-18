@@ -30,7 +30,10 @@
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:visibility="gone"
-                android:padding="8dp"
+                android:paddingRight="16dp"
+                android:paddingLeft="8dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:layout_centerVertical="true"/>
 
             <TextView

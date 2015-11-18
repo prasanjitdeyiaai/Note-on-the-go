@@ -179,6 +179,6 @@
 
     <string name="widget_onebyone">1</string>
     <string name="widget_twobytwo">2</string>
-    <string name="dismiss_alarm">DISMISS</string>
+    <string name="dismiss_alarm">Already Set, DISMISS ALARM</string>
     <string name="set_reminder">SET REMINDER</string>
 </resources>
