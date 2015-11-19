@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -262,10 +261,8 @@ public class NotesFragment extends Fragment {
         NotePreferences notePreferences = new NotePreferences(getActivity());
         if(notePreferences.getWidgetIDForUpdate(String.valueOf(noteID)).equals("")){
             // no widget to update
-            Log.e("NotesFragment", "No widget");
         }else {
             mAppWidgetIDs = notePreferences.getWidgetIDForUpdate(String.valueOf(noteID));
-            Log.e("Notes Frag string ", mAppWidgetIDs);
 
             StringTokenizer st = new StringTokenizer(mAppWidgetIDs, ",");
 

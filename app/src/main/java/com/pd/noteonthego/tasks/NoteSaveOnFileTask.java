@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 
 /**
  * Created by pradey on 8/5/2015.
@@ -49,9 +48,6 @@ public class NoteSaveOnFileTask extends AsyncTask<Object, Void, Boolean> {
 
         File dir = new File(root.getAbsolutePath() + "/NoteOnTheGo");
         dir.mkdirs();
-
-        // Random r = new Random();
-        // int randNum = r.nextInt(9999 - 9001) + 9001;
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String currentDateandTime = simpleDateFormat.format(new Date());

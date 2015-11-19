@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -494,7 +493,6 @@ public class ChecklistFragment extends Fragment{
         NotePreferences notePreferences = new NotePreferences(getActivity());
         if(notePreferences.getWidgetIDForUpdate(String.valueOf(noteID)).equals("")){
             // no widget to update
-            Log.e("ChecklistFragment", "No widget");
         }else {
             mAppWidgetIDs = notePreferences.getWidgetIDForUpdate(String.valueOf(noteID));
 
