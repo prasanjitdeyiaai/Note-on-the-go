@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Random;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -220,8 +221,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         // play default sound
         mBuilder.setDefaults(Notification.DEFAULT_SOUND);
 
+        Random random = new Random();
+        int mNotificationId = random.nextInt(9999 - 1000) + 1000;
+
         // Sets an ID for the notification
-        int mNotificationId = 001;
+        // int mNotificationId = 001;
         // Gets an instance of the NotificationManager service
         mNotifyMgr =
                 (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);

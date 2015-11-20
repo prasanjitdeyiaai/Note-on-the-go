@@ -84,7 +84,7 @@ public class IncomingCallStateReceiver extends BroadcastReceiver {
         mBuilder.setAutoCancel(true);
 
         // Sets an ID for the notification
-        int mNotificationId = 001;
+        int mNotificationId = 10001;
         // Gets an instance of the NotificationManager service
         mNotifyMgr =
                 (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
