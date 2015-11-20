@@ -70,7 +70,7 @@
         android:textSize="16sp"
         android:visibility="gone"
         android:layout_alignLeft="@+id/no_notes"
-        android:text="Add Checklist"
+        android:text="Add Checklist (Todo)"
         android:textColor="@color/material_light_green_dark" />
 
 </RelativeLayout>
