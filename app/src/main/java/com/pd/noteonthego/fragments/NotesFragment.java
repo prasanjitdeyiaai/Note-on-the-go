@@ -151,8 +151,8 @@ public class NotesFragment extends Fragment {
     public int saveNoteToDatabase(String noteColor) {
         // DBHelper dbHelper = new DBHelper(getActivity());
 
-        String title = mNoteTitle.getText().toString();
-        String content = mNoteContent.getText().toString();
+        String title = mNoteTitle.getText().toString().trim();
+        String content = mNoteContent.getText().toString().trim();
 
         if(title.equals("") && content.equals("")){
             Toast.makeText(getActivity(), R.string.note_empty, Toast.LENGTH_SHORT).show();
@@ -211,8 +211,8 @@ public class NotesFragment extends Fragment {
 
     public void updateNote(String noteColor, int noteID) {
 
-        editedNoteTitle = mNoteTitle.getText().toString();
-        editedNoteContent = mNoteContent.getText().toString();
+        editedNoteTitle = mNoteTitle.getText().toString().trim();
+        editedNoteContent = mNoteContent.getText().toString().trim();
 
         if(!oldNoteTitle.equals(editedNoteTitle) || !oldNoteContent.equals(editedNoteContent)){
             isNoteEditedByUser = true;
@@ -220,8 +220,8 @@ public class NotesFragment extends Fragment {
 
         // update only if user actually updates the app
         if(isNoteEditedByUser) {
-            String title = mNoteTitle.getText().toString();
-            String content = mNoteContent.getText().toString();
+            String title = mNoteTitle.getText().toString().trim();
+            String content = mNoteContent.getText().toString().trim();
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault());
             String dateTime = simpleDateFormat.format(new Date());
@@ -530,7 +530,7 @@ public class NotesFragment extends Fragment {
     public void shareNoteUsingIntent(){
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, mNoteTitle.getText().toString() + " - " +mNoteContent.getText().toString());
+        sendIntent.putExtra(Intent.EXTRA_TEXT, mNoteTitle.getText().toString().trim() + " - " +mNoteContent.getText().toString().trim());
         sendIntent.setType("text/plain");
         startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.send_to)));
     }

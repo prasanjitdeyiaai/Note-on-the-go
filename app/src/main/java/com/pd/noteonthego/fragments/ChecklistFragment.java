@@ -234,7 +234,7 @@ public class ChecklistFragment extends Fragment{
             }
         }
 
-        String title = mNoteTitle.getText().toString();
+        String title = mNoteTitle.getText().toString().trim();
 
         Gson gson = new Gson();
         String content = gson.toJson(tempChecklist);
@@ -301,7 +301,7 @@ public class ChecklistFragment extends Fragment{
 
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, mNoteTitle.getText().toString() + " \n" + stringBuilder);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, mNoteTitle.getText().toString().trim() + " \n" + stringBuilder);
         sendIntent.setType("text/plain");
         startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.send_to)));
     }
@@ -423,7 +423,7 @@ public class ChecklistFragment extends Fragment{
 
         editedSelectedItemsCount = selectedItems.size();
 
-        editedNoteTitle = mNoteTitle.getText().toString();
+        editedNoteTitle = mNoteTitle.getText().toString().trim();
 
         if(!oldNoteTitle.equals(editedNoteTitle)){
             isNoteEditedByUser = true;
@@ -443,7 +443,7 @@ public class ChecklistFragment extends Fragment{
         }
 
         if(isNoteEditedByUser) {
-            String title = mNoteTitle.getText().toString();
+            String title = mNoteTitle.getText().toString().trim();
 
             Gson gson = new Gson();
             String content = gson.toJson(tempChecklist);
