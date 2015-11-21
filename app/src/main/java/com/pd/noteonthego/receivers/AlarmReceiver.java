@@ -221,6 +221,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         // play default sound
         mBuilder.setDefaults(Notification.DEFAULT_SOUND);
 
+        /*
+            a random number for differentiating this notification from other notifications
+         */
         Random random = new Random();
         int mNotificationId = random.nextInt(9999 - 1000) + 1000;
 

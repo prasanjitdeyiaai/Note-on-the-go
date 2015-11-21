@@ -163,7 +163,7 @@
     <color name="light_holo_blue">#6c9597</color>
     <string name="title_activity_about">AboutActivity</string>
     <string name="developer">Developer - Prasanjit Dey</string>
-    <string name="contact_email">prasanjitde@gmail.com</string>
+    <string name="contact_email">andmobidev@gmail.com</string>
     <string name="title_activity_one_by_one_widget_configure">OneByOneWidgetConfigureActivity
     </string>
     <string name="star_note">Star</string>

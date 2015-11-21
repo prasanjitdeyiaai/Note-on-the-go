@@ -37,7 +37,8 @@
         android:id="@+id/no_notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
         android:textSize="24sp"
         android:text="No Notes"
         android:visibility="gone"/>
@@ -45,18 +46,16 @@
     <TextView
         android:id="@+id/add_note"
         android:layout_marginTop="16dp"
-        android:layout_below="@+id/no_notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/no_notes"
+        android:layout_centerInParent="true"
         android:drawableRight="@drawable/ic_action_action_assignment"
         android:drawablePadding="2dp"
         android:gravity="center"
-        android:fontFamily="sans-serif-light"
         android:textSize="16sp"
         android:text="Add Note"
-        android:visibility="gone"
-        android:textColor="@color/material_light_green_dark" />
+        android:clickable="true"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/add_checklist"
@@ -65,13 +64,25 @@
         android:layout_height="wrap_content"
         android:drawableRight="@drawable/ic_action_action_assignment_turned_in"
         android:drawablePadding="2dp"
-        android:gravity="center_vertical"
-        android:fontFamily="sans-serif-light"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:textSize="16sp"
+        android:clickable="true"
+        android:visibility="gone"
+        android:text="Add Checklist (Todo)" />
+
+    <TextView
+        android:id="@+id/notification_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_checklist"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="24dp"
         android:textSize="16sp"
         android:visibility="gone"
-        android:layout_alignLeft="@+id/no_notes"
-        android:text="Add Checklist (Todo)"
-        android:textColor="@color/material_light_green_dark" />
+        android:text="Adding a note during a call is enabled. To turn it off, go to settings" />
 
 </RelativeLayout>
 

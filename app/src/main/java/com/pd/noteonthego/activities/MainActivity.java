@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
     private ListView noteListView;
     private CustomNoteAdapter noteAdapter;
     private ArrayList<Note> availableNotes, tempSortedNotes;
-    private TextView mNoNotes, mAddNote, mAddChecklist, btnMultiDelete;
+    private TextView mNoNotes, mAddNote, mAddChecklist, btnMultiDelete, mNotificationNote;
     private boolean isMultiDeleteClicked = false;
 
     @Override
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
         mNoNotes = (TextView)findViewById(R.id.no_notes);
         mAddNote = (TextView)findViewById(R.id.add_note);
         mAddChecklist = (TextView)findViewById(R.id.add_checklist);
+        mNotificationNote = (TextView)findViewById(R.id.notification_note);
         btnMultiDelete = (TextView) findViewById(R.id.btn_multiple_delete);
 
         // get the saved sort order here and in on resume
@@ -104,6 +105,20 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 // alertUserForDeletion(position);
                 return true;
+            }
+        });
+
+        mAddNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addNote();
+            }
+        });
+
+        mAddChecklist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addChecklist();
             }
         });
     }
@@ -258,10 +273,12 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
                                                 mNoNotes.setVisibility(View.VISIBLE);
                                                 mAddNote.setVisibility(View.VISIBLE);
                                                 mAddChecklist.setVisibility(View.VISIBLE);
+                                                mNotificationNote.setVisibility(View.VISIBLE);
                                             }else {
                                                 mNoNotes.setVisibility(View.GONE);
                                                 mAddNote.setVisibility(View.GONE);
                                                 mAddChecklist.setVisibility(View.GONE);
+                                                mNotificationNote.setVisibility(View.GONE);
                                             }
                                         }
                                     }
@@ -327,10 +344,12 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
             mNoNotes.setVisibility(View.VISIBLE);
             mAddNote.setVisibility(View.VISIBLE);
             mAddChecklist.setVisibility(View.VISIBLE);
+            mNotificationNote.setVisibility(View.VISIBLE);
         }else {
             mNoNotes.setVisibility(View.GONE);
             mAddNote.setVisibility(View.GONE);
             mAddChecklist.setVisibility(View.GONE);
+            mNotificationNote.setVisibility(View.GONE);
         }
     }
 
@@ -606,10 +625,12 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
                         mNoNotes.setVisibility(View.VISIBLE);
                         mAddNote.setVisibility(View.VISIBLE);
                         mAddChecklist.setVisibility(View.VISIBLE);
+                        mNotificationNote.setVisibility(View.VISIBLE);
                     }else {
                         mNoNotes.setVisibility(View.GONE);
                         mAddNote.setVisibility(View.GONE);
                         mAddChecklist.setVisibility(View.GONE);
+                        mNotificationNote.setVisibility(View.GONE);
                     }
                 }
             }
