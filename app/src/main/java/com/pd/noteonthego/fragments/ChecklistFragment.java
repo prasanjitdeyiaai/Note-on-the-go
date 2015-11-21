@@ -181,7 +181,7 @@ public class ChecklistFragment extends Fragment{
     public void addChecklistItem() {
         // only when text box is not empty
         if (!mChecklistItem.getText().toString().trim().equals("")) {
-            tempChecklist.add(mChecklistItem.getText().toString());
+            tempChecklist.add(mChecklistItem.getText().toString().trim());
             adapter.updateNoteAdapter(tempChecklist);
 
             // scroll to the end of the list
