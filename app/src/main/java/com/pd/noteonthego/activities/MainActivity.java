@@ -550,7 +550,6 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
     public void deleteMultiple(View v){
         alertForMultipleDeletion();
     }
-
     public void deleteSelectedNotes(){
         int count = 0;
         for(int noteID: noteAdapter.getMultiDeleteList()){
@@ -558,7 +557,8 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
         }
 
         if(count > 0){
-            noteAdapter.clearItems();
+            // noteListView.setAdapter(noteAdapter);
+            noteAdapter.updateNoteAdapter(availableNotes);
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.note_deleted), Toast.LENGTH_SHORT).show();
         }
 

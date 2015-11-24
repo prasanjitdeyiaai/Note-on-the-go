@@ -274,6 +274,7 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
      */
     public void updateNoteAdapter(ArrayList<Note> noteArrayList) {
         this.filteredNotes = noteArrayList;
+        this.notes = noteArrayList;
         notifyDataSetChanged();
     }
 
@@ -345,12 +346,5 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
             filteredNotes = (ArrayList<Note>) results.values;
             notifyDataSetChanged();
         }
-
-    }
-
-    public void clearItems(){
-        notes.clear();
-        filteredNotes.clear();
-        notifyDataSetChanged();
     }
 }

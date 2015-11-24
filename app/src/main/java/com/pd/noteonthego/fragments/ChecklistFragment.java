@@ -29,6 +29,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mobeta.android.dslv.DragSortListView;
 import com.pd.noteonthego.R;
+import com.pd.noteonthego.activities.MainActivity;
 import com.pd.noteonthego.activities.NotesActivity;
 import com.pd.noteonthego.activities.ReminderActivity;
 import com.pd.noteonthego.adapters.CustomChecklistAdapter;
@@ -307,7 +308,6 @@ public class ChecklistFragment extends Fragment{
     }
 
     public void openNoteForViewing(int noteID) {
-        // DBHelper dbHelper = new DBHelper(getActivity());
         if (noteID != -1) {
 
             // first update the noteID for use in setting reminder
@@ -319,92 +319,101 @@ public class ChecklistFragment extends Fragment{
             String whereClause = NoteContentProvider.COLUMN_NOTES_ID + "=?";
             String[] whereArgs = new String[]{String.valueOf(noteID)};
             Cursor c = getActivity().getContentResolver().query(notes, null, whereClause, whereArgs, null);
-            Note note = NoteContentProvider.getNoteFromCursor(c);
 
-            // Note note = dbHelper.getNote(noteTitle, noteTimestamp);
+            if(c.getCount() <= 0){
+                // note deleted
+                getActivity().finish();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+            }else {
 
-            oldNoteTitle = note.getNoteTitle();
+                Note note = NoteContentProvider.getNoteFromCursor(c);
 
-            // fill the title
-            mNoteTitle.setText(note.getNoteTitle());
+                // Note note = dbHelper.getNote(noteTitle, noteTimestamp);
 
-            Gson gson = new Gson();
+                oldNoteTitle = note.getNoteTitle();
 
-            Type type = new TypeToken<ArrayList<String>>() {
-            }.getType();
-            ArrayList<String> checkedItemsArray = gson.fromJson(note.getNoteTodoCheckedPositions(), type);
-            ArrayList<String> checklistItemsArray = gson.fromJson(note.getNoteContent(), type);
-            // clear the list before adding new data
-            // issue occurs when returning after sharing the checklist
-            tempChecklist.clear();
+                // fill the title
+                mNoteTitle.setText(note.getNoteTitle());
 
-            tempChecklist.addAll(checklistItemsArray);
+                Gson gson = new Gson();
 
-            oldTempChecklist.addAll(tempChecklist);
+                Type type = new TypeToken<ArrayList<String>>() {
+                }.getType();
+                ArrayList<String> checkedItemsArray = gson.fromJson(note.getNoteTodoCheckedPositions(), type);
+                ArrayList<String> checklistItemsArray = gson.fromJson(note.getNoteContent(), type);
+                // clear the list before adding new data
+                // issue occurs when returning after sharing the checklist
+                tempChecklist.clear();
 
-            oldListCount = tempChecklist.size();
-            adapter.updateNoteAdapter(tempChecklist);
+                tempChecklist.addAll(checklistItemsArray);
 
-            if(checkedItemsArray != null) {
-                oldSelectedItemsCount = checkedItemsArray.size();
-                for (String s : checkedItemsArray) {
-                    mChecklist.setItemChecked(Integer.parseInt(s), true);
-                }
-            }
+                oldTempChecklist.addAll(tempChecklist);
 
-            if (!note.getNoteLastModifiedTimeStamp().equals("")) {
-                mNoteExtras.setText(Globals.getInstance().convertToReadableDateShort(note.getNoteLastModifiedTimeStamp()));
-            } else {
-                mNoteExtras.setText(Globals.getInstance().convertToReadableDateShort(note.getNoteCreatedTimeStamp()));
-            }
-            if (note.getIsReminderSet() == 1) {
-                if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("0")){
-                    // TODAY
-                    if(note.getReminderType().toLowerCase().equals("once")){
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " today " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
-                    }else if(note.getReminderType().toLowerCase().equals("daily")){
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
-                    }else if(note.getReminderType().toLowerCase().equals("weekly")){
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().getWeekday(note) + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
-                    }else {
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
-                    }
-                }else if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("1")){
-                    // TOMORROW
-                    if(note.getReminderType().toLowerCase().equals("once")){
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " tomorrow " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
-                    }else if(note.getReminderType().toLowerCase().equals("daily")){
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
-                    }else if(note.getReminderType().toLowerCase().equals("weekly")){
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().getWeekday(note) + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
-                    }else {
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
-                    }
-                }else if(Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("-1")){
-                    // YESTERDAY
-                    if(note.getReminderType().toLowerCase().equals("once")){
-                        // do nothing here as it is completed
-                    }else if(note.getReminderType().toLowerCase().equals("daily")){
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
-                    }else if(note.getReminderType().toLowerCase().equals("weekly")){
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().getWeekday(note) + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
-                    }else {
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
-                    }
-                }else {
-                    if(note.getReminderType().toLowerCase().equals("once")){
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
-                    }else {
-                        mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " from " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                oldListCount = tempChecklist.size();
+                adapter.updateNoteAdapter(tempChecklist);
+
+                if (checkedItemsArray != null) {
+                    oldSelectedItemsCount = checkedItemsArray.size();
+                    for (String s : checkedItemsArray) {
+                        mChecklist.setItemChecked(Integer.parseInt(s), true);
                     }
                 }
-            } else {
-                mNoteExtrasReminder.setText(R.string.no_reminder);
+
+                if (!note.getNoteLastModifiedTimeStamp().equals("")) {
+                    mNoteExtras.setText(Globals.getInstance().convertToReadableDateShort(note.getNoteLastModifiedTimeStamp()));
+                } else {
+                    mNoteExtras.setText(Globals.getInstance().convertToReadableDateShort(note.getNoteCreatedTimeStamp()));
+                }
+                if (note.getIsReminderSet() == 1) {
+                    if (Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("0")) {
+                        // TODAY
+                        if (note.getReminderType().toLowerCase().equals("once")) {
+                            mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " today " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        } else if (note.getReminderType().toLowerCase().equals("daily")) {
+                            mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        } else if (note.getReminderType().toLowerCase().equals("weekly")) {
+                            mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().getWeekday(note) + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        } else {
+                            mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        }
+                    } else if (Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("1")) {
+                        // TOMORROW
+                        if (note.getReminderType().toLowerCase().equals("once")) {
+                            mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " tomorrow " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        } else if (note.getReminderType().toLowerCase().equals("daily")) {
+                            mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        } else if (note.getReminderType().toLowerCase().equals("weekly")) {
+                            mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().getWeekday(note) + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        } else {
+                            mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        }
+                    } else if (Globals.getInstance().getDateDifference(note.getReminderDateTime()).equals("-1")) {
+                        // YESTERDAY
+                        if (note.getReminderType().toLowerCase().equals("once")) {
+                            // do nothing here as it is completed
+                        } else if (note.getReminderType().toLowerCase().equals("daily")) {
+                            mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        } else if (note.getReminderType().toLowerCase().equals("weekly")) {
+                            mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().getWeekday(note) + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        } else {
+                            mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateOnly(note.getReminderDateTime()) + " " + Globals.getInstance().convertToReadableDateForTime(note.getReminderDateTime()));
+                        }
+                    } else {
+                        if (note.getReminderType().toLowerCase().equals("once")) {
+                            mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " on " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                        } else {
+                            mNoteExtrasReminder.setText(note.getReminderType().toLowerCase() + " from " + Globals.getInstance().convertToReadableDateShort(note.getReminderDateTime()));
+                        }
+                    }
+                } else {
+                    mNoteExtrasReminder.setText(R.string.no_reminder);
+                }
+                // update the star
+                isStarred = note.getIsStarred();
+                updateStar();
+                changeNoteBackgroundColor(note.getNoteColor());
             }
-            // update the star
-            isStarred = note.getIsStarred();
-            updateStar();
-            changeNoteBackgroundColor(note.getNoteColor());
         }
 
     }

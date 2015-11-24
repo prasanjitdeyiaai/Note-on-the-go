@@ -88,7 +88,6 @@ public class TwoByTwoWidgetConfigureActivity extends AppCompatActivity {
 
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
 
-                // Create an Intent to launch ExampleActivity
                 Intent intent = new Intent(getApplicationContext(), NotesActivity.class);
                 intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
                 intent.putExtra("note-type", note.getNoteType());
