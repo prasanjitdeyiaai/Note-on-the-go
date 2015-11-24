@@ -110,7 +110,7 @@
     <string name="reminder_set">Reminder set</string>
     <string name="no_reminder">No Reminder</string>
     <string name="title_activity_checklist">ChecklistActivity</string>
-    <string name="add_item">Add an item</string>
+    <string name="add_item">Add an item and press Enter</string>
     <string name="btn_add">ADD</string>
 
     <!-- TODO new light pleasing colors -->

@@ -347,4 +347,10 @@ public class CustomNoteAdapter extends BaseAdapter implements Filterable {
         }
 
     }
+
+    public void clearItems(){
+        notes.clear();
+        filteredNotes.clear();
+        notifyDataSetChanged();
+    }
 }

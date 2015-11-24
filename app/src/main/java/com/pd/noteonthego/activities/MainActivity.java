@@ -558,6 +558,7 @@ public class MainActivity extends AppCompatActivity implements SortDialogFragmen
         }
 
         if(count > 0){
+            noteAdapter.clearItems();
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.note_deleted), Toast.LENGTH_SHORT).show();
         }
 

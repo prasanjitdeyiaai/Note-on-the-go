@@ -82,7 +82,7 @@
         android:layout_marginTop="24dp"
         android:textSize="16sp"
         android:visibility="gone"
-        android:text="Adding a note during a call is enabled. To turn it off, go to settings" />
+        android:text="To enable/disable notification icon for adding a note during a call, go to Settings" />
 
 </RelativeLayout>
 
