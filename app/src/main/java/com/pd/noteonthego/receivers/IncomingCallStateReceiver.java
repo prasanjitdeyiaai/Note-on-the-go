@@ -19,6 +19,8 @@ import com.pd.noteonthego.activities.SettingsActivity;
  */
 public class IncomingCallStateReceiver extends BroadcastReceiver {
     NotificationManager mNotifyMgr = null;
+    // Sets an ID for the notification
+    int mNotificationId = 10001;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -34,6 +36,7 @@ public class IncomingCallStateReceiver extends BroadcastReceiver {
 
                 if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
                     // call picked up
+
                     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
                     boolean isCallNotificationEnabled = sharedPref.getBoolean(SettingsActivity.KEY_CALL_NOTIFICATION, true);
 
@@ -42,11 +45,15 @@ public class IncomingCallStateReceiver extends BroadcastReceiver {
                     }
                 }
                 if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
+
                     // call ended
                     // remove notification
-                    if (mNotifyMgr != null) {
-                        mNotifyMgr.cancelAll();
-                    }
+
+                    // Gets an instance of the NotificationManager service
+                    mNotifyMgr =
+                            (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+                    mNotifyMgr.cancel(mNotificationId);
+
                 }
             }
 
@@ -54,7 +61,7 @@ public class IncomingCallStateReceiver extends BroadcastReceiver {
         catch(Exception e)
         {
             //your custom message
-            e.printStackTrace();
+            // e.printStackTrace();
         }
     }
 
@@ -83,8 +90,6 @@ public class IncomingCallStateReceiver extends BroadcastReceiver {
         mBuilder.setContentIntent(resultPendingIntent);
         mBuilder.setAutoCancel(true);
 
-        // Sets an ID for the notification
-        int mNotificationId = 10001;
         // Gets an instance of the NotificationManager service
         mNotifyMgr =
                 (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);

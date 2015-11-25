@@ -20,26 +20,46 @@ import com.pd.noteonthego.activities.SettingsActivity;
 public class OutgoingCallStateReceiver extends BroadcastReceiver {
 
     NotificationManager mNotifyMgr = null;
+    // Sets an ID for the notification
+    int mNotificationId = 10001;
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
+        try {
+            String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
 
-        if (state != null) {
-            if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
-                // call ended
-                // remove notification
-                if (mNotifyMgr != null) {
-                    mNotifyMgr.cancelAll();
+            if(state != null) {
+                if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
+                    // ringing
+                }
+
+                if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+                    // call picked up
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+                    boolean isCallNotificationEnabled = sharedPref.getBoolean(SettingsActivity.KEY_CALL_NOTIFICATION, true);
+
+                    if(isCallNotificationEnabled) {
+                        createNotificationForNote(context);
+                    }
+                }
+
+                if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
+
+                    // call ended
+                    // remove notification
+
+                    // Gets an instance of the NotificationManager service
+                    mNotifyMgr =
+                            (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+                    mNotifyMgr.cancel(mNotificationId);
+
                 }
             }
-        }
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean isCallNotificationEnabled = sharedPref.getBoolean(SettingsActivity.KEY_CALL_NOTIFICATION, true);
-
-        if(isCallNotificationEnabled) {
-            createNotificationForNote(context);
+        }catch(Exception e)
+        {
+            //your custom message
+            // e.printStackTrace();
         }
     }
 
@@ -68,8 +88,6 @@ public class OutgoingCallStateReceiver extends BroadcastReceiver {
         mBuilder.setContentIntent(resultPendingIntent);
         mBuilder.setAutoCancel(true);
 
-        // Sets an ID for the notification
-        int mNotificationId = 10001;
         // Gets an instance of the NotificationManager service
         mNotifyMgr =
                 (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
