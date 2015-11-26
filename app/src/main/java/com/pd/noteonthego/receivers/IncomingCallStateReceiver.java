@@ -21,6 +21,7 @@ public class IncomingCallStateReceiver extends BroadcastReceiver {
     NotificationManager mNotifyMgr = null;
     // Sets an ID for the notification
     int mNotificationId = 10001;
+    private boolean noteEdited = false;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -50,9 +51,12 @@ public class IncomingCallStateReceiver extends BroadcastReceiver {
                     // remove notification
 
                     // Gets an instance of the NotificationManager service
-                    mNotifyMgr =
-                            (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-                    mNotifyMgr.cancel(mNotificationId);
+
+                    if(!noteEdited) {
+                        mNotifyMgr =
+                                (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+                        mNotifyMgr.cancel(mNotificationId);
+                    }
 
                 }
             }
@@ -70,6 +74,9 @@ public class IncomingCallStateReceiver extends BroadcastReceiver {
      * @param context
      */
     private void createNotificationForNote(Context context) {
+        // note opened for editing
+        noteEdited = true;
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_stat_action_assignment)

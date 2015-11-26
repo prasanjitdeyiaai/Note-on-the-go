@@ -7,14 +7,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.helper.NotePreferences;
 import com.pd.noteonthego.models.Note;
 import com.pd.noteonthego.receivers.AlarmReceiver;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -22,6 +28,8 @@ import java.util.Calendar;
  * Created by pradey on 11/23/2015.
  */
 public class AlarmService extends Service {
+
+    private static int count = 0;
 
     @Nullable
     @Override
@@ -41,14 +49,31 @@ public class AlarmService extends Service {
         for (Note note : noteArrayList) {
             // if reminder is set, update it
             if(note.getIsReminderSet() == 1){
-                updateReminder(note);
+                try {
+                    updateReminder(note);
+                }catch (Exception e){
+                    try {
+                        File myFile = new File(Environment.getExternalStorageDirectory() + File.separator + "noteonthego.txt");
+                        myFile.createNewFile();
+                        FileOutputStream fOut = new FileOutputStream(myFile);
+                        OutputStreamWriter myOutWriter =
+                                new OutputStreamWriter(fOut);
+                        myOutWriter.append(e.getMessage());
+                        myOutWriter.close();
+                        fOut.close();
+                    }catch (IOException e1){
+                        Toast.makeText(getApplicationContext(), e1.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         }
 
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void updateReminder(Note note) {
+    private void updateReminder(Note note) throws Exception{
+
+        count++;
 
         int noteID = note.getNoteID();
         AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -98,6 +123,19 @@ public class AlarmService extends Service {
             //  monthly alarm
             alarmMgr.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
         }
+        /*try {
+            File myFile = new File(Environment.getExternalStorageDirectory() + File.separator + "noteonthegoReminder_" + count + "_.txt");
+            myFile.createNewFile();
+            FileOutputStream fOut = new FileOutputStream(myFile);
+            OutputStreamWriter myOutWriter =
+                    new OutputStreamWriter(fOut);
+            myOutWriter.append(note.getReminderDateTime() + ", " + note.getReminderType() + ", " + note.getNoteTitle() +
+            ", " + day + "-" + month + "-" + year + " " + hour + ":" + minute);
+            myOutWriter.close();
+            fOut.close();
+        }catch (IOException e1){
+            Toast.makeText(getApplicationContext(), "Reminder " + e1.getMessage(), Toast.LENGTH_LONG).show();
+        }*/
         stopSelf();
     }
 }

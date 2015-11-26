@@ -89,7 +89,6 @@ public class HomeActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        // Toast.makeText(getApplicationContext(), "Stop called", Toast.LENGTH_SHORT).show();
     }
 
     @Override
