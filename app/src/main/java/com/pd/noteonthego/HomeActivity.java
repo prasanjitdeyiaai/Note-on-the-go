@@ -38,8 +38,9 @@ public class HomeActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        // save the edit text contents
-        String noteToSave = mEditor.getText().toString();
+    }
+
+    public void saveNoteToDB(String noteToSave){
 
         // only if note is not blank
         if (!noteToSave.trim().equals("")) {
@@ -89,6 +90,11 @@ public class HomeActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
+
+        // save the edit text contents
+        String noteToSave = mEditor.getText().toString();
+
+        saveNoteToDB(noteToSave);
     }
 
     @Override
