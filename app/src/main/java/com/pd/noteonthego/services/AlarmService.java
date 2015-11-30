@@ -7,20 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
 
 import com.pd.noteonthego.helper.NoteContentProvider;
 import com.pd.noteonthego.helper.NotePreferences;
 import com.pd.noteonthego.models.Note;
 import com.pd.noteonthego.receivers.AlarmReceiver;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -28,8 +22,6 @@ import java.util.Calendar;
  * Created by pradey on 11/23/2015.
  */
 public class AlarmService extends Service {
-
-    private static int count = 0;
 
     @Nullable
     @Override
@@ -52,7 +44,8 @@ public class AlarmService extends Service {
                 try {
                     updateReminder(note);
                 }catch (Exception e){
-                    try {
+                    // e.printStackTrace();
+                    /*try {
                         File myFile = new File(Environment.getExternalStorageDirectory() + File.separator + "noteonthego.txt");
                         myFile.createNewFile();
                         FileOutputStream fOut = new FileOutputStream(myFile);
@@ -63,7 +56,7 @@ public class AlarmService extends Service {
                         fOut.close();
                     }catch (IOException e1){
                         Toast.makeText(getApplicationContext(), e1.getMessage(), Toast.LENGTH_LONG).show();
-                    }
+                    }*/
                 }
             }
         }
@@ -72,8 +65,6 @@ public class AlarmService extends Service {
     }
 
     private void updateReminder(Note note) throws Exception{
-
-        count++;
 
         int noteID = note.getNoteID();
         AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -99,10 +90,18 @@ public class AlarmService extends Service {
         String day = oldDate.substring(3,5);
         String hour = oldDate.substring(11, 13);
         String minute = oldDate.substring(14, 16);
+        String ampm = oldDate.substring(20, 22);
+
+        int hourInInt = 0;
+        if(ampm.equals("P") || ampm.equals("PM")){
+            hourInInt = Integer.parseInt(hour) + 12;
+        }else {
+            hourInInt = Integer.parseInt(hour);
+        }
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour));
+        calendar.set(Calendar.HOUR_OF_DAY, hourInInt);
         calendar.set(Calendar.MINUTE, Integer.parseInt(minute));
         // month starts from 0 hence -1
         calendar.set(Integer.parseInt(year), (Integer.parseInt(month) - 1), Integer.parseInt(day));
@@ -123,19 +122,17 @@ public class AlarmService extends Service {
             //  monthly alarm
             alarmMgr.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
         }
-        /*try {
-            File myFile = new File(Environment.getExternalStorageDirectory() + File.separator + "noteonthegoReminder_" + count + "_.txt");
+
+            /*File myFile = new File(Environment.getExternalStorageDirectory() + File.separator + "noteonthegoReminder_" + count + "_.txt");
             myFile.createNewFile();
             FileOutputStream fOut = new FileOutputStream(myFile);
             OutputStreamWriter myOutWriter =
                     new OutputStreamWriter(fOut);
             myOutWriter.append(note.getReminderDateTime() + ", " + note.getReminderType() + ", " + note.getNoteTitle() +
-            ", " + day + "-" + month + "-" + year + " " + hour + ":" + minute);
+            ", " + day + "-" + month + "-" + year + " " + hour + ":" + minute + " " + ampm);
             myOutWriter.close();
-            fOut.close();
-        }catch (IOException e1){
-            Toast.makeText(getApplicationContext(), "Reminder " + e1.getMessage(), Toast.LENGTH_LONG).show();
-        }*/
+            fOut.close();*/
+
         stopSelf();
     }
 }
