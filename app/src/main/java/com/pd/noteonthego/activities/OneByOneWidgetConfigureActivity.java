@@ -67,6 +67,11 @@ public class OneByOneWidgetConfigureActivity extends AppCompatActivity {
                     AppWidgetManager.INVALID_APPWIDGET_ID);
         }
 
+        // cancel a phantom widget when user presses back key while adding the widget
+        Intent resultValue = new Intent();
+        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+        setResult(RESULT_CANCELED, resultValue);
+
         // Retrieve note records
         Uri notes = Uri.parse(NoteContentProvider.URL);
 

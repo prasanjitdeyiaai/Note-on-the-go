@@ -46,9 +46,9 @@
         android:background="@color/switch_thumb_normal_material_dark"
         android:layout_height="1px"/>
 
-    <TextView
+    <Button
         android:id="@+id/reminder_date"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -64,21 +64,21 @@
 
     <TextView
         android:id="@+id/set_reminder_date"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nothing selected"
         android:clickable="false"
         android:paddingTop="16dp"
         android:gravity="center"
         android:paddingBottom="16dp"
         android:paddingRight="16dp"
         android:textSize="18sp"
+        android:layout_alignParentRight="true"
         android:textColor="@color/primary_dark"
-        android:layout_below="@+id/reminder_date" />
+        android:layout_below="@+id/separator" />
 
-    <TextView
+    <Button
         android:id="@+id/reminder_time"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
@@ -92,22 +92,23 @@
 
     <TextView
         android:id="@+id/set_reminder_time"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Nothing selected"
         android:clickable="false"
         android:paddingTop="16dp"
         android:textColor="@color/primary_dark"
         android:textSize="18sp"
+        android:layout_alignParentRight="true"
         android:paddingBottom="16dp"
         android:paddingRight="16dp"
-        android:layout_below="@+id/reminder_time" />
+        android:layout_below="@+id/set_reminder_date" />
 
     <View
         android:id="@+id/separator2"
         android:layout_below="@+id/set_reminder_time"
         android:layout_width="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:visibility="visible"
         android:background="@color/switch_thumb_normal_material_dark"
