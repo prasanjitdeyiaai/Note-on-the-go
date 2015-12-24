@@ -164,8 +164,8 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
                 mReminderExtras.setText(R.string.no_reminder);
                 mBtnDismiss.setVisibility(View.GONE);
             }
-            mReminderDate.setText("Nothing selected");
-            mReminderTime.setText("Nothing selected");
+            // mReminderDate.setText("Nothing selected");
+            // mReminderTime.setText("Nothing selected");
         }
     }
 
@@ -187,8 +187,8 @@ public class ReminderActivity extends AppCompatActivity implements DateDialogFra
         mReminderExtras.setText(R.string.no_reminder);
         mBtnDismiss.setVisibility(View.GONE);
 
-        mReminderDate.setText("Nothing selected");
-        mReminderTime.setText("Nothing selected");
+        // mReminderDate.setText("Nothing selected");
+        // mReminderTime.setText("Nothing selected");
 
         // update database
         updateNoteWithReminder();

@@ -63,6 +63,6 @@
         android:layout_toRightOf="@+id/SelectImageView"
         android:background="@android:color/transparent"
         android:textColor="@color/note_text_color_dark"
-        android:textSize="18sp" />
+        style="@style/MonospaceLightBig" />
 
 </com.pd.noteonthego.helper.OneLineCheckableListItem>

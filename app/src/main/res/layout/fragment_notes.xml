@@ -48,7 +48,7 @@
                 android:paddingLeft="8dp"
                 android:singleLine="true"
                 android:textColor="@color/note_text_color_dark"
-                android:textSize="18sp"
+                style="@style/MonospaceLightBig"
                 android:textStyle="bold" />
 
             <ImageView
@@ -68,6 +68,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="start"
                 android:hint="@string/add_note"
+                style="@style/MonospaceLightSmall"
                 android:lineSpacingExtra="8dp"
                 android:minHeight="144dp"
                 android:paddingLeft="8dp"

@@ -18,7 +18,7 @@
         android:paddingBottom="16dp"
         android:paddingRight="16dp"
         android:textAllCaps="true"
-        android:textSize="18sp"
+        style="@style/MonospaceLightBig"
         android:text="@string/no_reminder"
         android:textColor="@android:color/holo_red_dark" />
 
@@ -71,7 +71,7 @@
         android:gravity="center"
         android:paddingBottom="16dp"
         android:paddingRight="16dp"
-        android:textSize="18sp"
+        style="@style/MonospaceLightBig"
         android:layout_alignParentRight="true"
         android:textColor="@color/primary_dark"
         android:layout_below="@+id/separator" />
@@ -98,7 +98,7 @@
         android:clickable="false"
         android:paddingTop="16dp"
         android:textColor="@color/primary_dark"
-        android:textSize="18sp"
+        style="@style/MonospaceLightBig"
         android:layout_alignParentRight="true"
         android:paddingBottom="16dp"
         android:paddingRight="16dp"
