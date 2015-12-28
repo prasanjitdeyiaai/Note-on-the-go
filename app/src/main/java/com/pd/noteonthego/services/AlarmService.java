@@ -81,6 +81,10 @@ public class AlarmService extends Service {
 
         // update the alarm
         alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), Integer.parseInt(requestCode), intent, 0);
+
+        // cancel the old alarm first
+        alarmMgr.cancel(alarmIntent);
+
         preferences.setRequestCodeForReminders(String.valueOf(noteID), requestCode);
 
         String oldDate = note.getReminderDateTime();
@@ -94,11 +98,13 @@ public class AlarmService extends Service {
 
         int hourInInt = 0;
         if(ampm.equals("P") || ampm.equals("PM")){
-            hourInInt = Integer.parseInt(hour) + 12;
+            hourInInt = (Integer.parseInt(hour) + 12);
+            if(hourInInt == 24){
+                hourInInt = 12;
+            }
         }else {
             hourInInt = Integer.parseInt(hour);
         }
-
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, hourInInt);
